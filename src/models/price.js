@@ -40,7 +40,7 @@ PriceSchema.statics.getRangeOfPrices = async function ({
   end = Date(),
 } = {}) {
   const prices = await Price.find({
-    /* time: { $gte: start, $lte: end }*/
+    //time: { $gte: start, $lte: end },
   });
   return prices.map((price) => price.spot);
 };

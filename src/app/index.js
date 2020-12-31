@@ -9,9 +9,10 @@ const moment = require("moment");
 const curPair = "BTC-USD";
 
 //Database Loop
+/*
 const mainLoop = async () => {
   try {
-    /*
+
     const priceEntry = await Analytics.getPriceEntry(curPair);
     const price = await Price.create(priceEntry);
     console.log(price);
@@ -38,14 +39,14 @@ const mainLoop = async () => {
     });
     console.log(bol);
 
+    const highPrices = await Analytics.getHighSignal({ bol, bolRange });
+    console.log(highPrices);
     setTimeout(() => mainLoop(), 10 * 1000);
-    */
   } catch (error) {
     console.log(error);
   }
 };
-//mainLoop();
-
+*/
 //**CONTROLLER**
 module.exports = {
   start: async () => {
@@ -55,7 +56,8 @@ module.exports = {
 
     const usdAccount = "619cb2fe-9fd1-41b6-8241-7debe1cdbf9f";
     await AuthClient.getAccount(usdAccount);
-
+    //const tradeStream = await Analytics.getProductTradeStream(curPair);
+    //mainLoop();
     /*
     const numDays = 4;
     const p = {
@@ -86,7 +88,7 @@ module.exports = {
     //const mean = await Price.getMean({ start: p.t0, end: p.t1 });
     //console.log(mean);
 
-    //await Websocket.subscribe();
-    //await Websocket.getData();
+    await Websocket.subscribe();
+    await Websocket.getData();
   },
 };
