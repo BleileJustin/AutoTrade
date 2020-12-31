@@ -12,8 +12,6 @@ module.exports = {
   },
   getData: async () => {
     websocket.on("message", (data) => {
-      //console.log(data.type);
-
       if (data.type == "ticker") {
         i++;
         console.log(i);
@@ -21,11 +19,6 @@ module.exports = {
         console.log(data);
         return data;
       }
-      /*const mainLoop = async () => {
-        const priceEntry = await Analytics.getPriceEntry("BTC-USD");
-        const price = await Price.create(priceEntry);
-      };
-      mainLoop();*/
     });
     websocket.on("error", (err) => {
       /* handle error */
