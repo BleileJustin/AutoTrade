@@ -6,6 +6,8 @@ const database = require("../database/index.js");
 const moment = require("moment");
 //Variables
 const curPair = "BTC-USD";
+let j = 0;
+let i = 0;
 
 //Database Loop
 
