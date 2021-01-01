@@ -1,7 +1,6 @@
 const Analytics = require("../analytics/index.js");
 const Price = require("../models/price.js");
 const AuthClient = require("../authclient/index.js");
-const Websocket = require("../websocket/index.js");
 const database = require("../database/index.js");
 //Dependencies
 const moment = require("moment");
