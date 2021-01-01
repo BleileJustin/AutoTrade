@@ -1,6 +1,8 @@
 //Dependencies
 const CoinbasePro = require("coinbase-pro");
+const moment = require("moment");
 const pubClient = new CoinbasePro.PublicClient();
+
 //Modules
 const Price = require("../models/price.js");
 
@@ -21,9 +23,20 @@ module.exports = {
     return priceEntry;
   },
 
-  getProductTradeStream: async (curPair) => {
-    const trades = pubClient.getProductTradeStream(curPair);
-    console.log(trades);
+  getHR: async (curPair) => {
+    const rates = await pubClient.getProductHistoricRates(curPair, {
+      start: moment().subtract(1, "minutes").toDate(),
+      end: moment().toDate(),
+
+      granularity: 60,
+    });
+    console.log(`
+      Low:   ${rates[0][1]},
+      High:  ${rates[0][2]},
+      Open:  ${rates[0][3]},
+      Close: ${rates[0][4]}
+      `);
+    return rates;
   },
 
   getHighSignal: async ({ bol, bolRange }) => {
@@ -41,10 +54,5 @@ module.exports = {
       return price < mid;
     });
     return lowRange;
-  },
-
-  getHR: async (curPair) => {
-    const rates = await pubClient.getProductHistoricRates(curPair);
-    return rates;
   },
 };

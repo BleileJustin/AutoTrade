@@ -9,14 +9,19 @@ const moment = require("moment");
 const curPair = "BTC-USD";
 
 //Database Loop
-/*
+
 const mainLoop = async () => {
   try {
-
+    //Creates priceEntry in MongoDB
     const priceEntry = await Analytics.getPriceEntry(curPair);
     const price = await Price.create(priceEntry);
     console.log(price);
 
+    //Gets Candlestick price data
+    const hRates = await Analytics.getHR(curPair);
+    const oneMinClosePrice = hRates[0][4];
+
+    //BB logic
     const numDays = 0;
     const p = {
       period: 24,
@@ -29,7 +34,6 @@ const mainLoop = async () => {
       start: p.t1,
       end: p.t2,
     });
-    //console.log(bolRange);
 
     const bol = await Price.getBollinger({
       range: bolRange,
@@ -39,56 +43,31 @@ const mainLoop = async () => {
     });
     console.log(bol);
 
-    const highPrices = await Analytics.getHighSignal({ bol, bolRange });
-    console.log(highPrices);
-    setTimeout(() => mainLoop(), 10 * 1000);
+    if (price.spot > bol.upper) {
+      i++;
+    } else if (price.spot < bol.lower) {
+      j++;
+    }
+
+    console.log("Spot price exceeded upper band " + i + " times.");
+    console.log("Spot price deceeded lower band " + j + " times.");
+
+    setTimeout(() => mainLoop(), 60 * 1000);
   } catch (error) {
     console.log(error);
   }
 };
-*/
+
 //**CONTROLLER**
 module.exports = {
   start: async () => {
     await database.connect();
+
     const btcAccount = "40ca65d5-af9e-4fa0-878c-5316e12ee1bc";
     const authBtcAccount = await AuthClient.getAccount(btcAccount);
-
     const usdAccount = "619cb2fe-9fd1-41b6-8241-7debe1cdbf9f";
-    await AuthClient.getAccount(usdAccount);
-    //const tradeStream = await Analytics.getProductTradeStream(curPair);
-    //mainLoop();
-    /*
-    const numDays = 4;
-    const p = {
-      period: 24,
-      t0: moment().subtract(numDays, "days").subtract(6, "hours").toDate(),
-      t1: moment().subtract(numDays, "days").toDate(),
-      t2: moment().subtract(numDays, "days").add(6, "hours").toDate(),
-    };
+    const authUsdAccount = await AuthClient.getAccount(usdAccount);
 
-    const bolRange = await Price.getRangeOfPrices({
-      start: p.t1,
-      end: p.t2,
-    });
-    console.log(bolRange);
-
-    const bol = await Price.getBollinger({
-      range: bolRange,
-      start: p.t0,
-      period: p.period,
-      end: p.t2,
-    });
-    console.log(bol);
-    */
-
-    //const upperRange = bol[0].upper;
-    //console.log(upperRange);
-
-    //const mean = await Price.getMean({ start: p.t0, end: p.t1 });
-    //console.log(mean);
-
-    await Websocket.subscribe();
-    await Websocket.getData();
+    mainLoop();
   },
 };

@@ -2,6 +2,6 @@
   "COINBASE_API_KEY": "3a42f7989d21fc86ea5dc170043a230e",
   "COINBASE_API_SECRET": "vXJLKRQLp2KwMbUoEZFS47W0vfGSXcePVbUhFjEgExJvfq5silsYaSI20yxLKZjfJz2nrSovf8AcP4p4H8a+JA==",
   "COINBASE_API_PASSPHRASE": "vibr6h68wqi",
-  "MONGO_URL": "mongodb://BleileJustin:jklfds@100.21.240.26:27017/coin",
+  "MONGO_URL": "mongodb://BleileJustin:jklfds@localhost:27017/coin",
   "MONGO_DATABASE_NAME": "coin"
 }

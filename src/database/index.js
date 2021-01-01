@@ -12,7 +12,7 @@ module.exports = {
       mongoose.connect(`${url}`, {
         promiseLibrary: global.Promise,
         useNewUrlParser: true,
-        useUnifiedTopology: false,
+        useUnifiedTopology: true,
       });
       const conn = mongoose.connection;
       conn.on("error", (err) => {
