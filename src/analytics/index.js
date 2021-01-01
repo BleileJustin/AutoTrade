@@ -30,12 +30,13 @@ module.exports = {
 
       granularity: 60,
     });
-    console.log(`
+    /*console.log(`
       Low:   ${rates[0][1]},
       High:  ${rates[0][2]},
       Open:  ${rates[0][3]},
       Close: ${rates[0][4]}
-      `);
+      `);*/
+    console.log(rates);
     return rates;
   },
 
