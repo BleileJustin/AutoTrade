@@ -30,6 +30,7 @@ module.exports = {
 
       granularity: 60,
     });
+
     /*console.log(`
       Low:   ${rates[0][1]},
       High:  ${rates[0][2]},
@@ -39,6 +40,8 @@ module.exports = {
     console.log(rates);
     return rates;
   },
+
+  getLR: async (curPair) => {},
 
   getHighSignal: async ({ bol, bolRange }) => {
     const high = bol.upper;
