@@ -43,11 +43,12 @@ const mainLoop = async () => {
       end: p.t2,
     });
     console.log(bol);
-
-    if (price.spot > bol.upper) {
-      i++;
-    } else if (price.spot < bol.lower) {
-      j++;
+    if (bol != undefined) {
+      if (price.spot > bol.upper) {
+        i++;
+      } else if (price.spot < bol.lower) {
+        j++;
+      }
     }
 
     console.log("Spot price exceeded upper band " + i + " times.");
