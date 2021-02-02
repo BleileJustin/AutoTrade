@@ -14,9 +14,10 @@ let i = 0;
 const mainLoop = async () => {
   try {
     //Creates priceEntry in MongoDB
-    const priceEntry = await Analytics.getPriceEntry(curPair);
+    /*const priceEntry = await Analytics.getPriceEntry(curPair);
     const price = await Price.create(priceEntry);
     console.log(price);
+    */
 
     //Gets Candlestick price data
     const hRates = await Analytics.getHR(curPair);
