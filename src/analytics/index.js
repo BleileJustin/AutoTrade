@@ -8,6 +8,10 @@ const Price = require("../models/price.js");
 
 //**TRADING CONTROLLER***
 module.exports = {
+  getTick: async (curpair) => {
+    const t = await pubClient.getProductTicker(curPair);
+    return t;
+  },
   getPriceEntry: async (curPair) => {
     const tick = await pubClient.getProductTicker(curPair);
     const priceEntry = {
@@ -31,17 +35,15 @@ module.exports = {
       granularity: 60,
     });
 
-    /*console.log(`
+    console.log(`
       Low:   ${rates[0][1]},
       High:  ${rates[0][2]},
       Open:  ${rates[0][3]},
       Close: ${rates[0][4]}
-      `);*/
+      `);
     console.log(rates);
     return rates;
   },
-
-  getLR: async (curPair) => {},
 
   getHighSignal: async ({ bol, bolRange }) => {
     const high = bol.upper;

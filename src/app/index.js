@@ -6,8 +6,6 @@ const database = require("../database/index.js");
 const moment = require("moment");
 //Variables
 const curPair = "BTC-USD";
-let j = 0;
-let i = 0;
 
 //Database Loop
 
@@ -44,15 +42,6 @@ const mainLoop = async () => {
       end: p.t2,
     });
     console.log(bol);
-
-    if (price.spot > bol.upper) {
-      i++;
-    } else if (price.spot < bol.lower) {
-      j++;
-    }
-
-    console.log("Spot price exceeded upper band " + i + " times.");
-    console.log("Spot price deceeded lower band " + j + " times.");
 
     setTimeout(() => mainLoop(), 60 * 1000);
   } catch (error) {
