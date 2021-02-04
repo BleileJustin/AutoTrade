@@ -6,9 +6,9 @@ const database = require("../database/index.js");
 const moment = require("moment");
 //Variables
 const curPair = "BTC-USD";
-let j = 0;
-let i = 0;
-let k = 0;
+let deceededLowerBandCounter = 0;
+let exceededUpperBandCounter = 0;
+let withinBandsCounter = 0;
 
 //Database Loop
 
@@ -17,12 +17,19 @@ const mainLoop = async () => {
     //Creates priceEntry in MongoDB
     const priceEntry = await Analytics.getPriceEntry(curPair);
     const price = await Price.create(priceEntry);
-    console.log(price);
+    console.log(`Price Entry: ${price}`);
 
     //Gets Candlestick price data
-    const hRates = await Analytics.getHR(curPair);
-    if (hRates != undefined) {
+    const hRates = await Analytics.getHistoricRates(curPair);
+    if (hRates[0] != undefined) {
       const oneMinClosePrice = hRates[0][4];
+      console.log(`
+1 min Historic Rates:
+  Low:   ${hRates[0][1]},
+  High:  ${hRates[0][2]},
+  Open:  ${hRates[0][3]},
+  Close: ${hRates[0][4]}
+     `);
     }
 
     //BB logic
@@ -45,23 +52,33 @@ const mainLoop = async () => {
       period: p.period,
       end: p.t2,
     });
-    console.log(bol);
+    console.log(`Bollinger Band data
+  ${bol}
+  `);
     if (bol != undefined) {
       if (price.spot > bol.upper) {
-        i++;
+        exceededUpperBandCounter++;
       } else if (price.spot < bol.lower) {
-        j++;
+        deceededLowerBandCounter++;
       } else {
-        k++;
+        withinBandsCounter++;
       }
     }
-    let spotOut = i + j;
-    let spotIn = k;
-    let perc = (spotOut / spotIn) * 100;
-    console.log("Spot price exceeded upper band " + i + " times.");
-    console.log("Spot price deceeded lower band " + j + " times.");
+
+    //BB tuning and testing
+    let spotOut = exceededUpperBandCounter + deceededLowerBandCounter;
+    let spotIn = withinBandsCounter;
+    let percentageIn = (spotOut / spotIn) * 100;
     console.log(
-      "Spot price has been outside both bands " + perc + "% of the time."
+      "Spot price exceeded upper band " + exceededUpperBandCounter + " times."
+    );
+    console.log(
+      "Spot price deceeded lower band " + deceededLowerBandCounter + " times."
+    );
+    console.log(
+      "Spot price has been outside both bands " +
+        percentageIn.toFixed() +
+        "% of the time."
     );
 
     setTimeout(() => mainLoop(), 60 * 1000);

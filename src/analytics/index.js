@@ -23,25 +23,15 @@ module.exports = {
     return priceEntry;
   },
 
-  getHR: async (curPair) => {
+  getHistoricRates: async (curPair) => {
     const rates = await pubClient.getProductHistoricRates(curPair, {
-      start: moment().subtract(1, "minutes").toDate(),
-      end: moment().toDate(),
+      start: moment().subtract(1, "minutes").subtract(1, "s").toDate(),
+      end: moment().subtract(1, "s").toDate(),
 
       granularity: 60,
     });
-    if (rates != undefined) {
-      console.log(`
-      Low:   ${rates[0][1]},
-      High:  ${rates[0][2]},
-      Open:  ${rates[0][3]},
-      Close: ${rates[0][4]}
-      `);
-      return rates;
-    }
+    return rates;
   },
-
-  getLR: async (curPair) => {},
 
   getHighSignal: async ({ bol, bolRange }) => {
     const high = bol.upper;
