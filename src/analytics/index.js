@@ -34,19 +34,11 @@ module.exports = {
   },
 
   getHighSignal: async ({ bol, bolRange }) => {
-    const high = bol.upper;
-    console.log(high);
+    const highBand = bol.upper;
+    console.log(highBand);
     console.log(bolRange);
-    const highRange = bolRange.filter((price) => price > high);
+    const highRange = bolRange.filter((price) => price > highBand);
     console.log(highRange);
     return highRange;
-  },
-
-  getLowRange: async ({ bol, range }) => {
-    const mid = bol[0].middle;
-    const lowRange = range.filter((price) => {
-      return price < mid;
-    });
-    return lowRange;
   },
 };

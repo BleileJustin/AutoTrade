@@ -68,7 +68,7 @@ const mainLoop = async () => {
     //BB tuning and testing
     let spotOut = exceededUpperBandCounter + deceededLowerBandCounter;
     let spotIn = withinBandsCounter;
-    let percentageIn = (spotOut / spotIn) * 100;
+    let percentageIn = (spotOut / (spotOut + spotIn)) * 100;
     console.log(
       "Spot price exceeded upper band " + exceededUpperBandCounter + " times."
     );
