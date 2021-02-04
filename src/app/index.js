@@ -8,6 +8,7 @@ const moment = require("moment");
 const curPair = "BTC-USD";
 let j = 0;
 let i = 0;
+let k = 0;
 
 //Database Loop
 
