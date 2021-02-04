@@ -20,7 +20,9 @@ const mainLoop = async () => {
 
     //Gets Candlestick price data
     const hRates = await Analytics.getHR(curPair);
-    const oneMinClosePrice = hRates[0][4];
+    if (hRates != undefined) {
+      const oneMinClosePrice = hRates[0][4];
+    }
 
     //BB logic
     const numDays = 0;
