@@ -17,7 +17,8 @@ const mainLoop = async () => {
     //Creates priceEntry in MongoDB
     const priceEntry = await Analytics.getPriceEntry(curPair);
     const price = await Price.create(priceEntry);
-    console.log(`Price Entry: ${price}`);
+    console.log(`Price Entry:
+  ${price}`);
 
     //Gets Candlestick price data
     const hRates = await Analytics.getHistoricRates(curPair);
@@ -52,9 +53,8 @@ const mainLoop = async () => {
       period: p.period,
       end: p.t2,
     });
-    console.log(`Bollinger Band data
-  ${bol}
-  `);
+    console.log(`Bollinger Band Data: `);
+    console.log(bol);
     if (bol != undefined) {
       if (price.spot > bol.upper) {
         exceededUpperBandCounter++;
