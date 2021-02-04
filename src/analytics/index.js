@@ -30,14 +30,15 @@ module.exports = {
 
       granularity: 60,
     });
-
-    console.log(`
+    if (rates != undefined) {
+      console.log(`
       Low:   ${rates[0][1]},
       High:  ${rates[0][2]},
       Open:  ${rates[0][3]},
       Close: ${rates[0][4]}
       `);
-    return rates;
+      return rates;
+    }
   },
 
   getLR: async (curPair) => {},
