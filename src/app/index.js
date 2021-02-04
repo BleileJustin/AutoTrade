@@ -50,11 +50,18 @@ const mainLoop = async () => {
         i++;
       } else if (price.spot < bol.lower) {
         j++;
+      } else {
+        k++;
       }
     }
-
+    let spotOut = i + j;
+    let spotIn = k;
+    let perc = (spotOut / spotIn) * 100;
     console.log("Spot price exceeded upper band " + i + " times.");
     console.log("Spot price deceeded lower band " + j + " times.");
+    console.log(
+      "Spot price has been outside both bands " + perc + "% of the time."
+    );
 
     setTimeout(() => mainLoop(), 60 * 1000);
   } catch (error) {
