@@ -20,19 +20,6 @@ const mainLoop = async () => {
     console.log(`Price Entry:
   ${price}`);
 
-    //Gets Candlestick price data
-    const hRates = await Analytics.getHistoricRates(curPair);
-    if (hRates[0] != undefined) {
-      const oneMinClosePrice = hRates[0][4];
-      console.log(`
-1 min Historic Rates:
-  Low:   ${hRates[0][1]},
-  High:  ${hRates[0][2]},
-  Open:  ${hRates[0][3]},
-  Close: ${hRates[0][4]}
-     `);
-    }
-
     //BB logic
     const numDays = 0;
     const p = {
