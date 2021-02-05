@@ -55,6 +55,8 @@ const mainLoop = async () => {
     });
     console.log(`Bollinger Band Data: `);
     console.log(bol);
+
+    //BB tuning and testing
     if (bol != undefined) {
       if (price.spot > bol.upper) {
         exceededUpperBandCounter++;
@@ -64,8 +66,6 @@ const mainLoop = async () => {
         withinBandsCounter++;
       }
     }
-
-    //BB tuning and testing
     let spotOut = exceededUpperBandCounter + deceededLowerBandCounter;
     let spotIn = withinBandsCounter;
     let percentageIn = (spotOut / (spotOut + spotIn)) * 100;
