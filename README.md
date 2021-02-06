@@ -1,8 +1,8 @@
-## Note: Still in Development
+## Note: Unreleased/In Development
 
 # AutoTrade
 
-A Personal Cryptocurrency Trading Bot using price data from the [CoinBase-Pro](https://www.npmjs.com/package/coinbase-pro) npm package and Bollinger Bands from the [technicalindicators](https://www.npmjs.com/package/technicalindicators) npm package to autonomously make buy and sell decisions on a live market.
+### A Personal Cryptocurrency Trading Bot using price data from the [CoinBase-Pro](https://www.npmjs.com/package/coinbase-pro) npm package and Bollinger Bands from the [technicalindicators](https://www.npmjs.com/package/technicalindicators) npm package to autonomously make buy and sell decisions on a live market.
 
 # Install:
 
