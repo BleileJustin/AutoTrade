@@ -1,6 +1,5 @@
 const Analytics = require("../analytics/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
-const Price = require("../models/price.js");
 const AuthClient = require("../authclient/index.js");
 const database = require("../database/index.js");
 //Dependencies
@@ -21,7 +20,6 @@ const mainLoop = async () => {
     //BB
     const bb = await BollingerBands.getBollingerBands();
     console.log(bb[bb.length - 1]);
-    console.log(bb[bb.length - 1].pb);
 
     setTimeout(() => mainLoop(), 60 * 1000);
   } catch (error) {

@@ -3,9 +3,6 @@ const CoinbasePro = require("coinbase-pro");
 const moment = require("moment");
 const pubClient = new CoinbasePro.PublicClient();
 
-//Modules
-const Price = require("../models/price.js");
-
 //**TRADING CONTROLLER***
 module.exports = {
   getTick: async (curpair) => {

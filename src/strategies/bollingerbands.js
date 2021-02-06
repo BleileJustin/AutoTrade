@@ -1,6 +1,5 @@
 const BB = require("technicalindicators").BollingerBands;
 const moment = require("moment");
-const Price = require("../models/price.js");
 const Analytics = require("../Analytics/index.js");
 
 module.exports = {
