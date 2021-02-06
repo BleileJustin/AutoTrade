@@ -47,4 +47,6 @@ module.exports = {
       return rates;
     }
   },
+
+  testBBPercentage: async (bolbands) => {},
 };

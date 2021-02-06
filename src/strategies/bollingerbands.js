@@ -1,3 +1,4 @@
+const BB = require("technicalindicators").BollingerBands;
 const moment = require("moment");
 const Price = require("../models/price.js");
 const Analytics = require("../Analytics/index.js");
@@ -20,9 +21,25 @@ module.exports = {
       const oneMinClosePrice = historicRates[i][4];
       historicRange.push(oneMinClosePrice);
     }
-    console.log(historicRange);
+    console.log(historicRange[historicRange.length - 1]);
 
-    const bol = await Price.getBollinger({
+    const calculateBollinger = async ({
+      range,
+      start,
+      period,
+      end = Date(),
+    } = {}) => {
+      const time = range.length - period;
+      const input = {
+        period: period,
+        values: range,
+        stdDev: 2,
+      };
+      const fullBB = BB.calculate(input);
+      return fullBB; //[fullBB.length - 1];
+    };
+
+    const bol = await calculateBollinger({
       range: historicRange,
       start: p.t0,
       period: p.period,

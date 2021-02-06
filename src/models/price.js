@@ -34,24 +34,6 @@ const PriceSchema = new Schema({
   },
 });
 
-//Price methods
-
-PriceSchema.statics.getBollinger = async ({
-  range,
-  start,
-  period,
-  end = Date(),
-} = {}) => {
-  const time = range.length - period;
-  const input = {
-    period: period,
-    values: range,
-    stdDev: 2,
-  };
-  const fullBB = BB.calculate(input);
-  return fullBB; //[fullBB.length - 1];
-};
-
 const Price = mongoose.model("Price", PriceSchema);
 
 module.exports = Price;

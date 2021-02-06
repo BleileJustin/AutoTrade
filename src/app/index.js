@@ -20,7 +20,8 @@ const mainLoop = async () => {
 
     //BB
     const bb = await BollingerBands.getBollingerBands();
-    console.log(bb);
+    console.log(bb[bb.length - 1]);
+    console.log(bb[bb.length - 1].pb);
 
     setTimeout(() => mainLoop(), 60 * 1000);
   } catch (error) {
