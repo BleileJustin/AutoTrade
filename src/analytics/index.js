@@ -28,7 +28,7 @@ module.exports = {
   getHistoricRates: async (curPair) => {
     const rates = await pubClient.getProductHistoricRates(curPair, {
       start: moment()
-        .subtract(25 * 10, "minutes")
+        .subtract(24 * 10, "minutes")
         .toDate(),
       end: moment().toDate(),
 
@@ -36,6 +36,7 @@ module.exports = {
     });
     if (rates != undefined) {
       console.log(`
+      Time:  ${rates[0][0]},
       Low:   ${rates[0][1]},
       High:  ${rates[0][2]},
       Open:  ${rates[0][3]},
