@@ -27,9 +27,7 @@ module.exports = {
 
   getHistoricRates: async (curPair) => {
     const rates = await pubClient.getProductHistoricRates(curPair, {
-      start: moment()
-        .subtract(24 * 10, "minutes")
-        .toDate(),
+      start: moment().subtract(21, "minutes").toDate(),
       end: moment().toDate(),
 
       granularity: 60,
