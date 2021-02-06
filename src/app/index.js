@@ -1,4 +1,5 @@
 const Analytics = require("../analytics/index.js");
+const BollingerBands = require("../strategies/bollingerbands.js");
 const Price = require("../models/price.js");
 const AuthClient = require("../authclient/index.js");
 const database = require("../database/index.js");
@@ -17,31 +18,9 @@ const mainLoop = async () => {
     console.log(price);
     */
 
-    //Gets Candlestick price data
-    const hRates = await Analytics.getHR(curPair);
-    const oneMinClosePrice = hRates[0][4];
-
-    //BB logic
-    const numDays = 0;
-    const p = {
-      period: 24,
-      t0: moment().subtract(numDays, "days").subtract(6, "hours").toDate(),
-      t1: moment().subtract(numDays, "days").toDate(),
-      t2: moment().subtract(numDays, "days").add(6, "hours").toDate(),
-    };
-
-    const bolRange = await Price.getRangeOfPrices({
-      start: p.t1,
-      end: p.t2,
-    });
-
-    const bol = await Price.getBollinger({
-      range: bolRange,
-      start: p.t0,
-      period: p.period,
-      end: p.t2,
-    });
-    console.log(bol);
+    //BB
+    const bb = await BollingerBands.getBollingerBands();
+    console.log(bb);
 
     setTimeout(() => mainLoop(), 60 * 1000);
   } catch (error) {

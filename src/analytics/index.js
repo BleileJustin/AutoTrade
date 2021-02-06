@@ -12,6 +12,7 @@ module.exports = {
     const t = await pubClient.getProductTicker(curPair);
     return t;
   },
+
   getPriceEntry: async (curPair) => {
     const tick = await pubClient.getProductTicker(curPair);
     const priceEntry = {
@@ -27,38 +28,23 @@ module.exports = {
     return priceEntry;
   },
 
-  getHR: async (curPair) => {
+  getHistoricRates: async (curPair) => {
     const rates = await pubClient.getProductHistoricRates(curPair, {
-      start: moment().subtract(1, "minutes").toDate(),
+      start: moment()
+        .subtract(25 * 10, "minutes")
+        .toDate(),
       end: moment().toDate(),
 
       granularity: 60,
     });
-
-    console.log(`
+    if (rates != undefined) {
+      console.log(`
       Low:   ${rates[0][1]},
       High:  ${rates[0][2]},
       Open:  ${rates[0][3]},
       Close: ${rates[0][4]}
       `);
-    console.log(rates);
-    return rates;
-  },
-
-  getHighSignal: async ({ bol, bolRange }) => {
-    const high = bol.upper;
-    console.log(high);
-    console.log(bolRange);
-    const highRange = bolRange.filter((price) => price > high);
-    console.log(highRange);
-    return highRange;
-  },
-
-  getLowRange: async ({ bol, range }) => {
-    const mid = bol[0].middle;
-    const lowRange = range.filter((price) => {
-      return price < mid;
-    });
-    return lowRange;
+      return rates;
+    }
   },
 };
