@@ -1,30 +1,33 @@
-const Analytics = require("../analytics/index.js");
+const Socket = require("../socket/index.js");
+const Backtest = require("../backtester/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
 const AuthClient = require("../authclient/index.js");
 const database = require("../database/index.js");
+const apiKey = require("../key/index.js");
 //Dependencies
 const moment = require("moment");
 //Variables
-const curPair = "BTC-USD";
+const curPair = apiKey.get("CURPAIR");
+let socketArray = [];
 
-//Database Loop
+const main = async () => {
+  //Backtester
+  const backTester = new Backtest(curPair);
+  backTester.start(curPair);
 
-const mainLoop = async () => {
-  try {
-    //Creates priceEntry in MongoDB
-    /*const priceEntry = await Analytics.getPriceEntry(curPair);
-    const price = await Price.create(priceEntry);
-    console.log(price);
+  //Bollinger Bands
+  //Websocket
+  /*const socket = new Socket.Socket({
+      curPair,
+      onMessage: (data) => {
+        if (data.type == "ticker") {
+          socketArray.push(data.price);
+        }
+      },
+      onError: (err) => console.log(err),
+    });
+    socket.start();
     */
-
-    //BB
-    const bb = await BollingerBands.getBollingerBands();
-    console.log(bb[bb.length - 1]);
-
-    setTimeout(() => mainLoop(), 60 * 1000);
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 //**CONTROLLER**
@@ -37,6 +40,6 @@ module.exports = {
     const usdAccount = "619cb2fe-9fd1-41b6-8241-7debe1cdbf9f";
     const authUsdAccount = await AuthClient.getAccount(usdAccount);
 
-    mainLoop();
+    main();
   },
 };
