@@ -20,6 +20,8 @@ module.exports = {
       range: historicRange,
       period: 20,
     });
+    const buySignal = await {};
+    const sellSignal = await {};
     return bol;
   },
 };
