@@ -21,11 +21,11 @@ module.exports = {
       period: 20,
     });
 
-    const onBuySignal = async (bol) => {
-      for (let i = 0; i < bol.length; i++) {}
+    const checkForSignal = async () => {
+      for (let s = 0; i < bol.length; i++) {}
     };
-    const onSellSignal = await {};
+    const onBuySignal = async (bol) => {};
+    const onSellSignal = async (bol) => {};
     return bol;
-    for (let s = 0; i < bol.length; i++) {}
   },
 };
