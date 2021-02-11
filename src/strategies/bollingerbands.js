@@ -20,10 +20,12 @@ module.exports = {
       range: historicRange,
       period: 20,
     });
+
     const onBuySignal = async (bol) => {
       for (let i = 0; i < bol.length; i++) {}
     };
     const onSellSignal = await {};
     return bol;
+    for (let s = 0; i < bol.length; i++) {}
   },
 };
