@@ -22,10 +22,16 @@ module.exports = {
     });
 
     const checkForSignal = async () => {
-      for (let s = 0; i < bol.length; i++) {}
+      for (let s = 0; i < bol.length; i++) {
+        if (bol.pb > 1.0) {
+          onBuySignal();
+        } else if (bol.pb < 0) {
+          onSellSignal();
+        }
+      }
     };
-    const onBuySignal = async (bol) => {};
-    const onSellSignal = async (bol) => {};
+    const onBuySignal = async () => {};
+    const onSellSignal = async () => {};
     return bol;
   },
 };
