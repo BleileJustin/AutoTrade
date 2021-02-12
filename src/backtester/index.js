@@ -38,12 +38,15 @@ class Backtest {
 
   async testBollingerBands(curPair, rangeLength) {
     const fullCandles = await this.getFullCandles(curPair, rangeLength);
+    //Gets an array of only close prices from the array of candles
     const closePriceRange = await this.getClosePriceRange(fullCandles);
 
+    //Retrieves bollingerBand dataset
     const bollingerBands = await BollingerBands.getBollingerBands(
       closePriceRange
     );
 
+    //Checks bollingerBands list for points when the price exited the outer bands
     function checkForSignal(bollingerBands) {
       for (let i = 0; i < bollingerBands.length; i++) {
         if (bollingerBands[i].pb > 1.0) {
@@ -54,6 +57,7 @@ class Backtest {
       }
     }
 
+    //TODO: Map out dataflow
     function onBuySignal(bb, i, range) {
       console.log("");
       const candleId = i + 19; //Candle id that is = to BB id
@@ -75,6 +79,7 @@ class Backtest {
     }
 
     checkForSignal(bollingerBands);
+
     console.log(`
       BollingerBands Length: ${bollingerBands.length}
     `);
