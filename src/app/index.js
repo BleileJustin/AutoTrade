@@ -2,20 +2,17 @@ const Socket = require("../socket/index.js");
 const Backtest = require("../backtester/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
 const AuthClient = require("../authclient/index.js");
+const HistoricRates = require("../historicalrates/index.js");
 const database = require("../database/index.js");
 const apiKey = require("../key/index.js");
 //Dependencies
 const moment = require("moment");
 //Variables
 const curPair = apiKey.get("CURPAIR");
+const rangeLength = 60 * 2;
 let socketArray = [];
 
 const main = async () => {
-  //Backtester
-  const backTester = new Backtest(curPair);
-  backTester.start(curPair);
-
-  //Bollinger Bands
   //Websocket
   /*const socket = new Socket.Socket({
       curPair,
@@ -30,6 +27,11 @@ const main = async () => {
     */
 };
 
+const backtest = async () => {
+  const backTester = new Backtest(curPair, rangeLength);
+  await backTester.testBollingerBands(curPair, rangeLength);
+};
+
 //**CONTROLLER**
 module.exports = {
   start: async () => {
@@ -40,6 +42,7 @@ module.exports = {
     const usdAccount = "619cb2fe-9fd1-41b6-8241-7debe1cdbf9f";
     const authUsdAccount = await AuthClient.getAccount(usdAccount);
 
-    main();
+    //main();
+    backtest();
   },
 };
