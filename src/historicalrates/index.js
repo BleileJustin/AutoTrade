@@ -1,6 +1,9 @@
 const CoinbasePro = require("coinbase-pro");
 const pubClient = new CoinbasePro.PublicClient();
 const moment = require("moment");
+
+//HISTORIC RATES
+
 class HistoricRates {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;

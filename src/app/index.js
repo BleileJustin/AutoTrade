@@ -5,9 +5,10 @@ const AuthClient = require("../authclient/index.js");
 const HistoricRates = require("../historicalrates/index.js");
 const database = require("../database/index.js");
 const apiKey = require("../key/index.js");
-//Dependencies
 const moment = require("moment");
-//Variables
+
+//CONTROLLER
+
 const curPair = apiKey.get("CURPAIR");
 const rangeLength = 60 * 2;
 let socketArray = [];

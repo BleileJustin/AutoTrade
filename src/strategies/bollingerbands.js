@@ -1,6 +1,8 @@
 const BB = require("technicalindicators").BollingerBands;
 const moment = require("moment");
 
+//BOLLINGER BANDS STRATEGY
+
 module.exports = {
   getBollingerBands: async (bbRange) => {
     const numDays = 0;
