@@ -33,11 +33,12 @@ const backtest = async () => {
   await backTester.testBollingerBands(curPair, rangeLength);
 };
 
-//**CONTROLLER**
 module.exports = {
   start: async () => {
+    //Connects to MongoDB database
     await database.connect();
 
+    //Connects to authorized CoinbasePro account
     const btcAccount = "40ca65d5-af9e-4fa0-878c-5316e12ee1bc";
     const authBtcAccount = await AuthClient.getAccount(btcAccount);
     const usdAccount = "619cb2fe-9fd1-41b6-8241-7debe1cdbf9f";
