@@ -4,7 +4,7 @@ const moment = require("moment");
 //BOLLINGER BANDS STRATEGY
 
 module.exports = {
-  getBollingerBands: async (bbRange) => {
+  getBollingerBands: async (bbRange, bbPeriod) => {
     const numDays = 0;
     const curPair = "BTC-USD";
 
@@ -12,7 +12,7 @@ module.exports = {
       const input = {
         period: period,
         values: range,
-        stdDev: 2,
+        stdDev: 2.1,
       };
       const fullBB = BB.calculate(input);
       return fullBB;
@@ -20,7 +20,7 @@ module.exports = {
 
     const bol = await calculateBollinger({
       range: bbRange,
-      period: 20,
+      period: bbPeriod,
     });
 
     return bol;
