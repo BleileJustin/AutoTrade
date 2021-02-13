@@ -50,9 +50,9 @@ class Backtest {
     function checkForSignal(bollingerBands) {
       for (let i = 0; i < bollingerBands.length; i++) {
         if (bollingerBands[i].pb > 1.0) {
-          onSellSignal(bollingerBands[i], i, closePriceRange);
+          //onSellSignal(bollingerBands[i], i, closePriceRange);
         } else if (bollingerBands[i].pb < 0) {
-          onBuySignal(bollingerBands[i], i, closePriceRange);
+          //onBuySignal(bollingerBands[i], i, closePriceRange);
         }
       }
     }
