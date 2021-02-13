@@ -37,6 +37,8 @@ class Backtest {
   }
   //Uses set of close prices to calculate bollinger band data
   async testBollingerBands(curPair, rangeLength) {
+    let positionUSD = 10000;
+    let positionBTC = 5000;
     const fullCandles = await this.getFullCandles(curPair, rangeLength);
     //Gets an array of only close prices from the array of candles
     const closePriceRange = await this.getClosePriceRange(fullCandles);
@@ -60,24 +62,35 @@ class Backtest {
 
     //TODO: Map out dataflow
     function onBuySignal(bb, i, range) {
-      console.log("");
       const candleId = i + 19; //Candle id that is = to BB id
+      const candleClose = fullCandles[candleId][4];
+      const buyAmt = candleClose * 0.03;
+      positionUSD -= buyAmt;
+
+      console.log("");
       console.log(candleId);
       console.log(fullCandles[candleId]);
       console.log("Buy");
       console.log(bb);
+      console.log(`PositionUSD: $${positionUSD}`);
     }
 
     function onSellSignal(bb, i, range) {
-      console.log("");
       const candleId = i + 20; //Candle id that is = to BB id
+      const candleClose = fullCandles[candleId][4];
+      const positionBTC = candleClose * 0.03;
+      positionUSD += positionBTC;
+      console.log("");
       console.log(candleId);
       console.log(fullCandles[candleId]);
       console.log("Sell");
       console.log(bb);
+      console.log(`PositionUSD: $${positionUSD}`);
     }
 
     checkForSignal(bollingerBands);
+    console.log("Closing all positions");
+    console.log(`PositionUSD: $${positionUSD}`);
 
     console.log(`
       BollingerBands Length: ${bollingerBands.length}
