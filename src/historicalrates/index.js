@@ -9,6 +9,7 @@ class HistoricRates {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
   }
+  //Accesses historical candlestick data from CoinbasePro API from a certain rangeLength
   async getHistoricRange(curPair, rangeLength) {
     const rates = await pubClient.getProductHistoricRates(curPair, {
       start: moment().subtract(rangeLength, "minutes").toDate(),
