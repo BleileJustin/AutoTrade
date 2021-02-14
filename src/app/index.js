@@ -13,20 +13,7 @@ const curPair = apiKey.get("CURPAIR");
 const rangeLength = 60 * 2;
 let socketArray = [];
 
-const main = async () => {
-  //Websocket
-  /*const socket = new Socket.Socket({
-      curPair,
-      onMessage: (data) => {
-        if (data.type == "ticker") {
-          socketArray.push(data.price);
-        }
-      },
-      onError: (err) => console.log(err),
-    });
-    socket.start();
-    */
-};
+const main = async () => {};
 
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
