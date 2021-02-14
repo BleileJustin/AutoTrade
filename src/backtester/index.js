@@ -39,6 +39,7 @@ class Backtest {
   async testBollingerBands(curPair, rangeLength) {
     let positionUSD = 10000;
     let positionBTC = 5000;
+    //Variables to track the relative price change between positions and market value
     let previousTradePrice = 0;
     let currentTradePrice = 0;
     const fullCandles = await this.getFullCandles(curPair, rangeLength);
