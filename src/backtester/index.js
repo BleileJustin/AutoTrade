@@ -39,6 +39,8 @@ class Backtest {
   async testBollingerBands(curPair, rangeLength) {
     let positionUSD = 10000;
     let positionBTC = 5000;
+    let previousTradePrice = 0;
+    let currentTradePrice = 0;
     const fullCandles = await this.getFullCandles(curPair, rangeLength);
     //Gets an array of only close prices from the array of candles
     const closePriceRange = await this.getClosePriceRange(fullCandles);
@@ -65,6 +67,7 @@ class Backtest {
       const candleId = i + 19; //Candle id that is = to BB id
       const candleClose = fullCandles[candleId][4];
       const buyAmt = candleClose * 0.03;
+
       positionUSD -= buyAmt;
       console.log("");
       console.log(candleId);
@@ -78,6 +81,7 @@ class Backtest {
       const candleId = i + 20; //Candle id that is = to BB id
       const candleClose = fullCandles[candleId][4];
       const sellAmt = candleClose * 0.03;
+
       positionUSD += sellAmt;
       console.log("");
       console.log(candleId);
