@@ -66,7 +66,6 @@ class Backtest {
       const candleClose = fullCandles[candleId][4];
       const buyAmt = candleClose * 0.03;
       positionUSD -= buyAmt;
-
       console.log("");
       console.log(candleId);
       console.log(fullCandles[candleId]);
@@ -78,8 +77,8 @@ class Backtest {
     function onSellSignal(bb, i, range) {
       const candleId = i + 20; //Candle id that is = to BB id
       const candleClose = fullCandles[candleId][4];
-      const positionBTC = candleClose * 0.03;
-      positionUSD += positionBTC;
+      const sellAmt = candleClose * 0.03;
+      positionUSD += sellAmt;
       console.log("");
       console.log(candleId);
       console.log(fullCandles[candleId]);
