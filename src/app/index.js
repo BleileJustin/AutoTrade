@@ -19,6 +19,7 @@ const main = async () => {};
 //Pseudo-broker controller
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
+  //runs BollingerBands through backtester
   await backTester.testBollingerBands(curPair, rangeLength);
 };
 
