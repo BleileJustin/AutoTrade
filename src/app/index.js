@@ -13,6 +13,7 @@ const curPair = apiKey.get("CURPAIR");
 const rangeLength = 60 * 2;
 let socketArray = [];
 
+//Main broker controller
 const main = async () => {};
 
 const backtest = async () => {
