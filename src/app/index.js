@@ -16,6 +16,7 @@ let socketArray = [];
 //Main broker controller
 const main = async () => {};
 
+//Pseudo-broker controller
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
   await backTester.testBollingerBands(curPair, rangeLength);
