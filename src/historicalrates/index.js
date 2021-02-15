@@ -24,3 +24,4 @@ class HistoricRates {
 }
 
 module.exports = exports = HistoricRates;
+//DEV
