@@ -72,7 +72,7 @@ class Backtest {
       currentTradePrice = candleClose;
       const relativeChange =
         (currentTradePrice - previousTradePrice) / previousTradePrice;
-      positionBTC += postionBTC * relativeChange;
+      positionBTC += positionBTC * relativeChange;
       positionUSD -= buyAmt;
       positionBTC + -buyAmt;
       console.log("");
@@ -92,7 +92,7 @@ class Backtest {
       currentTradePrice = candleClose;
       const relativeChange =
         (currentTradePrice - previousTradePrice) / previousTradePrice;
-      positionBTC += postionBTC * relativeChange;
+      positionBTC += positionBTC * relativeChange;
       positionUSD += sellAmt;
       positionBTC -= sellAmt;
       console.log("");
