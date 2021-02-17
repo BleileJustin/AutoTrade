@@ -63,7 +63,8 @@ class Backtest {
       }
     }
 
-    //TODO: Map out dataflow
+    function trade() {}
+
     function onBuySignal(bb, i, range) {
       const candleId = i + 19; //Candle id that is = to BB id
       const candleClose = fullCandles[candleId][4];
@@ -82,6 +83,7 @@ class Backtest {
       console.log("Buy");
       console.log(bb);
       console.log(`PositionUSD: $${positionUSD}`);
+      console.log(`PositionBTC: $${positionBTC}`);
     }
 
     function onSellSignal(bb, i, range) {
@@ -103,6 +105,7 @@ class Backtest {
       console.log("Sell");
       console.log(bb);
       console.log(`PositionUSD: $${positionUSD}`);
+      console.log(`PositionBTC: $${positionBTC}`);
     }
 
     function closePositions(posBTC, posUSD) {
