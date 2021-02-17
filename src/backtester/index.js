@@ -40,8 +40,8 @@ class Backtest {
     let positionUSD = 10000;
     let positionBTC = 5000;
     //Variables to track the relative price change between positions and market value
-    let previousTradePrice = 0;
-    let currentTradePrice = 0;
+    let previousTradePrice;
+    let currentTradePrice;
     const fullCandles = await this.getFullCandles(curPair, rangeLength);
     //Gets an array of only close prices from the array of candles
     const closePriceRange = await this.getClosePriceRange(fullCandles);
@@ -69,15 +69,16 @@ class Backtest {
       const candleClose = fullCandles[candleId][4];
       const buyAmt = candleClose * 0.03;
       previousTradePrice = currentTradePrice;
-      currentTradePrice = candleClose;
-      const relativeChange =
-        (currentTradePrice - previousTradePrice) / previousTradePrice;
-      positionBTC += positionBTC * relativeChange;
+      currentTradePrice = parseInt(candleClose);
+      console.log(currentTradePrice);
+      if (previousTradePrice) {
+        const relativeChange =
+          (currentTradePrice - previousTradePrice) / previousTradePrice;
+        positionBTC += positionBTC * relativeChange;
+      }
       positionUSD -= buyAmt;
-      positionBTC + -buyAmt;
+      positionBTC += buyAmt;
       console.log("");
-      console.log(candleId);
-      console.log(fullCandles[candleId]);
       console.log("Buy");
       console.log(bb);
       console.log(`PositionUSD: $${positionUSD}`);
@@ -89,26 +90,32 @@ class Backtest {
       console.log(candleClose);
       const sellAmt = candleClose * 0.03;
       previousTradePrice = currentTradePrice;
-      currentTradePrice = candleClose;
-      const relativeChange =
-        (currentTradePrice - previousTradePrice) / previousTradePrice;
-      positionBTC += positionBTC * relativeChange;
+      currentTradePrice = parseInt(candleClose);
+      console.log(currentTradePrice);
+      if (previousTradePrice) {
+        const relativeChange =
+          (currentTradePrice - previousTradePrice) / previousTradePrice;
+        positionBTC += positionBTC * relativeChange;
+      }
       positionUSD += sellAmt;
       positionBTC -= sellAmt;
       console.log("");
-      console.log(fullCandles[candleId]);
       console.log("Sell");
       console.log(bb);
       console.log(`PositionUSD: $${positionUSD}`);
     }
 
-    checkForSignal(bollingerBands);
-    console.log("Closing all positions");
-    console.log(`PositionUSD: $${positionUSD}`);
+    function closePositions(posBTC, posUSD) {
+      console.log("Closing all positions");
+      console.log(posBTC);
+      console.log(posUSD);
+      posUSD += posBTC;
+      posBTC = 0;
+      console.log(`PositionUSD: $${posUSD}`);
+    }
 
-    console.log(`
-      BollingerBands Length: ${bollingerBands.length}
-    `);
+    checkForSignal(bollingerBands);
+    closePositions(positionBTC, positionUSD);
   }
 }
 
