@@ -68,10 +68,13 @@ class Backtest {
       const candleId = i + 19; //Candle id that is = to BB id
       const candleClose = fullCandles[candleId][4];
       const buyAmt = candleClose * 0.03;
-      positionUSD -= buyAmt;
-      positionBTC + -buyAmt;
       previousTradePrice = currentTradePrice;
       currentTradePrice = candleClose;
+      const relativeChange =
+        (currentTradePrice - previousTradePrice) / previousTradePrice;
+      positionBTC += postionBTC * relativeChange;
+      positionUSD -= buyAmt;
+      positionBTC + -buyAmt;
       console.log("");
       console.log(candleId);
       console.log(fullCandles[candleId]);
@@ -87,6 +90,9 @@ class Backtest {
       const sellAmt = candleClose * 0.03;
       previousTradePrice = currentTradePrice;
       currentTradePrice = candleClose;
+      const relativeChange =
+        (currentTradePrice - previousTradePrice) / previousTradePrice;
+      positionBTC += postionBTC * relativeChange;
       positionUSD += sellAmt;
       positionBTC -= sellAmt;
       console.log("");
