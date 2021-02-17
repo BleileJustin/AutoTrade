@@ -110,8 +110,6 @@ class Backtest {
 
     function closePositions(posBTC, posUSD) {
       console.log("Closing all positions");
-      console.log(posBTC);
-      console.log(posUSD);
       posUSD += posBTC;
       posBTC = 0;
       console.log(`PositionUSD: $${posUSD}`);
