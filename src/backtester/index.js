@@ -82,12 +82,12 @@ class Backtest {
         positionBTC += positionBTC * relativeChange;
       }
 
-      if (type == "buy" && positionUSD > tradeAmt) {
+      if (type === "buy" && positionUSD > tradeAmt) {
         positionUSD -= tradeAmt;
         positionBTC += tradeAmt;
         console.log(`Trade Amount: $${tradeAmt}`);
         console.log("buy");
-      } else if (type == "sell" && positionBTC > tradeAmt) {
+      } else if (type === "sell" && positionBTC > tradeAmt) {
         positionUSD += tradeAmt;
         positionBTC -= tradeAmt;
         console.log(`Trade Amount: $${tradeAmt}`);
