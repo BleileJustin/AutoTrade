@@ -10,11 +10,12 @@ class Backtest {
     this.rangeLength = rangeLength;
   }
   //Gets set of full candle data using a rangeLength
-  async getFullCandles(curPair, rangeLength) {
+  async getFullCandles(curPair, rangeLength, frequency) {
     const historicRatesController = new HistoricRates(curPair, rangeLength);
     const candles = await historicRatesController.getHistoricRange(
       curPair,
-      rangeLength
+      rangeLength,
+      frequency
     );
     return candles;
   }
@@ -36,13 +37,17 @@ class Backtest {
     return range;
   }
   //Uses set of close prices to calculate bollinger band data
-  async testBollingerBands(curPair, rangeLength) {
+  async testBollingerBands(curPair, rangeLength, frequency) {
     let positionUSD = 10000;
     let positionBTC = 5000;
     //Variables to track the relative price change between positions and market value
     let previousTradePrice;
     let currentTradePrice;
-    const fullCandles = await this.getFullCandles(curPair, rangeLength);
+    const fullCandles = await this.getFullCandles(
+      curPair,
+      rangeLength,
+      frequency
+    );
     //Gets an array of only close prices from the array of candles
     const closePriceRange = await this.getClosePriceRange(fullCandles);
 
@@ -60,13 +65,13 @@ class Backtest {
         } else if (bollingerBands[i].pb < 0) {
           onBuySignal(i, closePriceRange);
         } else if (i == bollingerBands.length - 1) {
-          closePositions(i);
+          closePositions();
         }
       }
     }
 
     function trade(counter, fullCandlesticks, type) {
-      const candleId = counter + 20; //Candle id that is = to BB id
+      const candleId = counter + 19; //Candle id that is = to BB id
       const candleClose = fullCandlesticks[candleId][4];
       const tradeAmt = candleClose * 0.03;
       previousTradePrice = currentTradePrice;
@@ -80,14 +85,16 @@ class Backtest {
       if (type == "buy" && positionUSD > tradeAmt) {
         positionUSD -= tradeAmt;
         positionBTC += tradeAmt;
+        console.log(`Trade Amount: $${tradeAmt}`);
+        console.log("buy");
       } else if (type == "sell" && positionBTC > tradeAmt) {
         positionUSD += tradeAmt;
         positionBTC -= tradeAmt;
+        console.log(`Trade Amount: $${tradeAmt}`);
+        console.log("sell");
       } else if (type == "close") {
-        console.log("Closing all positions");
         positionUSD += positionBTC;
         positionBTC = 0;
-        console.log(`PositionUSD: $${positionUSD}`);
       } else {
         console.log("Trade FAILED");
       }
@@ -110,8 +117,12 @@ class Backtest {
       console.log(`PositionUSD: $${positionUSD}`);
       console.log(`PositionBTC: $${positionBTC}`);
     }
-    function closePositions(i) {
-      //trade(i - 40, fullCandles, "close");
+    function closePositions() {
+      trade(bollingerBands.length - 1, fullCandles, "close");
+
+      console.log("");
+      console.log("Closing all positions");
+      console.log(`PositionUSD: $${positionUSD}`);
     }
 
     checkForSignal(bollingerBands);
