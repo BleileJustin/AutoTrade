@@ -111,7 +111,7 @@ class Backtest {
       console.log(`PositionBTC: $${positionBTC}`);
     }
     function closePositions(i) {
-      trade(i - 40, fullCandles, "close");
+      //trade(i - 40, fullCandles, "close");
     }
 
     checkForSignal(bollingerBands);

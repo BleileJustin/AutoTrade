@@ -10,7 +10,7 @@ const moment = require("moment");
 //CONTROLLER
 
 const curPair = apiKey.get("CURPAIR");
-const rangeLength = 60 * 4;
+const rangeLength = 60 * 2;
 let socketArray = [];
 
 //Main broker controller

@@ -15,7 +15,7 @@ class HistoricRates {
       start: moment().subtract(rangeLength, "minutes").toDate(),
       end: moment().toDate(),
 
-      granularity: 300,
+      granularity: 60,
     });
     if (rates != undefined) {
       return rates;
