@@ -14,6 +14,8 @@ class Backtest {
     this.previousTradePrice;
   }
 
+  //BACKTESTER INITIALIZATION
+  //Begins by getting candle dataset
   async init(curPair, rangeLength, frequency) {
     const fullCandles = await this.getFullCandles(
       curPair,
@@ -23,7 +25,7 @@ class Backtest {
     return fullCandles;
   }
 
-  //Gets set of full candle data within the rangeLength
+  //Allows init() to get set of full candle data within the rangeLength
   async getFullCandles(curPair, rangeLength, frequency) {
     const historicRatesController = new HistoricRates(curPair, rangeLength);
     const candles = await historicRatesController.getHistoricRange(
@@ -44,6 +46,7 @@ class Backtest {
   };
 
   //TRADE CONTROLLER
+  //Simulates Trades
   trade = (counter, closeRange, type) => {
     const candleId = counter + 19; //Candle id that is = to BB id
     const candleClose = closeRange[candleId];
@@ -60,15 +63,17 @@ class Backtest {
     if (type === "Buy" && this.positionUSD > tradeAmt) {
       this.positionUSD -= tradeAmt;
       this.positionBTC += tradeAmt;
-      console.log(`
-${type}
-Trade Amount: $${tradeAmt}`);
+
+      console.log("");
+      console.log(type);
+      console.log(`Trade Amount: $${tradeAmt}`);
     } else if (type === "Sell" && this.positionBTC > tradeAmt) {
       this.positionUSD += tradeAmt;
       this.positionBTC -= tradeAmt;
-      console.log(`
-${type}
-Trade Amount: $${tradeAmt}`);
+
+      console.log("");
+      console.log(type);
+      console.log(`Trade Amount: $${tradeAmt}`);
     } else if (type == "close") {
       this.positionUSD += this.positionBTC;
       this.positionBTC = 0;
@@ -78,7 +83,7 @@ Trade Amount: $${tradeAmt}`);
     }
   };
 
-  //SIGNALS
+  //ONSIGNALS
   onBuySignal = (i, closeRange) => {
     this.trade(i, closeRange, "Buy");
 
@@ -115,7 +120,7 @@ Trade Amount: $${tradeAmt}`);
       20
     );
 
-    //Checks bollingerBands list for points when the price exited the outer bands
+    //Checks bollingerBands list for when the price exited the outer bands
     const checkForBBSignal = (bollingerBands) => {
       for (let i = 0; i < bollingerBands.length; i++) {
         if (bollingerBands[i].pb > 1.0) {
