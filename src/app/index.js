@@ -27,7 +27,7 @@ const backtest = async () => {
 module.exports = {
   start: async () => {
     //Connects to MongoDB database
-    await database.connect();
+    //await database.connect();
 
     //Connects to authorized CoinbasePro account
     const btcAccount = "40ca65d5-af9e-4fa0-878c-5316e12ee1bc";
