@@ -29,17 +29,20 @@ class Backtest {
     if (type === "Buy" && this.positionUSD > tradeAmt) {
       this.positionUSD -= tradeAmt;
       this.positionBTC += tradeAmt;
-      console.log(`${type}
+      console.log(`
+${type}
 Trade Amount: $${tradeAmt}`);
     } else if (type === "Sell" && this.positionBTC > tradeAmt) {
       this.positionUSD += tradeAmt;
       this.positionBTC -= tradeAmt;
-      console.log(`${type}
+      console.log(`
+${type}
 Trade Amount: $${tradeAmt}`);
     } else if (type == "close") {
       this.positionUSD += this.positionBTC;
       this.positionBTC = 0;
     } else {
+      console.log("");
       console.log("Trade FAILED");
     }
   };
@@ -97,8 +100,7 @@ Trade Amount: $${tradeAmt}`);
 
       console.log(`PositionUSD: $${this.positionUSD}`);
       console.log(`PositionBTC: $${this.positionBTC}`);
-      console.log(`PositionTotal: $${this.positionUSD + this.positionBTC}
-        `);
+      console.log(`PositionTotal: $${this.positionUSD + this.positionBTC}`);
     };
 
     const onSellSignal = (i) => {
@@ -106,8 +108,7 @@ Trade Amount: $${tradeAmt}`);
 
       console.log(`PositionUSD: $${this.positionUSD}`);
       console.log(`PositionBTC: $${this.positionBTC}`);
-      console.log(`PositionTotal: $${this.positionUSD + this.positionBTC}
-        `);
+      console.log(`PositionTotal: $${this.positionUSD + this.positionBTC}`);
     };
     const closePositions = () => {
       this.trade(bollingerBands.length - 1, fullCandles, "close");
