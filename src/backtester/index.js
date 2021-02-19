@@ -8,7 +8,41 @@ class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
+    this.positionBTC = 5000;
+    this.positionUSD = 10000;
+    this.currentTradePrice;
+    this.previousTradePrice;
   }
+  trade = (counter, fullCandlesticks, type) => {
+    const candleId = counter + 19; //Candle id that is = to BB id
+    const candleClose = fullCandlesticks[candleId][4];
+    const tradeAmt = candleClose * 0.03;
+    this.previousTradePrice = this.currentTradePrice;
+    this.currentTradePrice = parseInt(candleClose);
+    if (this.previousTradePrice) {
+      const relativeChange =
+        (this.currentTradePrice - this.previousTradePrice) /
+        this.previousTradePrice;
+      this.positionBTC += this.positionBTC * relativeChange;
+    }
+
+    if (type === "buy" && this.positionUSD > tradeAmt) {
+      this.positionUSD -= tradeAmt;
+      this.positionBTC += tradeAmt;
+      console.log(`Trade Amount: $${tradeAmt}`);
+      console.log("buy");
+    } else if (type === "sell" && this.positionBTC > tradeAmt) {
+      this.positionUSD += tradeAmt;
+      this.positionBTC -= tradeAmt;
+      console.log(`Trade Amount: $${tradeAmt}`);
+      console.log("sell");
+    } else if (type == "close") {
+      this.positionUSD += this.positionBTC;
+      this.positionBTC = 0;
+    } else {
+      console.log("Trade FAILED");
+    }
+  };
   //Gets set of full candle data using a rangeLength
   async getFullCandles(curPair, rangeLength, frequency) {
     const historicRatesController = new HistoricRates(curPair, rangeLength);
@@ -38,11 +72,6 @@ class Backtest {
   }
   //Uses set of close prices to calculate bollinger band data
   async testBollingerBands(curPair, rangeLength, frequency) {
-    let positionUSD = 10000;
-    let positionBTC = 5000;
-    //Variables to track the relative price change between positions and market value
-    let previousTradePrice;
-    let currentTradePrice;
     const fullCandles = await this.getFullCandles(
       curPair,
       rangeLength,
@@ -58,7 +87,7 @@ class Backtest {
     );
 
     //Checks bollingerBands list for points when the price exited the outer bands
-    function checkForSignal(bollingerBands) {
+    const checkForBBSignal = (bollingerBands) => {
       for (let i = 0; i < bollingerBands.length; i++) {
         if (bollingerBands[i].pb > 1.0) {
           onSellSignal(i, closePriceRange);
@@ -68,64 +97,35 @@ class Backtest {
           closePositions();
         }
       }
-    }
+    };
 
-    function trade(counter, fullCandlesticks, type) {
-      const candleId = counter + 19; //Candle id that is = to BB id
-      const candleClose = fullCandlesticks[candleId][4];
-      const tradeAmt = candleClose * 0.03;
-      previousTradePrice = currentTradePrice;
-      currentTradePrice = parseInt(candleClose);
-      if (previousTradePrice) {
-        const relativeChange =
-          (currentTradePrice - previousTradePrice) / previousTradePrice;
-        positionBTC += positionBTC * relativeChange;
-      }
-
-      if (type === "buy" && positionUSD > tradeAmt) {
-        positionUSD -= tradeAmt;
-        positionBTC += tradeAmt;
-        console.log(`Trade Amount: $${tradeAmt}`);
-        console.log("buy");
-      } else if (type === "sell" && positionBTC > tradeAmt) {
-        positionUSD += tradeAmt;
-        positionBTC -= tradeAmt;
-        console.log(`Trade Amount: $${tradeAmt}`);
-        console.log("sell");
-      } else if (type == "close") {
-        positionUSD += positionBTC;
-        positionBTC = 0;
-      } else {
-        console.log("Trade FAILED");
-      }
-    }
-
-    function onBuySignal(i) {
-      trade(i, fullCandles, "buy");
+    const onBuySignal = (i) => {
+      this.trade(i, fullCandles, "buy");
 
       console.log("");
       console.log("Buy");
-      console.log(`PositionUSD: $${positionUSD}`);
-      console.log(`PositionBTC: $${positionBTC}`);
-    }
+      console.log(`PositionUSD: $${this.positionUSD}`);
+      console.log(`PositionBTC: $${this.positionBTC}`);
+      console.log(`PositionTotal: $${this.positionUSD + this.positionBTC}`);
+    };
 
-    function onSellSignal(i) {
-      trade(i, fullCandles, "sell");
+    const onSellSignal = (i) => {
+      this.trade(i, fullCandles, "sell");
 
       console.log("");
       console.log("Sell");
-      console.log(`PositionUSD: $${positionUSD}`);
-      console.log(`PositionBTC: $${positionBTC}`);
-    }
-    function closePositions() {
-      trade(bollingerBands.length - 1, fullCandles, "close");
+      console.log(`PositionUSD: $${this.positionUSD}`);
+      console.log(`PositionBTC: $${this.positionBTC}`);
+      console.log(`PositionTotal: $${this.positionUSD + this.positionBTC}`);
+    };
+    const closePositions = () => {
+      this.trade(bollingerBands.length - 1, fullCandles, "close");
 
       console.log("");
       console.log("Closing all positions");
-      console.log(`PositionUSD: $${positionUSD}`);
-    }
-
-    checkForSignal(bollingerBands);
+      console.log(`PositionUSD: $${this.positionUSD}`);
+    };
+    checkForBBSignal(bollingerBands);
   }
 }
 
