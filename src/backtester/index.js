@@ -49,7 +49,7 @@ class Backtest {
   trade = (counter, closeRange, type) => {
     const candleId = counter + 19; //Candle id that is = to BB id
     const candleClose = closeRange[candleId];
-    const tradeAmt = candleClose * 0.03;
+    const tradeAmt = this.positionUSD * 0.2;
     this.previousTradePrice = this.currentTradePrice;
     this.currentTradePrice = parseInt(candleClose);
     if (this.previousTradePrice) {

@@ -10,8 +10,8 @@ const moment = require("moment");
 //CONTROLLER
 
 const curPair = apiKey.get("CURPAIR");
-const candleFreq = 10 * 6;
-const rangeLength = 60 * 2;
+const candleFreq = 300; //in seconds
+const rangeLength = 60 * 12; //in minutes
 let socketArray = [];
 
 //Main broker controller
