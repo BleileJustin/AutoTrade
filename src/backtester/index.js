@@ -3,7 +3,6 @@ const BollingerBands = require("../strategies/bollingerbands.js");
 const HistoricRates = require("../historicalrates/index.js");
 
 //BACKTESTER
-
 class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
