@@ -108,7 +108,7 @@ class Backtest {
   };
 
   //BACKTESTED STRATEGIES
-  //Uses set of close prices to calculate bollinger band data
+  //BOLLINGERBANDS BACKTEST
   async testBollingerBands(curPair, rangeLength, frequency) {
     const fullCandles = await this.init(curPair, rangeLength, frequency);
     //Gets an array of only close prices from the array of candles
@@ -133,6 +133,14 @@ class Backtest {
     };
 
     checkForBBSignal(bollingerBands);
+  }
+
+  //MACD BACKTEST
+  async testMACD(curPair, rangeLength, frequencty) {
+    const checkForMACDSignal = () => {
+      this.closePositions();
+    };
+    checkForMACDSignal();
   }
 }
 
