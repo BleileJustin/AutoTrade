@@ -1,14 +1,9 @@
-const Socket = require("../socket/index.js");
 const Backtest = require("../backtester/index.js");
-const BollingerBands = require("../strategies/bollingerbands.js");
 const AuthClient = require("../authclient/index.js");
-const HistoricRates = require("../historicalrates/index.js");
 const database = require("../database/index.js");
 const apiKey = require("../key/index.js");
-const moment = require("moment");
 
 //CONTROLLER
-
 const curPair = apiKey.get("CURPAIR");
 const candleFreq = 300; //in seconds
 const rangeLength = 60 * 18; //in minutes
