@@ -7,8 +7,8 @@ class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
-    this.positionBTC = 5000;
-    this.positionUSD = 10000;
+    this.positionBTC = 0;
+    this.positionUSD = 235;
     this.currentTradePrice;
     this.previousTradePrice;
   }
@@ -126,10 +126,10 @@ class Backtest {
           this.onSellSignal(i, closePriceRange);
         } else if (bollingerBands[i].pb < 0) {
           this.onBuySignal(i, closePriceRange);
-        } else if (i == bollingerBands.length - 1) {
-          this.closePositions(closePriceRange, bollingerBands.length - 1);
         }
       }
+
+      this.closePositions(closePriceRange, bollingerBands.length - 1);
     };
 
     checkForBBSignal(bollingerBands);
