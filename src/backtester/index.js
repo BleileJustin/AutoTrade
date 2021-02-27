@@ -48,14 +48,14 @@ class Backtest {
   //TRADE CONTROLLER
   //Simulates Trades
   trade = (counter, closeRange, type, tradeAmt, counterDly) => {
-    //TODO Implement trade amount where it is taken depending on strategy
+    //TODO Implement trade amount and counter delay where it is taken depending on strategy
     const candleId = counter + counterDly; //Candle id that is = to BB id
     const candleClose = closeRange[candleId];
-    const tradeAmt = this.positionFIAT * 0.5;
 
     this.previousTradePrice = this.currentTradePrice;
     this.currentTradePrice = parseInt(candleClose);
 
+    //Keeps track of the change in Crypto price and mirrors that to my position
     if (this.previousTradePrice) {
       const relativeChange =
         (this.currentTradePrice - this.previousTradePrice) /
@@ -63,6 +63,7 @@ class Backtest {
       this.positionCRYP += this.positionCRYP * relativeChange;
     }
 
+    //Keeps track of positions when buying and selling
     if (type === "Buy" && this.positionFIAT > tradeAmt) {
       this.positionFIAT -= tradeAmt;
       this.positionCRYP += tradeAmt;
@@ -88,6 +89,7 @@ class Backtest {
   };
 
   //ONSIGNALS
+  //Executes trade when buy or sell signal is recieved
   onBuySignal = (i, closeRange, tradeAmount, counterDelay) => {
     this.trade(i, closeRange, "Buy");
 
@@ -113,6 +115,8 @@ class Backtest {
   };
 
   //BACKTESTED STRATEGIES
+  //Gets the price range and checks for buy and sell signals
+
   //BOLLINGERBANDS BACKTEST
   async testBollingerBands(curPair, rangeLength, frequency) {
     const fullCandles = await this.init(curPair, rangeLength, frequency);
