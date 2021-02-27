@@ -47,9 +47,9 @@ class Backtest {
 
   //TRADE CONTROLLER
   //Simulates Trades
-  trade = (counter, closeRange, type, tradeAmt) => {
+  trade = (counter, closeRange, type, tradeAmt, counterDly) => {
     //TODO Implement trade amount where it is taken depending on strategy
-    const candleId = counter + 2; //Candle id that is = to BB id
+    const candleId = counter + counterDly; //Candle id that is = to BB id
     const candleClose = closeRange[candleId];
     const tradeAmt = this.positionFIAT * 0.5;
 
@@ -66,20 +66,21 @@ class Backtest {
     if (type === "Buy" && this.positionFIAT > tradeAmt) {
       this.positionFIAT -= tradeAmt;
       this.positionCRYP += tradeAmt;
-
       console.log("");
       console.log(type);
       console.log(`Trade Amount: $${tradeAmt}`);
+
     } else if (type === "Sell" && this.positionCRYP > tradeAmt) {
       this.positionFIAT += tradeAmt;
       this.positionCRYP -= tradeAmt;
-
       console.log("");
       console.log(type);
       console.log(`Trade Amount: $${tradeAmt}`);
+
     } else if (type == "close") {
       this.positionFIAT += this.positionCRYP;
       this.positionCRYP = 0;
+
     } else {
       console.log("");
       console.log("Trade FAILED");
@@ -87,7 +88,7 @@ class Backtest {
   };
 
   //ONSIGNALS
-  onBuySignal = (i, closeRange) => {
+  onBuySignal = (i, closeRange, tradeAmount, counterDelay) => {
     this.trade(i, closeRange, "Buy");
 
     console.log(`PositionFIAT: $${this.positionFIAT}`);
@@ -95,7 +96,7 @@ class Backtest {
     console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
-  onSellSignal = (i, closeRange) => {
+  onSellSignal = (i, closeRange, tradeAmount, counterDelay) => {
     this.trade(i, closeRange, "Sell");
 
     console.log(`PositionFIAT: $${this.positionFIAT}`);
@@ -103,7 +104,7 @@ class Backtest {
     console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
-  closePositions = (closeRange, finalIndex) => {
+  closePositions = (closeRange, finalIndex, ,counterDelay) => {
     this.trade(finalIndex, closeRange, "close");
 
     console.log("");
