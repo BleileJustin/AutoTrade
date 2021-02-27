@@ -1,6 +1,6 @@
 const MACD = require("technicalindicators").MACD;
 
-//BOLLINGER BANDS STRATEGY
+//MOVING AVERAGE CONVERGENCE DIVERGENCE STRATEGY
 
 module.exports = {
   getMACD: async (range) => {
