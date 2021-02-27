@@ -1,11 +1,25 @@
-const BB = require("technicalindicators").BollingerBands;
-const moment = require("moment");
-const apiKey = require("../key/index.js");
+const MACD = require("technicalindicators").MACD;
 
 //BOLLINGER BANDS STRATEGY
 
 module.exports = {
-  getMACD: async (range, period) => {
-    const curPair = apiKey.get("CURPAIR");
+  getMACD: async (range) => {
+    const calculateMACD = async ({ range } = {}) => {
+      const input = {
+        values: range,
+        fastPeriod: 5,
+        slowPeriod: 8,
+        signalPeriod: 3,
+        SimpleMAOscillator: false,
+        SimpleMASignal: false,
+      };
+
+      const fullMACD = MACD.calculate(input);
+      return fullMACD;
+    };
+    const macd = await calculateMACD({
+      range: range,
+    });
+    return macd;
   },
 };

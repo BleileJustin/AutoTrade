@@ -1,5 +1,6 @@
 const apiKey = require("../key/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
+const Macd = require("../strategies/MACD.js");
 const HistoricRates = require("../historicalrates/index.js");
 
 //BACKTESTER
@@ -7,8 +8,8 @@ class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
-    this.positionBTC = 0;
-    this.positionUSD = 235;
+    this.positionCRYP = 0;
+    this.positionFIAT = 235;
     this.currentTradePrice;
     this.previousTradePrice;
   }
@@ -46,36 +47,39 @@ class Backtest {
 
   //TRADE CONTROLLER
   //Simulates Trades
-  trade = (counter, closeRange, type) => {
-    const candleId = counter + 19; //Candle id that is = to BB id
+  trade = (counter, closeRange, type, tradeAmt) => {
+    //TODO Implement trade amount where it is taken depending on strategy
+    const candleId = counter + 2; //Candle id that is = to BB id
     const candleClose = closeRange[candleId];
-    const tradeAmt = this.positionUSD * 0.2;
+    const tradeAmt = this.positionFIAT * 0.5;
+
     this.previousTradePrice = this.currentTradePrice;
     this.currentTradePrice = parseInt(candleClose);
+
     if (this.previousTradePrice) {
       const relativeChange =
         (this.currentTradePrice - this.previousTradePrice) /
         this.previousTradePrice;
-      this.positionBTC += this.positionBTC * relativeChange;
+      this.positionCRYP += this.positionCRYP * relativeChange;
     }
 
-    if (type === "Buy" && this.positionUSD > tradeAmt) {
-      this.positionUSD -= tradeAmt;
-      this.positionBTC += tradeAmt;
+    if (type === "Buy" && this.positionFIAT > tradeAmt) {
+      this.positionFIAT -= tradeAmt;
+      this.positionCRYP += tradeAmt;
 
       console.log("");
       console.log(type);
       console.log(`Trade Amount: $${tradeAmt}`);
-    } else if (type === "Sell" && this.positionBTC > tradeAmt) {
-      this.positionUSD += tradeAmt;
-      this.positionBTC -= tradeAmt;
+    } else if (type === "Sell" && this.positionCRYP > tradeAmt) {
+      this.positionFIAT += tradeAmt;
+      this.positionCRYP -= tradeAmt;
 
       console.log("");
       console.log(type);
       console.log(`Trade Amount: $${tradeAmt}`);
     } else if (type == "close") {
-      this.positionUSD += this.positionBTC;
-      this.positionBTC = 0;
+      this.positionFIAT += this.positionCRYP;
+      this.positionCRYP = 0;
     } else {
       console.log("");
       console.log("Trade FAILED");
@@ -86,17 +90,17 @@ class Backtest {
   onBuySignal = (i, closeRange) => {
     this.trade(i, closeRange, "Buy");
 
-    console.log(`PositionUSD: $${this.positionUSD}`);
-    console.log(`PositionBTC: $${this.positionBTC}`);
-    console.log(`PositionTotal: $${this.positionUSD + this.positionBTC}`);
+    console.log(`PositionFIAT: $${this.positionFIAT}`);
+    console.log(`PositionCRYP: $${this.positionCRYP}`);
+    console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
   onSellSignal = (i, closeRange) => {
     this.trade(i, closeRange, "Sell");
 
-    console.log(`PositionUSD: $${this.positionUSD}`);
-    console.log(`PositionBTC: $${this.positionBTC}`);
-    console.log(`PositionTotal: $${this.positionUSD + this.positionBTC}`);
+    console.log(`PositionFIAT: $${this.positionFIAT}`);
+    console.log(`PositionCRYP: $${this.positionCRYP}`);
+    console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
   closePositions = (closeRange, finalIndex) => {
@@ -104,7 +108,7 @@ class Backtest {
 
     console.log("");
     console.log("Closing all positions");
-    console.log(`PositionUSD: $${this.positionUSD}`);
+    console.log(`PositionFIAT: $${this.positionFIAT}`);
   };
 
   //BACKTESTED STRATEGIES
@@ -136,11 +140,30 @@ class Backtest {
   }
 
   //MACD BACKTEST
-  async testMACD(curPair, rangeLength, frequencty) {
-    const checkForMACDSignal = () => {
-      this.closePositions();
+  async testMACD(curPair, rangeLength, frequency) {
+    const fullCandles = await this.init(curPair, rangeLength, frequency);
+
+    const closePriceRange = this.getClosePriceRange(fullCandles);
+
+    const macd = await Macd.getMACD(closePriceRange);
+
+    const checkForMACDSignal = (maCD) => {
+      for (let i = 0; i < maCD.length - 2; i++) {
+        if (
+          maCD[i].MACD < maCD[i].signal &&
+          maCD[i - 1].MACD > maCD[i - 1].signal
+        ) {
+          this.onSellSignal(i, closePriceRange);
+        } else if (
+          maCD[i].MACD > maCD[i].signal &&
+          maCD[i - 1].MACD < maCD[i - 1].signal
+        ) {
+          this.onBuySignal(i, closePriceRange);
+        }
+      }
+      this.closePositions(closePriceRange, maCD.length - 1);
     };
-    checkForMACDSignal();
+    checkForMACDSignal(macd);
   }
 }
 
