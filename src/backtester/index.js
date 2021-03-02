@@ -8,8 +8,8 @@ class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
-    this.positionCRYP = 0;
-    this.positionFIAT = 235;
+    this.positionCRYP = 172.4;
+    this.positionFIAT = 80;
     this.currentTradePrice;
     this.previousTradePrice;
   }
@@ -40,7 +40,7 @@ class Backtest {
   getClosePriceRange = (candles) => {
     let range = [];
     for (let i = 0; i < candles.length; i++) {
-      range.push(candles[i][4]);
+      range.unshift(candles[i][4]);
     }
     return range;
   };
@@ -60,19 +60,21 @@ class Backtest {
       const relativeChange =
         (this.currentTradePrice - this.previousTradePrice) /
         this.previousTradePrice;
-      this.positionCRYP += this.positionCRYP * relativeChange;
+      this.positionCRYP += this.currentTradePrice * relativeChange;
     }
 
     //Keeps track of positions when buying and selling
     if (type === "Buy" && this.positionFIAT > tradeAmt) {
       this.positionFIAT -= tradeAmt;
       this.positionCRYP += tradeAmt;
+      //this.positionFIAT -= tradeAmt * 0.05; //Simulates trading fees
       console.log("");
       console.log(type);
       console.log(`Trade Amount: $${tradeAmt}`);
     } else if (type === "Sell" && this.positionCRYP > tradeAmt) {
       this.positionFIAT += tradeAmt;
       this.positionCRYP -= tradeAmt;
+      //this.positionFIAT -= tradeAmt * 0.05; //Simulates trading fees
       console.log("");
       console.log(type);
       console.log(`Trade Amount: $${tradeAmt}`);
@@ -131,17 +133,19 @@ class Backtest {
       for (let i = 0; i < bollingerBands.length; i++) {
         const positionTotal = this.positionFIAT + this.positionCRYP;
         if (bollingerBands[i].pb > 1.0) {
+          console.log(closePriceRange[i] + strategyDelay);
           this.onSellSignal(
             i,
             closePriceRange,
-            positionTotal * 0.3,
+            positionTotal * 0.9,
             strategyDelay
           );
         } else if (bollingerBands[i].pb < 0) {
+          console.log(closePriceRange[i] + strategyDelay);
           this.onBuySignal(
             i,
             closePriceRange,
-            positionTotal * 0.3,
+            positionTotal * 0.9,
             strategyDelay
           );
         }
@@ -176,7 +180,7 @@ class Backtest {
           this.onSellSignal(
             i,
             closePriceRange,
-            positionTotal * 0.5,
+            positionTotal * 0.8,
             strategyDelay
           );
         } else if (
@@ -186,7 +190,7 @@ class Backtest {
           this.onBuySignal(
             i,
             closePriceRange,
-            positionTotal * 0.5,
+            positionTotal * 0.8,
             strategyDelay
           );
         }
