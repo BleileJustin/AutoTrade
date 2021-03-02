@@ -106,11 +106,13 @@ class Backtest {
   };
 
   closePositions = (closeRange, finalIndex, counterDelay) => {
-    this.trade(finalIndex, closeRange, "close", undefined, counterDelay);
-
     console.log("");
     console.log("Closing all positions");
     console.log(`PositionFIAT: $${this.positionFIAT}`);
+    console.log(`PositionCRYP: $${this.positionCRYP}`);
+
+    this.trade(finalIndex, closeRange, "close", undefined, counterDelay);
+    console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
   //BACKTESTED STRATEGIES
@@ -133,19 +135,19 @@ class Backtest {
       for (let i = 0; i < bollingerBands.length; i++) {
         const positionTotal = this.positionFIAT + this.positionCRYP;
         if (bollingerBands[i].pb > 1.0) {
-          console.log(closePriceRange[i] + strategyDelay);
+          console.log(closePriceRange[i + strategyDelay]);
           this.onSellSignal(
             i,
             closePriceRange,
-            positionTotal * 0.9,
+            positionTotal * 0.3,
             strategyDelay
           );
         } else if (bollingerBands[i].pb < 0) {
-          console.log(closePriceRange[i] + strategyDelay);
+          console.log(closePriceRange[i + strategyDelay]);
           this.onBuySignal(
             i,
             closePriceRange,
-            positionTotal * 0.9,
+            positionTotal * 0.3,
             strategyDelay
           );
         }
