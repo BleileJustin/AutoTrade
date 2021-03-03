@@ -9,7 +9,7 @@ module.exports = {
       const input = {
         period: period,
         values: range,
-        stdDev: 2.0,
+        stdDev: 2.5,
       };
       const fullBB = BB.calculate(input);
       return fullBB;

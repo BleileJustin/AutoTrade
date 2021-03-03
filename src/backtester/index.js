@@ -8,8 +8,8 @@ class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
-    this.positionCRYP = 172.4;
-    this.positionFIAT = 80;
+    this.positionCRYP = 185;
+    this.positionFIAT = 76;
     this.currentTradePrice;
     this.previousTradePrice;
   }
@@ -179,6 +179,7 @@ class Backtest {
           maCD[i].MACD < maCD[i].signal &&
           maCD[i - 1].MACD > maCD[i - 1].signal
         ) {
+          console.log(closePriceRange[i + strategyDelay]);
           this.onSellSignal(
             i,
             closePriceRange,
@@ -189,6 +190,7 @@ class Backtest {
           maCD[i].MACD > maCD[i].signal &&
           maCD[i - 1].MACD < maCD[i - 1].signal
         ) {
+          console.log(closePriceRange[i + strategyDelay]);
           this.onBuySignal(
             i,
             closePriceRange,
