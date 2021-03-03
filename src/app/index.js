@@ -5,8 +5,8 @@ const apiKey = require("../key/index.js");
 
 //CONTROLLER
 const curPair = apiKey.get("CURPAIR");
-const candleFreq = 300; //in seconds
-const rangeLength = 60 * 18; //in minutes
+const candleFreq = 300; //seconds;
+const rangeLength = 60 * 18; //hours;
 let socketArray = [];
 
 //Main broker controller

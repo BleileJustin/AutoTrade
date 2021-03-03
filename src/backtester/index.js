@@ -166,9 +166,7 @@ class Backtest {
   //MACD BACKTEST
   async testMACD(curPair, rangeLength, frequency) {
     const fullCandles = await this.init(curPair, rangeLength, frequency);
-
     const closePriceRange = this.getClosePriceRange(fullCandles);
-
     const macd = await Macd.getMACD(closePriceRange);
 
     const checkForMACDSignal = (maCD) => {
