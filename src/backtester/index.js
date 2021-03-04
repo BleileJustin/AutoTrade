@@ -54,36 +54,33 @@ class Backtest {
 
     this.previousTradePrice = this.currentTradePrice;
     this.currentTradePrice = parseFloat(candleClose);
-    console.log(this.previousTradePrice);
-    console.log(this.currentTradePrice);
-    //Keeps track of the change in Crypto price and mirrors that to my position
+    //Keeps track of the change in Crypto price and mirrors that to the position
     if (this.previousTradePrice) {
+      //calculates the relativeChange between the last trade price and the current trade price
       const relativeChange =
         (this.currentTradePrice - this.previousTradePrice) /
         this.previousTradePrice;
-      const priceChange = this.positionCRYP * relativeChange;
-      this.positionCRYP += priceChange;
-      console.log(`priceChange: ${priceChange}`);
-      console.log(`relativeChange: ${relativeChange}`);
+      const priceChange = this.positionCRYP * relativeChange; //calculates the price change on positionCRYP
+      this.positionCRYP += priceChange; //changes positionCRYP based off priceChange
     }
 
     //Keeps track of positions when buying and selling
     if (type === "Buy" && this.positionFIAT > tradeAmt) {
       this.fees = tradeAmt * 0.005;
-      this.positionFIAT -= this.fees; //Simulates trading this.fees
+      this.positionFIAT -= this.fees; //Simulates trading fees
       this.positionFIAT -= tradeAmt;
       this.positionCRYP += tradeAmt;
       console.log("");
       console.log(type);
-      console.log(`Trade Amount: $${tradeAmt}`);
+      console.log(`Trade Amount : $${tradeAmt}`);
     } else if (type === "Sell" && this.positionCRYP > tradeAmt) {
       this.fees = tradeAmt * 0.005;
-      this.positionFIAT -= this.fees; //Simulates trading this.fees
+      this.positionFIAT -= this.fees; //Simulates trading fees
       this.positionFIAT += tradeAmt;
       this.positionCRYP -= tradeAmt;
       console.log("");
       console.log(type);
-      console.log(`Trade Amount: $${tradeAmt}`);
+      console.log(`Trade Amount : $${tradeAmt}`);
     } else if (type == "close") {
       this.fees = tradeAmt * 0.005;
       this.positionFIAT -= this.fees;
@@ -97,28 +94,28 @@ class Backtest {
   };
 
   //ONSIGNALS
-  //Executes trade when buy or sell signal is recieved
+  //Executes pseudo trade when buy or sell signal is recieved
   onBuySignal = (i, closeRange, tradeAmount, counterDelay) => {
     this.trade(i, closeRange, "Buy", tradeAmount, counterDelay);
 
-    console.log(`PositionFIAT: $${this.positionFIAT}`);
-    console.log(`PositionCRYP: $${this.positionCRYP}`);
+    console.log(`PositionFIAT : $${this.positionFIAT}`);
+    console.log(`PositionCRYP : $${this.positionCRYP}`);
     console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
   onSellSignal = (i, closeRange, tradeAmount, counterDelay) => {
     this.trade(i, closeRange, "Sell", tradeAmount, counterDelay);
 
-    console.log(`PositionFIAT: $${this.positionFIAT}`);
-    console.log(`PositionCRYP: $${this.positionCRYP}`);
+    console.log(`PositionFIAT : $${this.positionFIAT}`);
+    console.log(`PositionCRYP : $${this.positionCRYP}`);
     console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
   closePositions = (closeRange, finalIndex, tradeAmount, counterDelay) => {
     console.log("");
     console.log("Closing all positions");
-    console.log(`PositionFIAT: $${this.positionFIAT}`);
-    console.log(`PositionCRYP: $${this.positionCRYP}`);
+    console.log(`PositionFIAT : $${this.positionFIAT}`);
+    console.log(`PositionCRYP : $${this.positionCRYP}`);
 
     this.trade(finalIndex, closeRange, "close", tradeAmount, counterDelay);
     console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
@@ -144,23 +141,25 @@ class Backtest {
       for (let i = 0; i < bollingerBands.length; i++) {
         const positionTotal = this.positionFIAT + this.positionCRYP;
         if (bollingerBands[i].pb > 1.0) {
+          // BB sell signal
           this.onSellSignal(
             i,
             closePriceRange,
-            positionTotal * 0.5,
+            positionTotal * 0.5, //tradeAmt
             strategyDelay
           );
-          console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
-          console.log(`Trade Fee: $${this.fees}`);
+          console.log(`Trade Price  : $${closePriceRange[i + strategyDelay]}`);
+          console.log(`Trade Fee    : $${this.fees}`);
         } else if (bollingerBands[i].pb < 0) {
+          // BB buy signal
           this.onBuySignal(
             i,
             closePriceRange,
-            positionTotal * 0.2,
+            positionTotal * 0.2, //tradeAmt
             strategyDelay
           );
-          console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
-          console.log(`Trade Fee: $${this.fees}`);
+          console.log(`Trade Price  : $${closePriceRange[i + strategyDelay]}`);
+          console.log(`Trade Fee    : $${this.fees}`);
         }
       }
 
