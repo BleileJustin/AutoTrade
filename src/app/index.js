@@ -12,7 +12,7 @@ let socketArray = [];
 //Main broker controller
 const main = async () => {};
 
-//Pseudo-broker controller
+//Tests Strategies with BackData
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
   //runs BollingerBands through backtester
