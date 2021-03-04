@@ -135,21 +135,21 @@ class Backtest {
       for (let i = 0; i < bollingerBands.length; i++) {
         const positionTotal = this.positionFIAT + this.positionCRYP;
         if (bollingerBands[i].pb > 1.0) {
-          console.log(closePriceRange[i + strategyDelay]);
           this.onSellSignal(
             i,
             closePriceRange,
-            positionTotal * 0.3,
+            positionTotal * 0.5,
             strategyDelay
           );
+          console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
         } else if (bollingerBands[i].pb < 0) {
-          console.log(closePriceRange[i + strategyDelay]);
           this.onBuySignal(
             i,
             closePriceRange,
-            positionTotal * 0.3,
+            positionTotal * 0.2,
             strategyDelay
           );
+          console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
         }
       }
 
@@ -177,24 +177,24 @@ class Backtest {
           maCD[i].MACD < maCD[i].signal &&
           maCD[i - 1].MACD > maCD[i - 1].signal
         ) {
-          console.log(closePriceRange[i + strategyDelay]);
           this.onSellSignal(
             i,
             closePriceRange,
             positionTotal * 0.8,
             strategyDelay
           );
+          console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
         } else if (
           maCD[i].MACD > maCD[i].signal &&
           maCD[i - 1].MACD < maCD[i - 1].signal
         ) {
-          console.log(closePriceRange[i + strategyDelay]);
           this.onBuySignal(
             i,
             closePriceRange,
             positionTotal * 0.8,
             strategyDelay
           );
+          console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
         }
       }
       this.closePositions(closePriceRange, maCD.length - 1, strategyDelay);

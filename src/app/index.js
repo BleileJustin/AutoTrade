@@ -5,8 +5,8 @@ const apiKey = require("../key/index.js");
 
 //CONTROLLER
 const curPair = apiKey.get("CURPAIR");
-const candleFreq = 300; //seconds;
-const rangeLength = 60 * 18; //hours;
+const candleFreq = 21600; //seconds;
+const rangeLength = 60 * 1000; //hours;
 let socketArray = [];
 
 //Main broker controller
@@ -16,8 +16,9 @@ const main = async () => {};
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
   //runs BollingerBands through backtester
-  //await backTester.testBollingerBands(curPair, rangeLength, candleFreq);
-  await backTester.testMACD(curPair, rangeLength, candleFreq);
+
+  await backTester.testBollingerBands(curPair, rangeLength, candleFreq);
+  //await backTester.testMACD(curPair, rangeLength, candleFreq);
 };
 
 module.exports = {
