@@ -94,7 +94,7 @@ class Backtest {
   };
 
   //ONSIGNALS
-  //Executes pseudo trade when buy or sell signal is recieved
+  //Executes pseudo-trade when buy or sell signal is recieved
   onBuySignal = (i, closeRange, tradeAmount, counterDelay) => {
     this.trade(i, closeRange, "Buy", tradeAmount, counterDelay);
 
