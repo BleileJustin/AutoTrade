@@ -53,14 +53,18 @@ class Backtest {
     const candleClose = closeRange[candleId];
 
     this.previousTradePrice = this.currentTradePrice;
-    this.currentTradePrice = parseInt(candleClose);
-
+    this.currentTradePrice = parseFloat(candleClose);
+    console.log(this.previousTradePrice);
+    console.log(this.currentTradePrice);
     //Keeps track of the change in Crypto price and mirrors that to my position
     if (this.previousTradePrice) {
       const relativeChange =
         (this.currentTradePrice - this.previousTradePrice) /
         this.previousTradePrice;
-      this.positionCRYP += this.currentTradePrice * relativeChange;
+      const priceChange = this.positionCRYP * relativeChange;
+      this.positionCRYP += priceChange;
+      console.log(`priceChange: ${priceChange}`);
+      console.log(`relativeChange: ${relativeChange}`);
     }
 
     //Keeps track of positions when buying and selling
@@ -166,6 +170,12 @@ class Backtest {
         this.positionFIAT,
         strategyDelay
       );
+      console.log(
+        `Trade Price: $${
+          closePriceRange[bollingerBands.length + strategyDelay - 1]
+        }`
+      );
+      console.log(`Trade Fee: $${this.fees}`);
     };
 
     checkForBBSignal(bollingerBands);
