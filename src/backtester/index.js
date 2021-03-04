@@ -12,6 +12,7 @@ class Backtest {
     this.positionFIAT = 76;
     this.currentTradePrice;
     this.previousTradePrice;
+    this.fees;
   }
 
   //BACKTESTER INITIALIZATION
@@ -65,20 +66,24 @@ class Backtest {
 
     //Keeps track of positions when buying and selling
     if (type === "Buy" && this.positionFIAT > tradeAmt) {
+      this.fees = tradeAmt * 0.005;
+      this.positionFIAT -= this.fees; //Simulates trading this.fees
       this.positionFIAT -= tradeAmt;
       this.positionCRYP += tradeAmt;
-      //this.positionFIAT -= tradeAmt * 0.05; //Simulates trading fees
       console.log("");
       console.log(type);
       console.log(`Trade Amount: $${tradeAmt}`);
     } else if (type === "Sell" && this.positionCRYP > tradeAmt) {
+      this.fees = tradeAmt * 0.005;
+      this.positionFIAT -= this.fees; //Simulates trading this.fees
       this.positionFIAT += tradeAmt;
       this.positionCRYP -= tradeAmt;
-      //this.positionFIAT -= tradeAmt * 0.05; //Simulates trading fees
       console.log("");
       console.log(type);
       console.log(`Trade Amount: $${tradeAmt}`);
     } else if (type == "close") {
+      this.fees = tradeAmt * 0.005;
+      this.positionFIAT -= this.fees;
       this.positionFIAT += this.positionCRYP;
       this.positionCRYP = 0;
     } else {
@@ -105,13 +110,13 @@ class Backtest {
     console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
-  closePositions = (closeRange, finalIndex, counterDelay) => {
+  closePositions = (closeRange, finalIndex, tradeAmount, counterDelay) => {
     console.log("");
     console.log("Closing all positions");
     console.log(`PositionFIAT: $${this.positionFIAT}`);
     console.log(`PositionCRYP: $${this.positionCRYP}`);
 
-    this.trade(finalIndex, closeRange, "close", undefined, counterDelay);
+    this.trade(finalIndex, closeRange, "close", tradeAmount, counterDelay);
     console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
   };
 
@@ -142,6 +147,7 @@ class Backtest {
             strategyDelay
           );
           console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
+          console.log(`Trade Fee: $${this.fees}`);
         } else if (bollingerBands[i].pb < 0) {
           this.onBuySignal(
             i,
@@ -150,12 +156,14 @@ class Backtest {
             strategyDelay
           );
           console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
+          console.log(`Trade Fee: $${this.fees}`);
         }
       }
 
       this.closePositions(
         closePriceRange,
         bollingerBands.length - 1,
+        this.positionFIAT,
         strategyDelay
       );
     };
@@ -195,9 +203,15 @@ class Backtest {
             strategyDelay
           );
           console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
+          console.log(`Trade Fee: $${this.fees}`);
         }
       }
-      this.closePositions(closePriceRange, maCD.length - 1, strategyDelay);
+      this.closePositions(
+        closePriceRange,
+        maCD.length - 1,
+        this.positionFIAT,
+        strategyDelay
+      );
     };
     checkForMACDSignal(macd);
   }
