@@ -8,8 +8,8 @@ class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
-    this.positionCRYP = 185;
-    this.positionFIAT = 76;
+    this.positionCRYP = 450;
+    this.positionFIAT = 0;
     this.currentTradePrice;
     this.previousTradePrice;
     this.fees;
@@ -49,7 +49,6 @@ class Backtest {
   //TRADE CONTROLLER
   //Simulates Trades
   trade = (counter, closeRange, type, tradeAmt, counterDly) => {
-    //TODO Implement trade amount and counter delay where it is taken depending on strategy
     const candleId = counter + counterDly; //counterDelay is how many intervals before the strategy begins
     const candleClose = closeRange[candleId];
 
@@ -87,6 +86,7 @@ class Backtest {
       this.positionFIAT += this.positionCRYP;
       this.positionCRYP = 0;
     } else {
+      this.fees = 0;
       console.log("");
       console.log("Trade FAILED");
     }
