@@ -19,4 +19,8 @@ module.exports = {
     const account = await aClient.getAccount(id);
     console.log(account);
   },
+  /*getAccounts: async () => {
+    const accounts = await aClient.getAccounts();
+    console.log(accounts);
+  },*/
 };

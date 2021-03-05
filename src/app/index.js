@@ -1,7 +1,8 @@
+const Broker = require("../broker/index.js");
 const Backtest = require("../backtester/index.js");
 const AuthClient = require("../authclient/index.js");
-const database = require("../database/index.js");
 const apiKey = require("../key/index.js");
+const database = require("../database/index.js");
 
 //CONTROLLER
 const curPair = apiKey.get("CURPAIR");
@@ -10,13 +11,22 @@ const rangeLength = 60 * 1000; //hours;
 let socketArray = [];
 
 //Main broker controller
-const main = async () => {};
+const main = async () => {
+  //Connects to authorized CoinbasePro account
+  //Fiat Accounts
+  const usdAccount = apiKey.get("USD_ACCOUNT");
+  //Crypto Accounts
+  const btcAccount = apiKey.get("BTC_ACCOUNT");
+  const ltcAccount = apiKey.get("LTC_ACCOUNT");
+  //Starts Broker
+  const broker = new Broker(ltcAccount, usdAccount);
+  await broker.start(ltcAccount, usdAccount);
+};
 
 //Tests Strategies with BackData
 const backtest = async () => {
-  const backTester = new Backtest(curPair, rangeLength);
+  const backTester = new Backtest();
   //runs BollingerBands through backtester
-
   await backTester.testBollingerBands(curPair, rangeLength, candleFreq);
   //await backTester.testMACD(curPair, rangeLength, candleFreq);
 };
@@ -24,15 +34,9 @@ const backtest = async () => {
 module.exports = {
   start: async () => {
     //Connects to MongoDB database
-    //await database.connect();
+    await database.connect();
 
-    //Connects to authorized CoinbasePro account
-    const btcAccount = "40ca65d5-af9e-4fa0-878c-5316e12ee1bc";
-    const authBtcAccount = await AuthClient.getAccount(btcAccount);
-    const usdAccount = "619cb2fe-9fd1-41b6-8241-7debe1cdbf9f";
-    const authUsdAccount = await AuthClient.getAccount(usdAccount);
-
-    //main();
-    backtest();
+    await main();
+    await backtest();
   },
 };
