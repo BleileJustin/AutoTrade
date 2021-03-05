@@ -5,7 +5,9 @@ const HistoricRates = require("../historicalrates/index.js");
 
 //BACKTESTER
 class Backtest {
-  constructor() {
+  constructor({ curPair, rangeLength }) {
+    this.curPair = curPair;
+    this.rangeLength = rangeLength;
     this.positionCRYP = 450;
     this.positionFIAT = 0;
     this.currentTradePrice;
@@ -21,7 +23,6 @@ class Backtest {
       rangeLength,
       frequency
     );
-    console.log();
     return fullCandles;
   }
 

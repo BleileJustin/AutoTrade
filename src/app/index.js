@@ -25,7 +25,7 @@ const main = async () => {
 
 //Tests Strategies with BackData
 const backtest = async () => {
-  const backTester = new Backtest();
+  const backTester = new Backtest(curPair, rangeLength);
   //runs BollingerBands through backtester
   await backTester.testBollingerBands(curPair, rangeLength, candleFreq);
   //await backTester.testMACD(curPair, rangeLength, candleFreq);
@@ -37,6 +37,6 @@ module.exports = {
     await database.connect();
 
     await main();
-    await backtest();
+    backtest();
   },
 };
