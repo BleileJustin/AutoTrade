@@ -19,8 +19,8 @@ const main = async () => {
   const btcAccount = apiKey.get("BTC_ACCOUNT");
   const ltcAccount = apiKey.get("LTC_ACCOUNT");
   //Starts Broker
-  const broker = new Broker(ltcAccount, usdAccount);
-  await broker.start(ltcAccount, usdAccount);
+  const broker = new Broker(ltcAccount, usdAccount, curPair);
+  await broker.start(candleFreq, rangeLength);
 };
 
 //Tests Strategies with BackData
