@@ -155,7 +155,7 @@ class Backtest {
           this.onBuySignal(
             i,
             closePriceRange,
-            positionTotal * 0.2, //tradeAmt
+            positionTotal * 0.25, //tradeAmt
             strategyDelay
           );
           console.log(`Trade Price  : $${closePriceRange[i + strategyDelay]}`);
