@@ -37,6 +37,6 @@ module.exports = {
     await database.connect();
 
     await main();
-    backtest();
+    //backtest();
   },
 };

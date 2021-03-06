@@ -1,6 +1,10 @@
 const AuthClient = require("../authclient/index.js");
 const apiKey = require("../key/index.js");
 const HistoricRates = require("../historicalrates/index.js");
+const {
+  setIntervalAsync,
+  clearIntervalAsync,
+} = require("set-interval-async/dynamic");
 
 class Broker {
   constructor(crypAccount, fiatAccount, currencyPair) {
@@ -21,7 +25,17 @@ class Broker {
       rangeLength,
       candleFrequency
     );
-    console.log(previousPrices);
+    const updateStrategy = setIntervalAsync(async () => {
+      const newPrice = await this.getNewCandlePrice(
+        this.currencyPair,
+        360, //one 6 hour candle
+        candleFrequency
+      );
+      console.log(newPrice);
+      return newPrice;
+    }, 1000 * 60 * 60 * 6);
+
+    console.log(previousPrices[previousPrices.length - 1]);
   }
   async placeOrder(side, productId, price, size) {}
 
@@ -37,9 +51,15 @@ class Broker {
     return this.range;
   }
 
-  async getNewCandlePrice(curPair) {}
+  async getNewCandlePrice(curPair, oneCandle, frequency) {
+    const newCandle = await this.historicRatesController.getHistoricRange(
+      curPair,
+      oneCandle, //one 6 hour candle
+      frequency //size of candle
+    );
+    const newCandlePrice = newCandle[0][4];
 
-  async updateStrategy() {}
+    return newCandlePrice;
+  }
 }
-
 module.exports = exports = Broker;
