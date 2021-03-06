@@ -33,8 +33,7 @@ class Broker {
 
     setIntervalAsync(async () => {
       const newPrice = await this.getNewCandlePrice(
-        this.currencyPair,
-        360, //one 6 hour candle
+        21600, //one 6 hour candle
         candleFrequency
       );
       console.log(newPrice);
