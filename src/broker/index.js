@@ -20,12 +20,14 @@ class Broker {
     const authCRYPAccount = await AuthClient.getAccount(this.crypAccount);
     const authFIATAccount = await AuthClient.getAccount(this.fiatAccount);
 
-    const previousPrices = await this.getPreviousCandlePrices(
-      this.currencyPair,
-      rangeLength,
-      candleFrequency
-    );
-    const updateStrategy = setIntervalAsync(async () => {
+    await this.updateStrategy();
+  }
+
+  async updateStrategy() {
+    const prevPrices = await this.getPrevCandlePrices(rangeLength, candleFreq);
+    console.log(prevPrices[prevPrices.length - 1]);
+
+    setIntervalAsync(async () => {
       const newPrice = await this.getNewCandlePrice(
         this.currencyPair,
         360, //one 6 hour candle
@@ -34,12 +36,11 @@ class Broker {
       console.log(newPrice);
       return newPrice;
     }, 1000 * 60 * 60 * 6);
-
-    console.log(previousPrices[previousPrices.length - 1]);
   }
+
   async placeOrder(side, productId, price, size) {}
 
-  async getPreviousCandlePrices(curPair, rangeLength, frequency) {
+  async getPrevCandlePrices(curPair, rangeLength, frequency) {
     const candles = await this.historicRatesController.getHistoricRange(
       curPair,
       rangeLength,
@@ -51,9 +52,9 @@ class Broker {
     return this.range;
   }
 
-  async getNewCandlePrice(curPair, oneCandle, frequency) {
+  async getNewCandlePrice(oneCandle, frequency) {
     const newCandle = await this.historicRatesController.getHistoricRange(
-      curPair,
+      this.curPair,
       oneCandle, //one 6 hour candle
       frequency //size of candle
     );
