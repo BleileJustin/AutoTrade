@@ -15,16 +15,20 @@ class Broker {
     this.historicRatesController = new HistoricRates();
   }
 
-  async start(candleFrequency, rangeLength) {
+  async start(candleFreq, rangeLength) {
     //Connects to authorized CoinbasePro account
     const authCRYPAccount = await AuthClient.getAccount(this.crypAccount);
     const authFIATAccount = await AuthClient.getAccount(this.fiatAccount);
 
-    await this.updateStrategy();
+    await this.updateStrategy(candleFreq, rangeLength);
   }
 
-  async updateStrategy() {
-    const prevPrices = await this.getPrevCandlePrices(rangeLength, candleFreq);
+  async updateStrategy(candleFrequency, rangeLength) {
+    const prevPrices = await this.getPrevCandlePrices(
+      this.currencyPair,
+      rangeLength,
+      candleFrequency
+    );
     console.log(prevPrices[prevPrices.length - 1]);
 
     setIntervalAsync(async () => {
