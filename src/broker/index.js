@@ -7,6 +7,8 @@ class Broker {
     this.crypAccount = crypAccount;
     this.fiatAccount = fiatAccount;
     this.currencyPair = currencyPair;
+    this.range = [];
+    this.historicRatesController = new HistoricRates();
   }
 
   async start(candleFrequency, rangeLength) {
@@ -14,31 +16,28 @@ class Broker {
     const authCRYPAccount = await AuthClient.getAccount(this.crypAccount);
     const authFIATAccount = await AuthClient.getAccount(this.fiatAccount);
 
-    const previousCandles = await this.getPreviousPrices(
+    const previousPrices = await this.getPreviousCandlePrices(
       this.currencyPair,
       rangeLength,
       candleFrequency
     );
+    console.log(previousPrices);
   }
   async placeOrder(side, productId, price, size) {}
 
-  async getPreviousPrices(curPair, rangeLength, frequency) {
-    const historicRatesController = new HistoricRates(curPair, rangeLength);
-    const candles = await historicRatesController.getHistoricRange(
+  async getPreviousCandlePrices(curPair, rangeLength, frequency) {
+    const candles = await this.historicRatesController.getHistoricRange(
       curPair,
       rangeLength,
       frequency
     );
-    let range = [];
     for (let i = 0; i < candles.length; i++) {
-      range.unshift(candles[i][4]);
+      this.range.unshift(candles[i][4]);
     }
-    return range;
+    return this.range;
   }
 
-  async getCurrentCandle(curPair, rangeLength, frequency) {}
-
-  async getNewCandle() {}
+  async getNewCandlePrice(curPair) {}
 
   async updateStrategy() {}
 }
