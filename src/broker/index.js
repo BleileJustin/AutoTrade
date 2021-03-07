@@ -61,6 +61,7 @@ class Broker {
       console.log(newPrice);
       console.log(this.range);
       console.log(bollingerBands[bollingerBands.length - 1]);
+      console.log("");
     }, 1000 * candleFrequency);
   }
 
