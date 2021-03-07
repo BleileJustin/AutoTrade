@@ -1,6 +1,8 @@
 const AuthClient = require("../authclient/index.js");
-const apiKey = require("../key/index.js");
 const HistoricRates = require("../historicalrates/index.js");
+const BollingerBands = require("../strategies/bollingerbands.js");
+const apiKey = require("../key/index.js");
+
 const {
   setIntervalAsync,
   clearIntervalAsync,
@@ -33,12 +35,32 @@ class Broker {
 
     setIntervalAsync(async () => {
       const newPrice = await this.getNewCandlePrice(
-        21600, //one 6 hour candle
+        candleFrequency, //one 6 hour candle
         candleFrequency
       );
+      this.range.push(newPrice); //adds latest price to array
+      this.range.shift(); //removes oldest price from array
+
+      //Strategy Update Controller
+      const bollingerBands = await BollingerBands.getBollingerBands(
+        this.range,
+        20
+      );
+
+      //Checks latest price update for signal
+      if (bollingerBands[bollingerBands.length - 1] > 1.0) {
+        // Runs if a BB sell signal
+        //this.onSellSignal();
+        console.log(`Sell`);
+      } else if (bollingerBands[bollingerBands.length - 1] < 0) {
+        // Runs if a BB buy signal
+        //this.onBuySignal();
+        console.log(`Buy`);
+      }
+
       console.log(newPrice);
-      return newPrice;
-    }, 1000 * 60 * 60 * 6);
+      console.log(this.range);
+    }, 1000 * candleFrequency);
   }
 
   async placeOrder(side, productId, price, size) {}
@@ -57,7 +79,7 @@ class Broker {
 
   async getNewCandlePrice(oneCandle, frequency) {
     const newCandle = await this.historicRatesController.getHistoricRange(
-      this.curPair,
+      this.currencyPair,
       oneCandle, //one 6 hour candle
       frequency //size of candle
     );
