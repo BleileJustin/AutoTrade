@@ -46,13 +46,14 @@ class Broker {
         this.range,
         20
       );
+      console.log(bollingerBands[bollingerBands.length - 1]);
 
       //Checks latest price update for signal
-      if (bollingerBands[bollingerBands.length - 1] > 1.0) {
+      if (bollingerBands[bollingerBands.length - 1].pb > 1.0) {
         // Runs if a BB sell signal
         //this.onSellSignal();
         console.log(`Sell`);
-      } else if (bollingerBands[bollingerBands.length - 1] < 0) {
+      } else if (bollingerBands[bollingerBands.length - 1].pb < 0) {
         // Runs if a BB buy signal
         //this.onBuySignal();
         console.log(`Buy`);
