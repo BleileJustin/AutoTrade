@@ -46,7 +46,6 @@ class Broker {
         this.range,
         20
       );
-      console.log(bollingerBands[bollingerBands.length - 1]);
 
       //Checks latest price update for signal
       if (bollingerBands[bollingerBands.length - 1].pb > 1.0) {
@@ -61,6 +60,7 @@ class Broker {
 
       console.log(newPrice);
       console.log(this.range);
+      console.log(bollingerBands[bollingerBands.length - 1]);
     }, 1000 * candleFrequency);
   }
 
