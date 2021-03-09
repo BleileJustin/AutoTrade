@@ -8,8 +8,8 @@ class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
-    this.positionCRYP = 450;
-    this.positionFIAT = 0;
+    this.positionCRYP = 600;
+    this.positionFIAT = 100;
     this.currentTradePrice;
     this.previousTradePrice;
     this.fees;
@@ -51,7 +51,7 @@ class Backtest {
   trade = (counter, closeRange, type, tradeAmt, counterDly) => {
     const candleId = counter + counterDly; //counterDelay is how many intervals before the strategy begins
     const candleClose = closeRange[candleId];
-
+    console.log(candleClose);
     this.previousTradePrice = this.currentTradePrice;
     this.currentTradePrice = parseFloat(candleClose);
     //Keeps track of the change in Crypto price and mirrors that to the position
@@ -94,6 +94,13 @@ class Backtest {
   };
 
   //ONSIGNALS
+  openPositions = (i, closeRange, tradeAmount, counterDelay) => {
+    this.trade(i, closeRange, "Buy", tradeAmount, counterDelay);
+
+    console.log(`PositionFIAT : $${this.positionFIAT}`);
+    console.log(`PositionCRYP : $${this.positionCRYP}`);
+    console.log(`PositionTotal: $${this.positionFIAT + this.positionCRYP}`);
+  };
   //Executes pseudo-trade when buy or sell signal is recieved
   onBuySignal = (i, closeRange, tradeAmount, counterDelay) => {
     this.trade(i, closeRange, "Buy", tradeAmount, counterDelay);
@@ -145,7 +152,7 @@ class Backtest {
           this.onSellSignal(
             i,
             closePriceRange,
-            positionTotal * 0.5, //tradeAmt
+            this.positionCRYP * 0.5, //tradeAmt
             strategyDelay
           );
           console.log(`Trade Price  : $${closePriceRange[i + strategyDelay]}`);
@@ -155,7 +162,7 @@ class Backtest {
           this.onBuySignal(
             i,
             closePriceRange,
-            positionTotal * 0.25, //tradeAmt
+            this.positionFIAT * 0.5, //tradeAmt
             strategyDelay
           );
           console.log(`Trade Price  : $${closePriceRange[i + strategyDelay]}`);
@@ -184,6 +191,7 @@ class Backtest {
   async testMACD(curPair, rangeLength, frequency) {
     const fullCandles = await this.init(curPair, rangeLength, frequency);
     const closePriceRange = this.getClosePriceRange(fullCandles);
+    console.log(closePriceRange);
     const macd = await Macd.getMACD(closePriceRange);
 
     const checkForMACDSignal = (maCD) => {
@@ -197,7 +205,7 @@ class Backtest {
           this.onSellSignal(
             i,
             closePriceRange,
-            positionTotal * 0.8,
+            positionTotal * 0.5,
             strategyDelay
           );
           console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
@@ -208,7 +216,7 @@ class Backtest {
           this.onBuySignal(
             i,
             closePriceRange,
-            positionTotal * 0.8,
+            positionTotal * 0.5,
             strategyDelay
           );
           console.log(`Trade Price: $${closePriceRange[i + strategyDelay]}`);
@@ -223,6 +231,26 @@ class Backtest {
       );
     };
     checkForMACDSignal(macd);
+  }
+
+  //BUY AND HOLD BACKTEST
+  async testBuyAndHold(curPair, rangeLength, frequency) {
+    const fullCandles = await this.init(curPair, rangeLength, frequency);
+    const closePriceRange = this.getClosePriceRange(fullCandles);
+    const positionTotal = this.positionFIAT + this.positionCRYP;
+    const strategyDelay = 0;
+    this.onBuySignal(
+      0,
+      closePriceRange,
+      this.positionFIAT - 0.5,
+      strategyDelay
+    );
+    this.closePositions(
+      closePriceRange,
+      closePriceRange.length - 1,
+      this.positionFIAT,
+      strategyDelay
+    );
   }
 }
 

@@ -3,7 +3,6 @@ const pubClient = new CoinbasePro.PublicClient();
 const moment = require("moment");
 
 //HISTORIC RATES
-
 class HistoricRates {
   constructor() {}
   //Accesses historical candlestick data from CoinbasePro API from a certain rangeLength

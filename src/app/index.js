@@ -6,8 +6,8 @@ const database = require("../database/index.js");
 
 //CONTROLLER
 const curPair = apiKey.get("CURPAIR");
-const candleFreq = 300; //seconds;
-const rangeLength = 60 * 3; //hours;
+const candleFreq = 21600; //seconds;
+const rangeLength = 60 * 1200; //hours;
 let socketArray = [];
 
 //Main broker controller
@@ -18,8 +18,10 @@ const main = async () => {
   //Crypto Accounts
   const btcAccount = apiKey.get("BTC_ACCOUNT");
   const ltcAccount = apiKey.get("LTC_ACCOUNT");
+  const crypAccount = await AuthClient.getAccount(ltcAccount);
+  const fiatAccount = await AuthClient.getAccount(usdAccount);
   //Starts Broker
-  const broker = new Broker(ltcAccount, usdAccount, curPair);
+  const broker = new Broker(crypAccount, fiatAccount, curPair);
   await broker.start(candleFreq, rangeLength);
 };
 
@@ -27,8 +29,9 @@ const main = async () => {
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
   //runs BollingerBands through backtester
-  await backTester.testBollingerBands(curPair, rangeLength, candleFreq);
+  //await backTester.testBollingerBands(curPair, rangeLength, candleFreq);
   //await backTester.testMACD(curPair, rangeLength, candleFreq);
+  await backTester.testBuyAndHold(curPair, rangeLength, candleFreq);
 };
 
 module.exports = {
@@ -36,7 +39,7 @@ module.exports = {
     //Connects to MongoDB database
     await database.connect();
 
-    await main();
-    //backtest();
+    //await main();
+    backtest();
   },
 };

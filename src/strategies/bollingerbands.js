@@ -9,7 +9,7 @@ module.exports = {
       const input = {
         period: period,
         values: range,
-        stdDev: 1.8, //2.6 for 6 hour candles is perfect
+        stdDev: 2.6, //2.6 for 6 hour candles is perfect
       };
       const fullBB = BB.calculate(input);
       return fullBB;

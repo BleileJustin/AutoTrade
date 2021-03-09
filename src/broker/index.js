@@ -1,6 +1,8 @@
 const AuthClient = require("../authclient/index.js");
 const HistoricRates = require("../historicalrates/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
+const CoinbasePro = require("coinbase-pro");
+const pubClient = new CoinbasePro.PublicClient();
 const apiKey = require("../key/index.js");
 
 const {
@@ -19,10 +21,36 @@ class Broker {
 
   async start(candleFreq, rangeLength) {
     //Connects to authorized CoinbasePro account
-    const authCRYPAccount = await AuthClient.getAccount(this.crypAccount);
-    const authFIATAccount = await AuthClient.getAccount(this.fiatAccount);
 
     await this.updateStrategy(candleFreq, rangeLength);
+  }
+
+  async getPrevCandlePrices(curPair, rangeLength, frequency) {
+    const candles = await this.historicRatesController.getHistoricRange(
+      curPair,
+      rangeLength,
+      frequency
+    );
+    for (let i = 0; i < candles.length; i++) {
+      this.range.unshift(candles[i][4]);
+    }
+    return this.range;
+  }
+
+  async getNewClosePrice(oneCandle, frequency) {
+    const newCandle = await this.historicRatesController.getHistoricRange(
+      this.currencyPair,
+      oneCandle, //one 6 hour candle
+      frequency //size of candle
+    );
+    const newClosePrice = newCandle[0][4];
+
+    return newClosePrice;
+  }
+
+  async getCurrentPrice() {
+    const currentPrice = await pubClient.getProductTicker(this.currencyPair);
+    return currentPrice;
   }
 
   async updateStrategy(candleFrequency, rangeLength) {
@@ -34,7 +62,7 @@ class Broker {
     console.log(prevPrices[prevPrices.length - 1]);
 
     setIntervalAsync(async () => {
-      const newPrice = await this.getNewCandlePrice(
+      const newPrice = await this.getNewClosePrice(
         candleFrequency, //one 6 hour candle
         candleFrequency
       );
@@ -50,44 +78,41 @@ class Broker {
       //Checks latest price update for signal
       if (bollingerBands[bollingerBands.length - 1].pb > 1.0) {
         // Runs if a BB sell signal
-        //this.onSellSignal();
+        const sellPrice = await this.getCurrentPrice();
+        this.onSellSignal(
+          sellPrice.ask,
+          parseFloat(this.crypAccount.balance) * 0.5
+        );
         console.log(`Sell`);
       } else if (bollingerBands[bollingerBands.length - 1].pb < 0) {
         // Runs if a BB buy signal
-        //this.onBuySignal();
+        const buyPrice = await this.getCurrentPrice();
+        this.onBuySignal(
+          buyPrice.bid,
+          parseFloat(this.fiatAccount.balance) * 0.5
+        );
         console.log(`Buy`);
       }
-
-      console.log(newPrice);
-      console.log(this.range);
-      console.log(bollingerBands[bollingerBands.length - 1]);
-      console.log("");
     }, 1000 * candleFrequency);
   }
 
-  async placeOrder(side, productId, price, size) {}
+  onBuySignal = (price, size) => {
+    this.placeOrder("buy", this.currencyPair, price, size, 60);
+  };
 
-  async getPrevCandlePrices(curPair, rangeLength, frequency) {
-    const candles = await this.historicRatesController.getHistoricRange(
-      curPair,
-      rangeLength,
-      frequency
-    );
-    for (let i = 0; i < candles.length; i++) {
-      this.range.unshift(candles[i][4]);
-    }
-    return this.range;
-  }
+  onSellSignal = (price, size) => {
+    this.placeOrder("sell", this.currencyPair, price, size, 60);
+  };
 
-  async getNewCandlePrice(oneCandle, frequency) {
-    const newCandle = await this.historicRatesController.getHistoricRange(
-      this.currencyPair,
-      oneCandle, //one 6 hour candle
-      frequency //size of candle
-    );
-    const newCandlePrice = newCandle[0][4];
-
-    return newCandlePrice;
+  async placeOrder(side, productId, price, size, cancelAfter) {
+    const params = {
+      side: side,
+      product_id: productId,
+      price: price,
+      size: size,
+      cancel_after: cancelAfter,
+    };
+    //AuthClient.placeOrder(params)
   }
 }
 module.exports = exports = Broker;
