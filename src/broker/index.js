@@ -112,7 +112,9 @@ class Broker {
       size: size,
       cancel_after: cancelAfter,
     };
-    //AuthClient.placeOrder(params)
+    const order = await AuthClient.placeOrder(params);
+    console.log(order);
+    console.log("Order Placed");
   }
 }
 module.exports = exports = Broker;

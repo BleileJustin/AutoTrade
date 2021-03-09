@@ -51,7 +51,6 @@ class Backtest {
   trade = (counter, closeRange, type, tradeAmt, counterDly) => {
     const candleId = counter + counterDly; //counterDelay is how many intervals before the strategy begins
     const candleClose = closeRange[candleId];
-    console.log(candleClose);
     this.previousTradePrice = this.currentTradePrice;
     this.currentTradePrice = parseFloat(candleClose);
     //Keeps track of the change in Crypto price and mirrors that to the position
@@ -65,7 +64,7 @@ class Backtest {
     }
 
     //Keeps track of positions when buying and selling
-    if (type === "Buy" && this.positionFIAT > tradeAmt) {
+    if ((type === "Buy" || type === "Open") && this.positionFIAT > tradeAmt) {
       this.fees = tradeAmt * 0.005;
       this.positionFIAT -= this.fees; //Simulates trading fees
       this.positionFIAT -= tradeAmt;
@@ -95,7 +94,7 @@ class Backtest {
 
   //ONSIGNALS
   openPositions = (i, closeRange, tradeAmount, counterDelay) => {
-    this.trade(i, closeRange, "Buy", tradeAmount, counterDelay);
+    this.trade(i, closeRange, "Open", tradeAmount, counterDelay);
 
     console.log(`PositionFIAT : $${this.positionFIAT}`);
     console.log(`PositionCRYP : $${this.positionCRYP}`);
@@ -239,7 +238,7 @@ class Backtest {
     const closePriceRange = this.getClosePriceRange(fullCandles);
     const positionTotal = this.positionFIAT + this.positionCRYP;
     const strategyDelay = 0;
-    this.onBuySignal(
+    this.openPositions(
       0,
       closePriceRange,
       this.positionFIAT - 0.5,

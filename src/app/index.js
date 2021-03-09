@@ -11,7 +11,7 @@ const rangeLength = 60 * 1200; //hours;
 let socketArray = [];
 
 //Main broker controller
-const main = async () => {
+const broker = async () => {
   //Connects to authorized CoinbasePro account
   //Fiat Accounts
   const usdAccount = apiKey.get("USD_ACCOUNT");
@@ -20,6 +20,7 @@ const main = async () => {
   const ltcAccount = apiKey.get("LTC_ACCOUNT");
   const crypAccount = await AuthClient.getAccount(ltcAccount);
   const fiatAccount = await AuthClient.getAccount(usdAccount);
+
   //Starts Broker
   const broker = new Broker(crypAccount, fiatAccount, curPair);
   await broker.start(candleFreq, rangeLength);
@@ -39,7 +40,7 @@ module.exports = {
     //Connects to MongoDB database
     await database.connect();
 
-    //await main();
-    backtest();
+    await broker();
+    //backtest();
   },
 };
