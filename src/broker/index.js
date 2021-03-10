@@ -59,7 +59,7 @@ class Broker {
       rangeLength,
       candleFrequency
     );
-
+    console.log(prevPrices[prevPrices.length - 1]);
     setIntervalAsync(async () => {
       const newPrice = await this.getNewClosePrice(
         candleFrequency, //one 6 hour candle
