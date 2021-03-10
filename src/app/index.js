@@ -20,6 +20,7 @@ const broker = async () => {
   const ltcAccount = apiKey.get("LTC_ACCOUNT");
 
   //Starts Broker
+  console.log("Starting Broker");
   const broker = new Broker(ltcAccount, usdAccount, curPair);
   await broker.start(candleFreq, rangeLength);
 };
