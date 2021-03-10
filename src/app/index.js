@@ -18,11 +18,9 @@ const broker = async () => {
   //Crypto Accounts
   const btcAccount = apiKey.get("BTC_ACCOUNT");
   const ltcAccount = apiKey.get("LTC_ACCOUNT");
-  const crypAccount = await AuthClient.getAccount(ltcAccount);
-  const fiatAccount = await AuthClient.getAccount(usdAccount);
 
   //Starts Broker
-  const broker = new Broker(crypAccount, fiatAccount, curPair);
+  const broker = new Broker(ltcAccount, usdAccount, curPair);
   await broker.start(candleFreq, rangeLength);
 };
 
