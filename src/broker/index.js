@@ -95,11 +95,11 @@ class Broker {
   }
 
   onBuySignal = (price, size) => {
-    this.placeOrder("buy", this.currencyPair, price, size, 60);
+    this.placeOrder("buy", this.currencyPair, price, size, "hour");
   };
 
   onSellSignal = (price, size) => {
-    this.placeOrder("sell", this.currencyPair, price, size, 60);
+    this.placeOrder("sell", this.currencyPair, price, size, "hour");
   };
 
   async placeOrder(side, productId, price, size, cancelAfter) {
