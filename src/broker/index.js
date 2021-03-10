@@ -59,7 +59,6 @@ class Broker {
       rangeLength,
       candleFrequency
     );
-    console.log(prevPrices[prevPrices.length - 1]);
 
     setIntervalAsync(async () => {
       const newPrice = await this.getNewClosePrice(
@@ -69,6 +68,7 @@ class Broker {
       this.range.push(newPrice); //adds latest price to array
       this.range.shift(); //removes oldest price from array
 
+      console.log(prevPrices[prevPrices.length - 1]);
       //Strategy Update Controller
       const bollingerBands = await BollingerBands.getBollingerBands(
         this.range,
