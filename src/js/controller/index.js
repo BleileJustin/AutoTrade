@@ -1,13 +1,13 @@
-const Broker = require("../broker/index.js");
-const Backtest = require("../backtester/index.js");
-const AuthClient = require("../authclient/index.js");
-const apiKey = require("../key/index.js");
-const database = require("../database/index.js");
+const Broker = require("../models/broker/index.js");
+const Backtest = require("../models/backtester/index.js");
+const AuthClient = require("../models/authclient/index.js");
+const apiKey = require("../models/key/index.js");
+const database = require("../models/database/index.js");
 
 //CONTROLLER
 const curPair = apiKey.get("CURPAIR");
 const candleFreq = 21600; //seconds;
-const rangeLength = 60 * 1200; //hours;
+const rangeLength = 60 * 1500; //hours;
 let socketArray = [];
 
 //Main broker controller
@@ -28,10 +28,10 @@ const broker = async () => {
 //Tests Strategies with BackData
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
-  //runs BollingerBands through backtester
-  //await backTester.testBollingerBands(curPair, rangeLength, candleFreq);
+  //runs Strategy through backtester
+  await backTester.testBollingerBands(curPair, rangeLength, candleFreq);
   //await backTester.testMACD(curPair, rangeLength, candleFreq);
-  await backTester.testBuyAndHold(curPair, rangeLength, candleFreq);
+  //await backTester.testBuyAndHold(curPair, rangeLength, candleFreq);
 };
 
 module.exports = {
@@ -39,7 +39,7 @@ module.exports = {
     //Connects to MongoDB database
     await database.connect();
 
-    await broker();
-    //backtest();
+    //await broker();
+    backtest();
   },
 };

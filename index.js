@@ -1,3 +1,3 @@
-const app = require("./src/app/index.js");
+const controller = require("./src/js/controller/index.js");
 
-app.start();
+controller.start();
