@@ -108,6 +108,7 @@ class Broker {
       product_id: productId,
       price: price,
       size: size,
+      time_in_force: "GTT",
       cancel_after: cancelAfter,
     };
     const order = await AuthClient.placeOrder(params);
