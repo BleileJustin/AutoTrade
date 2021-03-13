@@ -7,8 +7,8 @@ const database = require("../models/database/index.js");
 
 //CONTROLLER
 const curPair = apiKey.get("CURPAIR");
-const candleFreq = 21600; //seconds;
-const rangeLength = 60 * 1500; //hours;
+const candleFreq = 3600; //seconds;
+const rangeLength = 60 * 300; //hours;
 let socketArray = [];
 
 //Main broker controller
@@ -30,7 +30,7 @@ const broker = async () => {
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
   //runs Strategy through backtester
-  await backTester.testBollingerBands(curPair, rangeLength, candleFreq, 5);
+  await backTester.testBollingerBands(curPair, rangeLength, candleFreq, 6);
   //await backTester.testMACD(curPair, rangeLength, candleFreq);
   //await backTester.testBuyAndHold(curPair, rangeLength, candleFreq);
 };
