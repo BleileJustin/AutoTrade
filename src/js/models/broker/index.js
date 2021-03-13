@@ -29,7 +29,8 @@ class Broker {
     const candles = await this.historicRatesController.getHistoricRange(
       curPair,
       rangeLength,
-      frequency
+      frequency,
+      1
     );
     for (let i = 0; i < candles.length; i++) {
       this.range.unshift(candles[i][4]);
@@ -41,7 +42,8 @@ class Broker {
     const newCandle = await this.historicRatesController.getHistoricRange(
       this.currencyPair,
       oneCandle, //one 6 hour candle
-      frequency //size of candle
+      frequency, //size of candle
+      1
     );
     const newClosePrice = newCandle[0][4];
 
