@@ -30,7 +30,7 @@ const broker = async () => {
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
   //runs Strategy through backtester
-  await backTester.testBollingerBands(curPair, rangeLength, candleFreq, 4);
+  await backTester.testBollingerBands(curPair, rangeLength, candleFreq, 5);
   //await backTester.testMACD(curPair, rangeLength, candleFreq);
   //await backTester.testBuyAndHold(curPair, rangeLength, candleFreq);
 };

@@ -19,7 +19,7 @@ class Backtest {
   //Begins by getting candle dataset
   async init(curPair, rangeLength, frequency, periodsBack) {
     let range = [];
-    for (let i = 0; i < periodsBack; i++) {
+    for (let i = 1; i < periodsBack; i++) {
       const fullCandles = await this.getFullCandles(
         curPair,
         rangeLength,
@@ -27,6 +27,7 @@ class Backtest {
         i
       );
       range = range.concat(fullCandles);
+      console.log("//");
       console.log(fullCandles[0]);
       console.log(fullCandles[fullCandles.length - 1]);
       console.log(fullCandles.length);
