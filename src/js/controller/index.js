@@ -40,7 +40,7 @@ module.exports = {
     //Connects to MongoDB database
     await database.connect();
 
-    //await broker();
-    backtest();
+    await broker();
+    //backtest();
   },
 };
