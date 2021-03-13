@@ -17,22 +17,32 @@ class Backtest {
 
   //BACKTESTER INITIALIZATION
   //Begins by getting candle dataset
-  async init(curPair, rangeLength, frequency) {
-    const fullCandles = await this.getFullCandles(
-      curPair,
-      rangeLength,
-      frequency
-    );
-    return fullCandles;
+  async init(curPair, rangeLength, frequency, periodsBack) {
+    let range = [];
+    for (let i = 0; i < periodsBack; i++) {
+      const fullCandles = await this.getFullCandles(
+        curPair,
+        rangeLength,
+        frequency,
+        i
+      );
+      range = range.concat(fullCandles);
+      console.log(fullCandles[0]);
+      console.log(fullCandles[fullCandles.length - 1]);
+      console.log(fullCandles.length);
+    }
+
+    return range;
   }
 
   //Allows init() to get set of full candle data within the rangeLength
-  async getFullCandles(curPair, rangeLength, frequency) {
+  async getFullCandles(curPair, rangeLength, frequency, periodsBack) {
     const historicRatesController = new HistoricRates(curPair, rangeLength);
     const candles = await historicRatesController.getHistoricRange(
       curPair,
       rangeLength,
-      frequency
+      frequency,
+      periodsBack
     );
     return candles;
   }
@@ -131,8 +141,13 @@ class Backtest {
   //Gets the price range and checks for buy and sell signals
 
   //BOLLINGERBANDS BACKTEST
-  async testBollingerBands(curPair, rangeLength, frequency) {
-    const fullCandles = await this.init(curPair, rangeLength, frequency);
+  async testBollingerBands(curPair, rangeLength, frequency, periodsBack) {
+    const fullCandles = await this.init(
+      curPair,
+      rangeLength,
+      frequency,
+      periodsBack
+    );
     //Gets an array of only close prices from the array of candles
     const closePriceRange = this.getClosePriceRange(fullCandles);
     //Retrieves bollingerBand dataset

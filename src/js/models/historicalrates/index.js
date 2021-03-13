@@ -6,10 +6,15 @@ const moment = require("moment");
 class HistoricRates {
   constructor() {}
   //Accesses historical candlestick data from CoinbasePro API from a certain rangeLength
-  async getHistoricRange(curPair, rangeLength, frequency) {
+
+  async getHistoricRange(curPair, rangeLength, frequency, periodsBack) {
     const rates = await pubClient.getProductHistoricRates(curPair, {
-      start: moment().subtract(rangeLength, "minutes").toDate(),
-      end: moment().toDate(),
+      start: moment()
+        .subtract(rangeLength * periodsBack, "minutes")
+        .toDate(),
+      end: moment()
+        .subtract(rangeLength * (periodsBack - 1), "minutes")
+        .toDate(),
       granularity: frequency,
     });
     if (rates != undefined) {
