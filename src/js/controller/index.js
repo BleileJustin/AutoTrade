@@ -32,7 +32,7 @@ const backtest = async () => {
   //runs Strategy through backtester
   await backTester.testBollingerBands(curPair, rangeLength, candleFreq, 6);
   //await backTester.testMACD(curPair, rangeLength, candleFreq);
-  //await backTester.testBuyAndHold(curPair, rangeLength, candleFreq);
+  //await backTester.testBuyAndHold(curPair, rangeLength, candleFreq, 6);
 };
 
 module.exports = {

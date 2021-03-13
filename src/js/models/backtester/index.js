@@ -203,8 +203,13 @@ class Backtest {
   }
 
   //MACD BACKTEST
-  async testMACD(curPair, rangeLength, frequency) {
-    const fullCandles = await this.init(curPair, rangeLength, frequency);
+  async testMACD(curPair, rangeLength, frequency, periodsBack) {
+    const fullCandles = await this.init(
+      curPair,
+      rangeLength,
+      frequency,
+      periodsBack
+    );
     const closePriceRange = this.getClosePriceRange(fullCandles);
     console.log(closePriceRange);
     const macd = await Macd.getMACD(closePriceRange);
@@ -249,8 +254,13 @@ class Backtest {
   }
 
   //BUY AND HOLD BACKTEST
-  async testBuyAndHold(curPair, rangeLength, frequency) {
-    const fullCandles = await this.init(curPair, rangeLength, frequency);
+  async testBuyAndHold(curPair, rangeLength, frequency, periodsBack) {
+    const fullCandles = await this.init(
+      curPair,
+      rangeLength,
+      frequency,
+      periodsBack
+    );
     const closePriceRange = this.getClosePriceRange(fullCandles);
     const positionTotal = this.positionFIAT + this.positionCRYP;
     const strategyDelay = 0;
