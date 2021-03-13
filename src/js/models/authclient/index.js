@@ -15,6 +15,10 @@ const aClient = new CoinbasePro.AuthenticatedClient(
 );
 
 module.exports = {
+  placeOrder: async (params) => {
+    const order = aClient.placeOrder(params);
+    return order;
+  },
   getAccount: async (id) => {
     const account = await aClient.getAccount(id);
     console.log(account);
