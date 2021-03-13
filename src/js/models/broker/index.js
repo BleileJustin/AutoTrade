@@ -82,15 +82,22 @@ class Broker {
       const fiatAccountBal = await AuthClient.getAccount(this.fiatAccount)
         .balance;
       //Checks latest price update for signal
+      console.log(bollingerBands[bollingerBands.length - 1]);
       if (bollingerBands[bollingerBands.length - 1].pb > 1.0) {
         // Runs if a BB sell signal
         const sellPrice = await this.getCurrentPrice();
-        this.onSellSignal(sellPrice.ask, parseFloat(crypAccountBal) * 0.25);
+        this.onSellSignal(
+          sellPrice.ask,
+          (parseFloat(crypAccountBal) * 0.25).toString()
+        );
         console.log(`Sell`);
       } else if (bollingerBands[bollingerBands.length - 1].pb < 0) {
         // Runs if a BB buy signal
         const buyPrice = await this.getCurrentPrice();
-        this.onBuySignal(buyPrice.bid, parseFloat(fiatAccountBal) * 0.5);
+        this.onBuySignal(
+          buyPrice.bid,
+          (parseFloat(fiatAccountBal) * 0.5).toString()
+        );
         console.log(`Buy`);
       }
     }, 1000 * candleFrequency);
