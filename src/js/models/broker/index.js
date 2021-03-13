@@ -85,7 +85,7 @@ class Broker {
       if (bollingerBands[bollingerBands.length - 1].pb > 1.0) {
         // Runs if a BB sell signal
         const sellPrice = await this.getCurrentPrice();
-        this.onSellSignal(sellPrice.ask, parseFloat(crypAccountBal) * 0.5);
+        this.onSellSignal(sellPrice.ask, parseFloat(crypAccountBal) * 0.25);
         console.log(`Sell`);
       } else if (bollingerBands[bollingerBands.length - 1].pb < 0) {
         // Runs if a BB buy signal
