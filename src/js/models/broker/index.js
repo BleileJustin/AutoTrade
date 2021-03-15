@@ -31,7 +31,7 @@ class Broker {
       curPair,
       rangeLength,
       frequency,
-      1
+      3
     );
     for (let i = 0; i < candles.length; i++) {
       this.range.unshift(candles[i][4]);
