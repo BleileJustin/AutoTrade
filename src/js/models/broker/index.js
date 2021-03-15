@@ -2,6 +2,7 @@ const AuthClient = require("../authclient/index.js");
 const HistoricRates = require("../historicalrates/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
 const CoinbasePro = require("coinbase-pro");
+const moment = require("moment");
 const pubClient = new CoinbasePro.PublicClient();
 const apiKey = require("../key/index.js");
 
@@ -63,6 +64,7 @@ class Broker {
     );
     console.log(prevPrices[prevPrices.length - 1]);
     setIntervalAsync(async () => {
+      console.log(moment().toDate());
       const newPrice = await this.getNewClosePrice(
         candleFrequency, //one 6 hour candle
         candleFrequency
