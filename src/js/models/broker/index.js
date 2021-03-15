@@ -31,7 +31,7 @@ class Broker {
       curPair,
       rangeLength,
       frequency,
-      3
+      2
     );
     for (let i = 0; i < candles.length; i++) {
       this.range.unshift(candles[i][4]);
@@ -80,26 +80,20 @@ class Broker {
       );
 
       const crypAccountBal = await AuthClient.getAccount(this.crypAccount)
-        .balance;
+        .available;
       const fiatAccountBal = await AuthClient.getAccount(this.fiatAccount)
-        .balance;
+        .available;
       //Checks latest price update for signal
       console.log(bollingerBands[bollingerBands.length - 1]);
       if (bollingerBands[bollingerBands.length - 1].pb > 1.0) {
         // Runs if a BB sell signal
         const sellPrice = await this.getCurrentPrice();
-        this.onSellSignal(
-          sellPrice.ask,
-          (parseFloat(crypAccountBal) * 0.25).toString()
-        );
+        this.onSellSignal(sellPrice.ask, parseFloat(crypAccountBal) * 0.25);
         console.log(`Sell`);
       } else if (bollingerBands[bollingerBands.length - 1].pb < 0) {
         // Runs if a BB buy signal
         const buyPrice = await this.getCurrentPrice();
-        this.onBuySignal(
-          buyPrice.bid,
-          (parseFloat(fiatAccountBal) * 0.5).toString()
-        );
+        this.onBuySignal(buyPrice.bid, parseFloat(fiatAccountBal) * 0.5);
         console.log(`Buy`);
       }
     }, 1000 * candleFrequency);
