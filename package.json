@@ -1,6 +1,6 @@
 {
   "name": "autotrade",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Cryptocurrency trading bot",
   "main": "index.js",
   "scripts": {
