@@ -48,3 +48,11 @@ class Socket {
 }
 
 module.exports = exports = Socket;
+
+/*
+const BTC_USD = 'BTC-USD';
+const websocket = new GDAX.WebsocketClient([BTC_USD]);
+
+const websocketCallback = (data) => console.dir(data);
+websocket.on('message', websocketCallback);
+*/

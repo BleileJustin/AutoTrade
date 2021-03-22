@@ -8,8 +8,8 @@ class Backtest {
   constructor({ curPair, rangeLength }) {
     this.curPair = curPair;
     this.rangeLength = rangeLength;
-    this.positionCRYP = 600;
-    this.positionFIAT = 100;
+    this.positionCRYP = 1000;
+    this.positionFIAT = 500;
     this.currentTradePrice;
     this.previousTradePrice;
     this.fees;
