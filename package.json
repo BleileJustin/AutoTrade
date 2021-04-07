@@ -4,28 +4,15 @@
   "description": "Cryptocurrency trading bot",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist && webpack --mode development",
-    "start": "node ./src/server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Justin Bleile",
   "license": "ISC",
   "dependencies": {
     "coinbase-pro": "^0.9.0",
-    "express": "^4.17.1",
     "moment": "^2.29.1",
     "mongoose": "^5.10.16",
-    "requirejs": "^2.3.6",
     "set-interval-async": "^1.0.34",
     "technicalindicators": "^3.1.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.13.10",
-    "@babel/preset-env": "^7.13.12",
-    "babel-loader": "^8.2.2",
-    "html-loader": "^2.1.2",
-    "html-webpack-plugin": "^5.3.1",
-    "webpack": "^5.27.2",
-    "webpack-cli": "^4.5.0",
-    "webpack-node-externals": "^2.5.2"
   }
 }
