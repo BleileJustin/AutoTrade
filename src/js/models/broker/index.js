@@ -1,10 +1,8 @@
 const AuthClient = require("../authclient/index.js");
-const HistoricRates = require("../historicalrates/index.js");
+const HistoricRates = require("../pubClient/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
 const CoinbasePro = require("coinbase-pro");
 const moment = require("moment");
-const pubClient = new CoinbasePro.PublicClient();
-const apiKey = require("../key/index.js");
 
 const {
   setIntervalAsync,
@@ -52,7 +50,7 @@ class Broker {
   }
 
   async getCurrentPrice() {
-    const currentPrice = await pubClient.getProductTicker(this.currencyPair);
+    const currentPrice = await this.historicRatesController.getCurrentPrice(this.currencyPair);
     return currentPrice;
   }
 

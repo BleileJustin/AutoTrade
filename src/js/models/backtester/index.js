@@ -1,7 +1,7 @@
 const apiKey = require("../key/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
 const Macd = require("../strategies/MACD.js");
-const HistoricRates = require("../historicalrates/index.js");
+const HistoricRates = require("../pubClient/index.js");
 
 //BACKTESTER
 class Backtest {
