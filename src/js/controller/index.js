@@ -39,7 +39,7 @@ const backtest = async () => {
 module.exports = {
   start: async () => {
     //Connects to MongoDB database
-    await database.connect();
+    //await database.connect();
 
     await broker();
     //backtest();
