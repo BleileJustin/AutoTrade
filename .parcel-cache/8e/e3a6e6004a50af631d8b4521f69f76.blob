@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>AutoTrade</title>
+    <link rel="stylesheet" href="/index.HASH_REF_dc55b526e9452380290ae46419fc6157.css">
+  </head>
+  <body>
+    <script src="/index.HASH_REF_062e9a7565ca912a5f7d6b832142d36c.js"></script>
+
+    <div class="top_bar">
+      <h1 class="title">AutoTrade</h1>
+    </div>
+    <div class="dashboard">
+      <div class="dashboard-container-top">
+        <div class="analytics">
+          <h2>Analytics</h2>
+          <div class="profit_container">
+            <h3>Profit:</h3>
+          </div>
+          <div class="strategy_contatiner">
+            <h3>Strategy:</h3>
+          </div>
+        </div>
+
+        <div class="graph">
+          <h2>Total Position</h2>
+        </div>
+      </div>
+      <div class="dashboard-container-bottom">
+        <div class="open">
+          <h2>Open Orders</h2>
+          <div class="container"></div>
+        </div>
+
+        <div class="filled">
+          <h2>Fills</h2>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

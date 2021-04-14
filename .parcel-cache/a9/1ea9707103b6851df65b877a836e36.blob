@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.top_bar {
+  width: 100%;
+  height: 25vh;
+  background-color: #2C8C99;
+}
+
+/*# sourceMappingURL=index.HASH_REF_dc55b526e9452380290ae46419fc6157.css.map */
