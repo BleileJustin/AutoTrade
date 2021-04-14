@@ -14,15 +14,23 @@ class Broker {
     this.crypAccount = crypAccount;
     this.fiatAccount = fiatAccount;
     this.currencyPair = currencyPair;
+    this.updatingStrategy = false;
     this.range = [];
     this.historicRatesController = new HistoricRates();
   }
 
   async start(candleFreq, rangeLength) {
     //Connects to authorized CoinbasePro account
-
+    this.updatingStrategy = true;
+    console.log("Trading Started");
+    console.log("Updating Strategy: " + this.updatingStrategy);
     await this.updateStrategy(candleFreq, rangeLength);
   }
+  stop = () => {
+    this.updatingStrategy = false;
+    console.log("Trading Stopped");
+    console.log("Updating Strategy: " + this.updatingStrategy);
+  };
 
   async getPrevCandlePrices(curPair, rangeLength, frequency) {
     const candles = await this.historicRatesController.getHistoricRange(
@@ -50,7 +58,9 @@ class Broker {
   }
 
   async getCurrentPrice() {
-    const currentPrice = await this.historicRatesController.getCurrentPrice(this.currencyPair);
+    const currentPrice = await this.historicRatesController.getCurrentPrice(
+      this.currencyPair
+    );
     return currentPrice;
   }
 
@@ -61,7 +71,11 @@ class Broker {
       candleFrequency
     );
     console.log(prevPrices[prevPrices.length - 1]);
-    setIntervalAsync(async () => {
+    const interval = setIntervalAsync(async () => {
+      if (this.updatingStrategy === false) {
+        clearIntervalAsync(interval);
+        console.log("Interval Shutdown");
+      }
       console.log(moment().toDate());
       const newPrice = await this.getNewClosePrice(
         candleFrequency, //one 6 hour candle
@@ -86,12 +100,16 @@ class Broker {
       if (bollingerBands[bollingerBands.length - 1].pb > 1.0) {
         // Runs if a BB sell signal
         const sellPrice = await this.getCurrentPrice();
-        const size = parseFloat((parseFloat(crypAccountBal.available) * 0.25 / price.bid).toFixed(2));
+        const size = parseFloat(
+          ((parseFloat(crypAccountBal.available) * 0.25) / price.bid).toFixed(2)
+        );
         this.onSellSignal(sellPrice.ask, size);
         console.log(`Sell`);
       } else if (bollingerBands[bollingerBands.length - 1].pb < 0) {
         // Runs if a BB buy signal
-        const size = parseFloat((parseFloat(fiatAccountBal.available) * 0.5 / price.bid).toFixed(2));
+        const size = parseFloat(
+          ((parseFloat(fiatAccountBal.available) * 0.5) / price.bid).toFixed(2)
+        );
         const buyPrice = await this.getCurrentPrice();
         this.onBuySignal(buyPrice.bid, size);
         console.log(`Buy`);

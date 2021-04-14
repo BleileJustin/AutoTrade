@@ -12,20 +12,24 @@ const rangeLength = 60 * 300; //hours;
 let socketArray = [];
 
 //Main broker controller
-const broker = async () => {
-  //Connects to authorized CoinbasePro account
-  //Fiat Accounts
-  const usdAccount = apiKey.get("USD_ACCOUNT");
-  //Crypto Accounts
-  const btcAccount = apiKey.get("BTC_ACCOUNT");
-  const ltcAccount = apiKey.get("LTC_ACCOUNT");
+//Connects to authorized CoinbasePro account
+//Fiat Accounts
+const usdAccount = apiKey.get("USD_ACCOUNT");
+//Crypto Accounts
+const btcAccount = apiKey.get("BTC_ACCOUNT");
+const ltcAccount = apiKey.get("LTC_ACCOUNT");
 
-  //Starts Broker
-  console.log(`AutoTrade Version: ${package.version}`);
-  const broker = new Broker(ltcAccount, usdAccount, curPair);
+//Starts Broker
+console.log(`AutoTrade Version: ${package.version}`);
+const broker = new Broker(ltcAccount, usdAccount, curPair);
+
+const startBroker = async () => {
   await broker.start(candleFreq, rangeLength);
 };
 
+const stopBroker = () => {
+  broker.stop();
+};
 //Tests Strategies with BackData
 const backtest = async () => {
   const backTester = new Backtest(curPair, rangeLength);
@@ -37,11 +41,14 @@ const backtest = async () => {
 };
 
 module.exports = {
-  start: async () => {
+  startBroker: async () => {
     //Connects to MongoDB database
     //await database.connect();
 
-    await broker();
+    await startBroker();
     //backtest();
+  },
+  stopBroker: async () => {
+    await stopBroker();
   },
 };

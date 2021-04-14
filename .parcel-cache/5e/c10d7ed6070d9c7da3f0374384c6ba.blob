@@ -1,0 +1,5 @@
+const controller = require("./controller/index.js");
+const elements = require("./views/base.js");
+window.onload = function () {
+  document.getElementById("start").addEventListener("click", controller.start());
+};

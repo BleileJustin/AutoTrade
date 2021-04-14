@@ -1,0 +1,3 @@
+const controller = require("./controller/index.js");
+const elements = require("./views/base.js");
+elements.startButton.addEventListener("click", controller.start());
