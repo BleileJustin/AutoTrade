@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
-    <script src="./js/index.js"></script>
-
     <div class="top_bar">
       <h1 class="title">AutoTrade</h1>
     </div>
@@ -17,9 +15,24 @@
           <h2>Analytics</h2>
           <div class="profit_container">
             <h3>Profit:</h3>
+            <h4>Exchange:</h4>
+            <select id="exchange-dropdown" name="exchanges">
+              <option value="0">Select an Exchange</option>
+              <option value="Binance">Binance</option>
+              <option value="CoinbasePro">CoinbasePro</option>
+            </select>
           </div>
           <div class="strategy_contatiner">
-            <h3>Strategy:</h3>
+            <div class="strategy">
+              <h3>Strategy:</h3>
+              <select id="strategy-dropdown" name="strategies">
+                <option value="0">Select a Strategy</option>
+                <option value="BollingerBands">BollingerBands</option>
+                <option value="MACD">MACD</option>
+                <option value="HODL">HODL</option>
+              </select>
+            </div>
+
             <div class="button-container">
               <button id="start">Start Trading</button>
               <button id="stop">Stop Trading</button>
@@ -42,5 +55,6 @@
         </div>
       </div>
     </div>
+    <script src="./js/controller/index.js"></script>
   </body>
 </html>

@@ -1,0 +1,19 @@
+const controller = require("../controller/index.js");
+module.exports = exports = {
+  checkExchangeDropdown: async () => {
+    const exchangeDropdownValue = document.getElementById("exchange-dropdown").value;
+    if (exchangeDropdownValue == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  checkStrategyDropdown: () => {
+    const strategyDropdownValue = document.getElementById("strategy-dropdwon").value;
+    if (strategyDropdownValue == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+};

@@ -1,0 +1,24 @@
+const controller = require("../controller/index.js");
+let elements = {};
+module.exports = {
+  checkExchangeDropdown: () => {
+    const exchangeDropdownValue = document.getElementById("exchange-dropdown").value;
+    if (exchangeDropdownValue == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+  checkStrategyDropdown: () => {
+    const strategyDropdownValue = document.getElementById("strategy-dropdwon").value;
+    if (strategyDropdownValue == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+};
+window.onload = function () {
+  document.getElementById("start").addEventListener("click", controller.startBroker);
+  document.getElementById("stop").addEventListener("click", controller.stopBroker);
+};

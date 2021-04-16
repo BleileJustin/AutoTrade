@@ -24,8 +24,8 @@ module.exports = {
     console.log(account);
     return account;
   },
-  /*getAccounts: async () => {
+  getAccounts: async () => {
     const accounts = await aClient.getAccounts();
     console.log(accounts);
-  },*/
+  },
 };

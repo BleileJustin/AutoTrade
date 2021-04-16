@@ -1,6 +1,7 @@
 const Broker = require("../models/broker/index.js");
 const Backtest = require("../models/backtester/index.js");
 const AuthClient = require("../models/authclient/index.js");
+const view = require("../views/index.js");
 const apiKey = require("../models/key/index.js");
 const package = require("../../../package.json");
 const database = require("../models/database/index.js");
@@ -24,7 +25,15 @@ console.log(`AutoTrade Version: ${package.version}`);
 const broker = new Broker(ltcAccount, usdAccount, curPair);
 
 const startBroker = async () => {
-  await broker.start(candleFreq, rangeLength);
+  const exchangeDropdownState = view.checkExchangeDropdown();
+  const strategyDropdownState = view.checkStrategyDropdown();
+  if (exchangeDropdownState == false) {
+    alert("Please Select An Exchange");
+  } else if (strategyDropdownState == false) {
+    alert("Please Select A Strategy");
+  } else {
+    await broker.start(candleFreq, rangeLength);
+  }
 };
 
 const stopBroker = () => {
@@ -39,16 +48,7 @@ const backtest = async () => {
   //await backTester.testBuyAndHold(curPair, rangeLength, candleFreq, 12);
   //await backTester.testOrder(curPair);
 };
-
-module.exports = {
-  startBroker: async () => {
-    //Connects to MongoDB database
-    //await database.connect();
-
-    await startBroker();
-    //backtest();
-  },
-  stopBroker: async () => {
-    await stopBroker();
-  },
+window.onload = () => {
+  document.getElementById("start").addEventListener("click", startBroker);
+  document.getElementById("stop").addEventListener("click", stopBroker);
 };
