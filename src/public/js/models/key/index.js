@@ -1,3 +1,3 @@
-const config = require("../../../../../config/config.json");
+const config = require("../../../../config.json");
 
 exports.get = (key) => config[key];

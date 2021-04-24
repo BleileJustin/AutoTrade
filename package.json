@@ -3,20 +3,23 @@
   "version": "0.2.1",
   "description": "Cryptocurrency trading bot",
   "scripts": {
-    "start": "parcel ./src/server.js",
-    "build": "parcel build ./src/server.js --dist-dir ./dist"
+    "start": "parcel ./src/views/index.html",
+    "build": "parcel build ./src/views/index.html --dist-dir ./dist"
   },
   "author": "Justin Bleile",
   "license": "ISC",
   "dependencies": {
+    "bufferutil": "^4.0.3",
     "coinbase-pro": "^0.9.0",
     "express": "^4.17.1",
+    "http-proxy": "^1.18.1",
     "http-proxy-middleware": "^1.1.2",
     "moment": "^2.29.1",
     "mongoose": "^5.10.16",
     "node-binance-api": "^0.12.5",
     "set-interval-async": "^1.0.34",
-    "technicalindicators": "^3.1.0"
+    "technicalindicators": "^3.1.0",
+    "utf-8-validate": "^5.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.13.15",

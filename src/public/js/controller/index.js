@@ -1,11 +1,8 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
 const Broker = require("../models/broker/index.js");
 const Backtest = require("../models/backtester/index.js");
 const AuthClient = require("../models/authclient/index.js");
 const view = require("../views/index.js");
 const apiKey = require("../models/key/index.js");
-const package = require("../../../package.json");
 const database = require("../models/database/index.js");
 
 //CONTROLLER
@@ -23,7 +20,7 @@ const btcAccount = apiKey.get("BTC_ACCOUNT");
 const ltcAccount = apiKey.get("LTC_ACCOUNT");
 
 //Starts Broker
-console.log(`AutoTrade Version: ${package.version}`);
+console.log(`AutoTrade Version: 0.2.1`);
 const broker = new Broker(ltcAccount, usdAccount, curPair);
 
 const startBroker = async () => {

@@ -1,17 +1,20 @@
 const apiKey = require("../key/index.js");
 const CoinbasePro = require("coinbase-pro");
 
+const httpUrl = "/api-coinbase-pro";
 const key = apiKey.get("COINBASE_API_KEY");
 const secret = apiKey.get("COINBASE_API_SECRET");
 const passphrase = apiKey.get("COINBASE_API_PASSPHRASE");
 const socketUrl = apiKey.get("WEBSOCKET_URL");
 const sandboxURI = "https://api.pro.coinbase.com";
+const useSandbox = false;
 
 const aClient = new CoinbasePro.AuthenticatedClient(
+  httpUrl,
   key,
   secret,
   passphrase,
-  sandboxURI
+  useSandbox
 );
 
 module.exports = {
