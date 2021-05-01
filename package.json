@@ -3,6 +3,7 @@
   "version": "0.2.1",
   "description": "Cryptocurrency trading bot",
   "scripts": {
+    "serve": "node src/server/serverProd.js",
     "start": "rm dist/*; parcel ./src/public/views/index.html",
     "build": "rm dist/*; parcel build ./src/public/views/index.html --dist-dir ./dist"
   },

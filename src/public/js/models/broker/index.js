@@ -21,7 +21,7 @@ class Broker {
 
   async start(candleFreq, rangeLength) {
     //Connects to authorized CoinbasePro account
-    const accounts = await AuthClient.getAccounts();
+    //const accounts = await AuthClient.getAccounts();
     this.updatingStrategy = true;
     console.log("Trading Started");
     console.log("Updating Strategy: " + this.updatingStrategy);

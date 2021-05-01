@@ -1,0 +1,7 @@
+"use strict";
+var __dirname = "/Users/justinbleile/Desktop/AutoTrade/node_modules/bufferutil";
+try {
+  module.exports = require('node-gyp-build')(__dirname);
+} catch (e) {
+  module.exports = require('./fallback');
+}
