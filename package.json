@@ -1,6 +1,6 @@
 {
   "name": "autotrade",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Cryptocurrency trading bot",
   "scripts": {
     "serve": "node src/server/serverProd.js",
