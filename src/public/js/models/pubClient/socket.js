@@ -1,4 +1,4 @@
-//Dependencies
+/* //Dependencies
 const apiKey = require("../key/index.js");
 const CoinbasePro = require("coinbase-pro");
 const moment = require("moment");
@@ -17,7 +17,7 @@ class Socket {
   start() {
     this.running = true;
     this.client = new CoinbasePro.WebsocketClient(
-      this.product,
+      //this.product,
       apiKey.get("WEBSOCKET_URL"),
       {
         key: apiKey.get("COINBASE_API_KEY"),

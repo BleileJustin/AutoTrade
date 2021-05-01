@@ -47,6 +47,7 @@ const backtest = async () => {
   //await backTester.testBuyAndHold(curPair, rangeLength, candleFreq, 12);
   //await backTester.testOrder(curPair);
 };
+
 window.onload = () => {
   document.getElementById("start").addEventListener("click", startBroker);
   document.getElementById("stop").addEventListener("click", stopBroker);
