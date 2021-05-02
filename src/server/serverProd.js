@@ -4,6 +4,11 @@ const express = require("express");
 const path = require("path");
 const apiKey = require("../public/js/models/key/index.js");
 
+const {
+  setIntervalAsync,
+  clearIntervalAsync,
+} = require("set-interval-async/dynamic");
+
 const AuthClient = require("../public/js/models/authclient/index.js");
 const Socket = require("./socket.js");
 
@@ -16,10 +21,6 @@ const httpUrl = "/api-coinbase-pro";
 
 //const webSocket = new Socket("BTC_USD");
 //webSocket.start();
-
-const authorize = async () => {
-  const accounts = await AuthClient.getAccounts();
-};
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -44,3 +45,11 @@ app.get("/", function (req, res) {
 });
 
 app.listen(port, () => console.log("Started proxy on port", port));
+
+const authorize = async () => {
+  const accounts = await AuthClient.getAccounts();
+  console.log("Authorized");
+};
+
+authorize();
+//setIntervalAsync(authorize, 1800 /*seconds*/ * 1000);

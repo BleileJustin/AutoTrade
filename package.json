@@ -4,8 +4,8 @@
   "description": "Cryptocurrency trading bot",
   "scripts": {
     "serve": "node src/server/serverProd.js",
-    "start": "rm dist/*; parcel ./src/public/views/index.html",
-    "build": "rm dist/*; parcel build ./src/public/views/index.html --dist-dir ./dist"
+    "start": "rm dist/*; parcel ./src/public/html/index.html",
+    "build": "rm dist/*; parcel build ./src/public/html/index.html --dist-dir ./dist"
   },
   "author": "Justin Bleile",
   "license": "ISC",

@@ -20,7 +20,7 @@ const btcAccount = apiKey.get("BTC_ACCOUNT");
 const ltcAccount = apiKey.get("LTC_ACCOUNT");
 
 //Starts Broker
-console.log(`LithTrade Version: 1.0.0`);
+console.log(`TraderLith Version: 1.0.0`);
 const broker = new Broker(ltcAccount, usdAccount, curPair);
 
 const startBroker = async () => {

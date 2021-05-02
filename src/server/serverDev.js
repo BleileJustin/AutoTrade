@@ -26,7 +26,7 @@ app.use(
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("/", function (req, res) {
-  res.sendFile("index.html", { root: "src/public/views" });
+  res.sendFile("index.html", { root: "src/public/html" });
 });
 
 app.listen(port, () => console.log("Started proxy on port", port));
