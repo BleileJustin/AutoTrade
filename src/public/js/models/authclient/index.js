@@ -2,11 +2,13 @@ const apiKey = require("../key/index.js");
 const CoinbasePro = require("coinbase-pro");
 
 const apiURI = "https://api.pro.coinbase.com";
+//const apiURI = "/coinbase-pro";
+
 const key = apiKey.get("COINBASE_API_KEY");
 const secret = apiKey.get("COINBASE_API_SECRET");
 const passphrase = apiKey.get("COINBASE_API_PASSPHRASE");
 const socketUrl = apiKey.get("WEBSOCKET_URL");
-const sandboxURI = "api.pro.coinbase.com";
+const sandboxURI = "https://api.pro.coinbase.com";
 const useSandbox = false;
 
 const aClient = new CoinbasePro.AuthenticatedClient(
@@ -15,7 +17,6 @@ const aClient = new CoinbasePro.AuthenticatedClient(
   passphrase,
   apiURI
 );
-
 module.exports = {
   placeOrder: async (params) => {
     const order = aClient.placeOrder(params);

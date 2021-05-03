@@ -1,4 +1,5 @@
 const AuthClient = require("../authclient/index.js");
+//const AuthClient = require("../../../../server/serverProd.js");
 const HistoricRates = require("../pubClient/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
 const CoinbasePro = require("coinbase-pro");
