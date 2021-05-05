@@ -10,33 +10,26 @@ const port = 3000;
 const app = express();
 const proxy = httpProxy.createProxyServer({});
 
-//const webSocket = new Socket("BTC_USD");
-//webSocket.start();
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
+const apiProxy = httpProxyMiddleware.createProxyMiddleware({
+  target: "https://api.pro.coinbase.com",
+  changeOrigin: true,
+  onProxyRes: (res) => {
+    res.headers = {
+      ...res.headers,
+      "access-control-allow-headers":
+        "Content-Type, cb-access-key, cb-access-sign, cb-access-timestamp, cb-access-passphrase",
+    };
+  },
 });
 
-app.use(
-  "/coinbase-pro",
-  httpProxyMiddleware.createProxyMiddleware({
-    target: "https://api.pro.coinbase.com",
-    changeOrigin: true,
-    pathRewrite: {
-      [`^/coinbase-pro`]: "",
-    },
-  })
-);
-
-app.use(express.static(path.join(__dirname, "../../dist")));
+app.use(express.static(path.join(__dirname, "../../dist")), apiProxy);
 
 app.get("/", function (req, res) {
   res.sendFile("index.html", { root: "../../dist" });
 });
+app.listen(port, () => console.log("Started server on port", port));
 
-app.listen(port, () => console.log("Started proxy on port", port));
-
+//app.listen(port, () => console.log("Started proxy on port", port));
 /*
 const CoinbasePro = require("coinbase-pro");
 
