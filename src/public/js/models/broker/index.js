@@ -26,6 +26,8 @@ class Broker {
     this.updatingStrategy = true;
     console.log("Trading Started");
     console.log("Updating Strategy: " + this.updatingStrategy);
+
+    const authTest = await AuthClient.getAccount(this.fiatAccount).available;
     await this.updateStrategy(candleFreq, rangeLength);
   }
   stop = () => {

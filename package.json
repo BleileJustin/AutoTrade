@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Cryptocurrency trading bot",
   "scripts": {
-    "serve": "node src/server/serverProd.js",
+    "serve": "nodemon src/server/serverProd.js",
     "start": "rm dist/*; parcel ./src/public/html/index.html",
     "build": "rm dist/*; parcel build ./src/public/html/index.html --dist-dir ./dist"
   },

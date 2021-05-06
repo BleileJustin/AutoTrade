@@ -1,5 +1,3 @@
-const controller = require("controller");
-
 module.exports = exports = {
   checkExchangeDropdown: () => {
     const exchangeDropdownValue = document.getElementById("exchange-dropdown")
