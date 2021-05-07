@@ -3,7 +3,6 @@ const httpProxyMiddleware = require("http-proxy-middleware");
 const express = require("express");
 const path = require("path");
 const apiKey = require("../public/js/models/key/index.js");
-const CoinbasePro = require("coinbase-pro");
 
 const port = 3000;
 
@@ -12,21 +11,26 @@ const proxy = httpProxy.createProxyServer({});
 
 const httpUrl = "/api-coinbase-pro";
 
-app.use(
-  "/api-coinbase-pro",
-  httpProxyMiddleware.createProxyMiddleware({
-    target: "https://api.pro.coinbase.com",
-    changeOrigin: true,
-    pathRewrite: {
-      [`^/api-coinbase-pro`]: "",
-    },
-  })
-);
+console.log(path.join(__dirname, "../public"));
 
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("/", function (req, res) {
-  res.sendFile("index.html", { root: "src/public/html" });
+  res.sendFile(path.join(__dirname, "../public/html/index.html"));
 });
 
 app.listen(port, () => console.log("Started proxy on port", port));
+
+/*
+const apiProxy = httpProxyMiddleware.createProxyMiddleware({
+  target: "https://api.pro.coinbase.com",
+  changeOrigin: true,
+  onProxyRes: (res) => {
+    res.headers = {
+      ...res.headers,
+      "access-control-allow-headers":
+      "Content-Type, cb-access-key, cb-access-sign, cb-access-timestamp, cb-access-passphrase",
+    };
+  },
+});
+*/

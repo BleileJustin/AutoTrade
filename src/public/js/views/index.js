@@ -1,4 +1,11 @@
 module.exports = exports = {
+  getExchangeChoice: () => {
+    const exchangeDropdownChoice = document.getElementById("exchange-dropdown")
+      .value;
+    console.log(exchangeDropdownChoice);
+    return exchangeDropdownChoice;
+  },
+
   checkExchangeDropdown: () => {
     const exchangeDropdownValue = document.getElementById("exchange-dropdown")
       .value;
@@ -7,6 +14,13 @@ module.exports = exports = {
     } else {
       return true;
     }
+  },
+
+  getStrategyChoice: () => {
+    const strategyDropdownChoice = document.getElementById("strategy-dropdown")
+      .value;
+    console.log(strategyDropdownChoice);
+    return strategyDropdownChoice;
   },
 
   checkStrategyDropdown: () => {

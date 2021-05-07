@@ -1,6 +1,5 @@
 const Broker = require("../models/broker/index.js");
 const Backtest = require("../models/backtester/index.js");
-const AuthClient = require("../models/authclient/index.js");
 const view = require("../views/index.js");
 const apiKey = require("../models/key/index.js");
 const database = require("../models/database/index.js");
@@ -12,7 +11,6 @@ const rangeLength = 60 * 300; //hours;
 let socketArray = [];
 
 //Main broker controller
-//Connects to authorized CoinbasePro account
 //Fiat Accounts
 const usdAccount = apiKey.get("USD_ACCOUNT");
 //Crypto Accounts
@@ -21,17 +19,31 @@ const ltcAccount = apiKey.get("LTC_ACCOUNT");
 
 //Starts Broker
 console.log(`TraderLith Version: 1.0.0`);
-const broker = new Broker(ltcAccount, usdAccount, curPair);
 
 const startBroker = async () => {
   const exchangeDropdownState = view.checkExchangeDropdown();
   const strategyDropdownState = view.checkStrategyDropdown();
+  const exchangeDropdownChoice = view.getExchangeChoice();
+  const strategyDropdownChoice = view.getStrategyChoice();
+
   if (exchangeDropdownState == false) {
     alert("Please Select An Exchange");
   } else if (strategyDropdownState == false) {
     alert("Please Select A Strategy");
   } else {
-    await broker.start(candleFreq, rangeLength);
+    const broker = new Broker(
+      ltcAccount,
+      usdAccount,
+      curPair,
+      strategyDropdownChoice,
+      exchangeDropdownChoice
+    );
+    await broker.start(
+      candleFreq,
+      rangeLength,
+      strategyDropdownChoice,
+      exchangeDropdownChoice
+    );
   }
 };
 
