@@ -27,8 +27,13 @@ class CBAuthClient {
   };
   getAccount = async (id) => {
     const account = await aClient.getAccount(id);
-    console.log(account);
+    console.log(account.available);
     return account;
+  };
+  getAvailable = async (id) => {
+    const account = await aClient.getAccount(id);
+    const accountAvailable = account.available;
+    return accountAvailable;
   };
   getAccounts = async () => {
     const accounts = await aClient.getAccounts();

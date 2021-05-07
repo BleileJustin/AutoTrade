@@ -38,12 +38,7 @@ const startBroker = async () => {
       strategyDropdownChoice,
       exchangeDropdownChoice
     );
-    await broker.start(
-      candleFreq,
-      rangeLength,
-      strategyDropdownChoice,
-      exchangeDropdownChoice
-    );
+    await broker.start(candleFreq, rangeLength);
   }
 };
 
