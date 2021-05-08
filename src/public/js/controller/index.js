@@ -17,6 +17,7 @@ const usdAccount = apiKey.get("USD_ACCOUNT");
 const btcAccount = apiKey.get("BTC_ACCOUNT");
 const ltcAccount = apiKey.get("LTC_ACCOUNT");
 
+//Array of Broker instances
 let brokers = [];
 
 //Starts Broker
