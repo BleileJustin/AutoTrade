@@ -16,7 +16,7 @@ class Broker {
     this.fiatAccount = fiatAccount;
     this.strategy = strategy;
     this.exchange = exchange;
-    this.client;
+    this.authClient;
     this.currencyPair = currencyPair;
     this.updatingStrategy = false;
     this.range = [];
@@ -29,7 +29,12 @@ class Broker {
     this.updatingStrategy = true;
     console.log("Trading Started");
     console.log("Updating Strategy: " + this.updatingStrategy);
-    await this.updateStrategy(candleFreq, rangeLength);
+
+    const authClient = await this.setExchange();
+    const fiatAccountBal = await this.authClient.getAvailable(this.fiatAccount);
+    console.log(fiatAccountBal + " fiat");
+
+    //await this.updateStrategy(candleFreq, rangeLength);
   }
   stop = () => {
     this.updatingStrategy = false;

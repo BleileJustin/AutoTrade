@@ -17,33 +17,53 @@ const usdAccount = apiKey.get("USD_ACCOUNT");
 const btcAccount = apiKey.get("BTC_ACCOUNT");
 const ltcAccount = apiKey.get("LTC_ACCOUNT");
 
+let brokers = [];
+
 //Starts Broker
 console.log(`TraderLith Version: 1.0.0`);
 
 const startBroker = async () => {
   const exchangeDropdownState = view.checkExchangeDropdown();
   const strategyDropdownState = view.checkStrategyDropdown();
+  const currencyDropdownState = view.checkCurrencyDropdown();
+
   const exchangeDropdownChoice = view.getExchangeChoice();
   const strategyDropdownChoice = view.getStrategyChoice();
+  const currencyDropdownChoice = view.getCurrencyChoice();
 
   if (exchangeDropdownState == false) {
     alert("Please Select An Exchange");
   } else if (strategyDropdownState == false) {
     alert("Please Select A Strategy");
+  } else if (currencyDropdownState == false) {
+    alert("Please Select A Currency");
   } else {
-    const broker = new Broker(
-      ltcAccount,
-      usdAccount,
-      curPair,
-      strategyDropdownChoice,
-      exchangeDropdownChoice
-    );
-    await broker.start(candleFreq, rangeLength);
+    if (exchangeDropdownChoice == "Binance") {
+      const broker = new Broker(
+        currencyDropdownChoice,
+        "USD",
+        curPair,
+        strategyDropdownChoice,
+        exchangeDropdownChoice
+      );
+      brokers.push(broker);
+      await broker.start(candleFreq, rangeLength);
+    } else if (exchangeDropdownChoice == "CoinbasePro") {
+      const broker = new Broker(
+        ltcAccount,
+        usdAccount,
+        curPair,
+        strategyDropdownChoice,
+        exchangeDropdownChoice
+      );
+      brokers.push(broker);
+      await broker.start(candleFreq, rangeLength);
+    }
   }
 };
-
+//set 0 to choice of broker to stop
 const stopBroker = () => {
-  broker.stop();
+  brokers[0].stop();
 };
 //Tests Strategies with BackData
 const backtest = async () => {

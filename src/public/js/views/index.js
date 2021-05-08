@@ -32,4 +32,22 @@ module.exports = exports = {
       return true;
     }
   },
+
+  getCurrencyChoice: () => {
+    const currencyDropdownChoice = document.getElementById("currency-dropdown")
+      .value;
+    console.log(currencyDropdownChoice);
+    return currencyDropdownChoice;
+  },
+
+  checkCurrencyDropdown: () => {
+    const currencyDropdownValue = document.getElementById("currency-dropdown")
+      .value;
+
+    if (currencyDropdownValue == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  },
 };

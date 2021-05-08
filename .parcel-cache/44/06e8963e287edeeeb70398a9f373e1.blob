@@ -1,0 +1,61 @@
+function _defineProperty(obj, key, value) {
+  if ((key in obj)) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
+const apiKey = require("../key/index.js");
+const Binance = require("node-binance-api");
+const key = apiKey.get("BINANCE_API_KEY");
+const secret = apiKey.get("BINANCE_API_SECRET");
+const binance = new Binance().options({
+  APIKEY: key,
+  APISECRET: secret
+});
+class BiAuthClient {
+  constructor() {
+    _defineProperty(this, "placeOrder", async params => {
+      const order = aClient.placeOrder(params);
+      return order;
+    });
+    _defineProperty(this, "getAvailable", async id => {
+      let available = "";
+      let account = "";
+      const high = result => {
+        account = result;
+        console.log(account);
+        return account;
+      };
+      const free = await binance.balance();
+      console.log(free + "freel");
+      return binance.balance((error, balances) => {
+        if (error) return console.error(error);
+        console.log(balances);
+        switch (id) {
+          case "USD":
+            available = balances.USD.available;
+            console.log(available + " Ava");
+            break;
+          case "VET":
+            available = balances.VET.available;
+            console.log(available + " Ava");
+            break;
+          case "UNI":
+            available = balances.UNI.available;
+            console.log(available + " Ava");
+            break;
+        }
+        high(available);
+      });
+      console.log(available + " c");
+    });
+  }
+}
+module.exports = exports = BiAuthClient;

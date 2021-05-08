@@ -1,0 +1,35 @@
+function _defineProperty(obj, key, value) {
+  if ((key in obj)) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
+const apiKey = require("../key/index.js");
+const binance = require("binance");
+const key = apiKey.get("BINANCE_API_KEY");
+const secret = apiKey.get("BINANCE_API_SECRET");
+const binanceRest = new binance.BinanceRest({
+  key,
+  secret
+});
+class BiAuthClient {
+  constructor() {
+    _defineProperty(this, "placeOrder", async params => {
+      const order = aClient.placeOrder(params);
+      return order;
+    });
+    _defineProperty(this, "getAvailable", async id => {
+      const accounts = await binanceRest.account();
+      const accountAvailable = accounts;
+      return accountAvailable;
+    });
+  }
+}
+module.exports = exports = BiAuthClient;
