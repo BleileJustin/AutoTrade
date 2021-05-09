@@ -1,7 +1,8 @@
 const CBAuthClient = require("../authclient/cbAuthClient.js");
+const CBPubClient = require("../pubClient/cbPubClient.js");
 const BiAuthClient = require("../authclient/biAuthClient.js");
+const BiPubClient = require("../pubClient/biPubClient.js");
 
-const HistoricRates = require("../pubClient/index.js");
 const BollingerBands = require("../strategies/bollingerbands.js");
 const moment = require("moment");
 
@@ -11,7 +12,14 @@ const {
 } = require("set-interval-async/dynamic");
 
 class Broker {
-  constructor(crypAccount, fiatAccount, currencyPair, strategy, exchange) {
+  constructor(
+    crypAccount,
+    fiatAccount,
+    currencyPair,
+    strategy,
+    exchange,
+    interval
+  ) {
     this.crypAccount = crypAccount;
     this.fiatAccount = fiatAccount;
     this.strategy = strategy;
@@ -20,7 +28,8 @@ class Broker {
     this.currencyPair = currencyPair;
     this.updatingStrategy = false;
     this.range = [];
-    this.historicRatesController = new HistoricRates();
+    this.historicRatesController;
+    this.interval = interval;
   }
 
   async start(candleFreq, rangeLength) {
@@ -31,10 +40,8 @@ class Broker {
     console.log("Updating Strategy: " + this.updatingStrategy);
 
     const authClient = await this.setExchange();
-    const fiatAccountBal = await this.authClient.getAvailable(this.fiatAccount);
-    console.log(fiatAccountBal + " fiat");
-
-    //await this.updateStrategy(candleFreq, rangeLength);
+    await this.updateStrategy(candleFreq, rangeLength);
+    //TEST
   }
   stop = () => {
     this.updatingStrategy = false;
@@ -45,8 +52,10 @@ class Broker {
   async setExchange() {
     if (this.exchange == "CoinbasePro") {
       this.authClient = new CBAuthClient();
+      this.historicRatesController = new CBPubClient();
     } else if (this.exchange == "Binance") {
       this.authClient = new BiAuthClient();
+      this.historicRatesController = new BiPubClient();
     }
   }
 
@@ -73,6 +82,7 @@ class Broker {
       this.range.push(newPrice); //adds latest price to array
       this.range.shift(); //removes oldest price from array
 
+      console.log(this.range + "range");
       console.log(prevPrices[prevPrices.length - 1]);
       //Strategy Update Controller
       if (this.strategy == "BollingerBands") {
@@ -107,7 +117,7 @@ class Broker {
           console.log(`Buy`);
         }
       }
-    }, 10 * candleFrequency);
+    }, 10 * this.interval);
   }
 
   onBuySignal = (price, size) => {
@@ -133,16 +143,24 @@ class Broker {
     console.log("Order Placed");
   }
 
+  //Public Client Access
   async getPrevCandlePrices(curPair, rangeLength, frequency) {
     const candles = await this.historicRatesController.getHistoricRange(
-      curPair,
+      this.currencyPair,
       rangeLength,
       frequency,
       1
     );
-    for (let i = 0; i < candles.length; i++) {
-      this.range.unshift(candles[i][4]);
+    if (this.exchange == "CoinbasePro") {
+      for (let i = 0; i < candles.length; i++) {
+        this.range.unshift(candles[i][4]);
+      }
+    } else if (this.exchange == "Binance") {
+      for (let i = 0; i < candles.length; i++) {
+        this.range.push(candles[i]);
+      }
     }
+    console.log(this.range);
     return this.range;
   }
 

@@ -11,7 +11,16 @@ const binance = new Binance().options({
 class BiAuthClient {
   constructor() {}
 
-  placeOrder = async (params) => {};
+  placeOrder = async (params) => {
+    //side, productId, price, size, cancelAfter;
+    const product = params.product_id;
+    if (params.side == "buy") {
+      console.log(product);
+      binance.marketBuy(product, params.size);
+    } else if (params.side == "sell") {
+      binance.marketSell(product, params.size);
+    }
+  };
   getAvailable = async (id) => {
     let available = "";
     const balances = await binance.balance();

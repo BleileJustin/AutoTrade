@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: Eva;
+  src: url(19ef32a60b79430d18f7970995f3d32f);
+}
+
+@font-face {
+  font-family: Simplifica;
+  src: url(9757b73dac83d91ca3c3699bfba4b94c);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-image: url(b0127d1748b4f073c3443fb3f7d8f5e1);
+  background-size: 100% 100%;
+}
+
+h1 {
+  font-family: Eva;
+  color: white;
+}
+
+h2,
+h3,
+h4 {
+  font-family: Simplifica;
+  letter-spacing: 0.1em;
+  line-height: 1.2em;
+  color: white;
+  padding: 0.1em;
+}
+
+.title {
+  margin: 0.5em;
+  margin-left: 0.7em;
+}
+
+.top_bar {
+  width: 100%;
+  height: 8vh;
+  background-color: #2c8c99;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-container-bottom,
+.dashboard-container-top {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2vh;
+}
+
+.dashboard-container-bottom:before,
+.dashboard-container-top:before,
+.dashboard-container-bottom:after,
+.dashboard-container-top:after {
+  content: "";
+}
+
+.analytics {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5em;
+  width: 23%;
+  height: 50vh;
+  background-color: #326771;
+}
+
+.profit_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 0.5em;
+  padding: 0.5em 0.5em 0.5em 0.5em;
+  width: 90%;
+  height: 12vh;
+  background-color: #2c8c99;
+}
+
+#currency-dropdown,
+#exchange-dropdown,
+#strategy-dropdown {
+  width: 90%;
+  height: 1.8em;
+  border: 0;
+  background-color: #326771;
+  color: white;
+  text-align: center;
+  font-family: Simplifica;
+  letter-spacing: 0.2em;
+  padding: 0.3em;
+}
+
+.strategy_contatiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 0.5em;
+  padding: 0.5em;
+  width: 90%;
+  height: 30vh;
+  background-color: #2c8c99;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+#start,
+#stop {
+  font-size: 0.5em;
+  padding: 0.2em;
+  color: black;
+  border-width: 0;
+  height: 3vh;
+}
+
+#start {
+  background-color: #06d6a0;
+  font-family: Simplifica;
+  letter-spacing: 0.1em;
+  padding: 0.3em;
+  width: 48%;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+#stop {
+  background-color: #f94144;
+  color: white;
+  font-family: Simplifica;
+  letter-spacing: 0.1em;
+  padding: 0.3em;
+  width: 48%;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.graph {
+  padding: 0.5em;
+  width: 72%;
+  height: 50vh;
+  background-color: #326771;
+}
+
+.open,
+.filled {
+  display: flex;
+  justify-content: center;
+  padding: 0.5em;
+  width: 47.5%;
+  height: 35vh;
+  background-color: #326771;
+}

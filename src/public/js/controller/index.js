@@ -4,22 +4,16 @@ const view = require("../views/index.js");
 const apiKey = require("../models/key/index.js");
 const database = require("../models/database/index.js");
 
-//CONTROLLER
-const curPair = apiKey.get("CURPAIR");
-const candleFreq = 3600; //seconds;
-const rangeLength = 60 * 300; //hours;
-let socketArray = [];
+//CONTROLLER //seconds;
+const rangeLength = 60 * 100; //hours;
 
 //Main broker controller
-//Fiat Accounts
-const usdAccount = apiKey.get("USD_ACCOUNT");
-//Crypto Accounts
-const btcAccount = apiKey.get("BTC_ACCOUNT");
-const ltcAccount = apiKey.get("LTC_ACCOUNT");
 
 //Array of Broker instances
 let brokers = [];
-
+let curPair = "";
+let candleFreq = 0;
+let candleSize = 3600;
 //Starts Broker
 console.log(`TraderLith Version: 1.0.0`);
 
@@ -32,6 +26,18 @@ const startBroker = async () => {
   const strategyDropdownChoice = view.getStrategyChoice();
   const currencyDropdownChoice = view.getCurrencyChoice();
 
+  switch (exchangeDropdownChoice) {
+    case "Binance":
+      curPair = currencyDropdownChoice + "USD";
+      candleFreq = "1h"; //one hour
+      break;
+    case "CoinbasePro":
+      curPair = currencyDropdownChoice + "-USD";
+      candleFreq = candleSize; //one hour
+      break;
+  }
+
+  console.log(curPair);
   if (exchangeDropdownState == false) {
     alert("Please Select An Exchange");
   } else if (strategyDropdownState == false) {
@@ -39,32 +45,23 @@ const startBroker = async () => {
   } else if (currencyDropdownState == false) {
     alert("Please Select A Currency");
   } else {
-    if (exchangeDropdownChoice == "Binance") {
-      const broker = new Broker(
-        currencyDropdownChoice,
-        "USD",
-        curPair,
-        strategyDropdownChoice,
-        exchangeDropdownChoice
-      );
-      brokers.push(broker);
-      await broker.start(candleFreq, rangeLength);
-    } else if (exchangeDropdownChoice == "CoinbasePro") {
-      const broker = new Broker(
-        ltcAccount,
-        usdAccount,
-        curPair,
-        strategyDropdownChoice,
-        exchangeDropdownChoice
-      );
-      brokers.push(broker);
-      await broker.start(candleFreq, rangeLength);
-    }
+    const broker = new Broker(
+      currencyDropdownChoice,
+      "USD",
+      curPair,
+      strategyDropdownChoice,
+      exchangeDropdownChoice,
+      candleSize
+    );
+    brokers.push(broker);
+    console.log(candleFreq);
+    await broker.start(candleFreq, rangeLength);
   }
 };
 //set 0 to choice of broker to stop
 const stopBroker = () => {
   brokers[0].stop();
+  brokers.splice(0);
 };
 //Tests Strategies with BackData
 const backtest = async () => {

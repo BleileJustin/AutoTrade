@@ -83,6 +83,7 @@ h4 {
   background-color: #2c8c99;
 }
 
+#currency-dropdown,
 #exchange-dropdown,
 #strategy-dropdown {
   width: 90%;
@@ -110,6 +111,7 @@ h4 {
 .button-container {
   display: flex;
   justify-content: space-around;
+  font-size: 0.75em;
 }
 
 #start,
