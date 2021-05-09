@@ -24,7 +24,7 @@ class HistoricRates {
   }
   async getCurrentPrice(curPair) {
     const currentPrice = await pubClient.getProductTicker(curPair);
-    return currentPrice;
+    return currentPrice.price;
   }
 }
 

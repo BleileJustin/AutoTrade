@@ -42,6 +42,8 @@ class Broker {
     const authClient = await this.setExchange();
     await this.updateStrategy(candleFreq, rangeLength);
     //TEST
+    const test = await this.getCurrentPrice();
+    console.log(test);
   }
   stop = () => {
     this.updatingStrategy = false;
@@ -103,16 +105,16 @@ class Broker {
           // Runs if a BB sell signal
           const sellPrice = await this.getCurrentPrice();
           const size = parseFloat(
-            ((parseFloat(crypAccountBal) * 0.25) / price.bid).toFixed(2)
+            ((parseFloat(crypAccountBal) * 0.25) / sellPrice).toFixed(2)
           );
           this.onSellSignal(sellPrice.ask, size);
           console.log(`Sell`);
         } else if (bollingerBands[bollingerBands.length - 1].pb < 0) {
           // Runs if a BB buy signal
-          const size = parseFloat(
-            ((parseFloat(fiatAccountBal) * 0.5) / price.bid).toFixed(2)
-          );
           const buyPrice = await this.getCurrentPrice();
+          const size = parseFloat(
+            ((parseFloat(fiatAccountBal) * 0.5) / buyPrice).toFixed(2)
+          );
           this.onBuySignal(buyPrice.bid, size);
           console.log(`Buy`);
         }
