@@ -15,7 +15,7 @@ let curPair = "";
 let candleFreq = 0;
 let candleSize = 3600;
 //Starts Broker
-console.log(`TraderLith Version: 1.0.0`);
+console.log(`TraderLith Version: 2.0.0`);
 
 const startBroker = async () => {
   const exchangeDropdownState = view.checkExchangeDropdown();
