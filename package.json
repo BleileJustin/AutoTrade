@@ -1,6 +1,6 @@
 {
   "name": "autotrade",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cryptocurrency trading bot",
   "scripts": {
     "dev": "nodemon src/server/serverDev.js",
