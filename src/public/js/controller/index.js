@@ -54,7 +54,6 @@ const startBroker = async () => {
       candleSize
     );
     brokers.push(broker);
-    console.log(candleFreq);
     await broker.start(candleFreq, rangeLength);
   }
 };

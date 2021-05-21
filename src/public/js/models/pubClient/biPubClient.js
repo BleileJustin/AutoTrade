@@ -28,8 +28,10 @@ class HistoricRates {
     }
   }
   async getCurrentPrice(curPair) {
-    const currentPrice = await binance.prices(curPair);
-    return Object.values(currentPrice)[0];
+    const currentPrices = await binance.prices(curPair);
+    const currentPrice = Object.values(currentPrices);
+    console.log(currentPrices);
+    return currentPrice;
   }
 }
 

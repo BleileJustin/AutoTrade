@@ -2,7 +2,6 @@ module.exports = exports = {
   getExchangeChoice: () => {
     const exchangeDropdownChoice = document.getElementById("exchange-dropdown")
       .value;
-    console.log(exchangeDropdownChoice);
     return exchangeDropdownChoice;
   },
 
@@ -19,7 +18,6 @@ module.exports = exports = {
   getStrategyChoice: () => {
     const strategyDropdownChoice = document.getElementById("strategy-dropdown")
       .value;
-    console.log(strategyDropdownChoice);
     return strategyDropdownChoice;
   },
 
@@ -36,7 +34,6 @@ module.exports = exports = {
   getCurrencyChoice: () => {
     const currencyDropdownChoice = document.getElementById("currency-dropdown")
       .value;
-    console.log(currencyDropdownChoice);
     return currencyDropdownChoice;
   },
 
