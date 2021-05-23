@@ -42,6 +42,8 @@ class Broker {
     const authClient = await this.setExchange();
     await this.updateStrategy(candleFreq, rangeLength);
     //TEST
+    //let balance = await this.authClient.getBalance();
+    //console.log(balance);
   }
   stop = () => {
     this.updatingStrategy = false;

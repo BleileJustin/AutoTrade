@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>AutoTrade</title>
+    <link type="text/css" rel="stylesheet" href="d6aae3ef75684ae67e0915772885d8e3">
+    <link rel="icon" type="image/png" sizes="32x32" href="4b34b7b2d64f0e84768a5790d5981e8f">
+  </head>
+  <body>
+    <div class="top_bar">
+      <h1 class="title">AutoTrade</h1>
+    </div>
+    <div class="dashboard">
+      <div class="dashboard-container-top">
+        <div class="analytics">
+          <div class="portfolio_value">
+            <h3>Portfolio Value</h3>
+          </div>
+          <div class="24hourchange" <div="">
+            <div class="parameter">
+              <h3>Exchange:</h3>
+              <select id="exchange-dropdown" name="exchanges">
+                <option value="0">Select an Exchange</option>
+                <option value="Binance">Binance</option>
+                <option value="CoinbasePro">CoinbasePro</option>
+              </select>
+            </div>
+            <div class="parameter">
+              <h3>Strategy:</h3>
+              <select id="strategy-dropdown" name="strategies">
+                <option value="0">Select a Strategy</option>
+                <option value="BollingerBands">BollingerBands</option>
+                <option value="MACD">MACD</option>
+                <option value="HODL">HODL</option>
+              </select>
+            </div>
+            <div class="parameter">
+              <h3>Currency:</h3>
+              <select id="currency-dropdown" name="currencies">
+                <option value="0">Select a Currency</option>
+                <option value="VET">VET</option>
+                <option value="UNI">UNI</option>
+                <option value="OXT">OXT</option>
+              </select>
+            </div>
+
+            <div class="button-container">
+              <button id="start">Start Trading</button>
+              <button id="stop">Stop Trading</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-container-bottom">
+        <div class="open">
+          <h2>Open Orders</h2>
+          <div class="container"></div>
+        </div>
+
+        <div class="filled">
+          <h2>Fills</h2>
+        </div>
+      </div>
+    </div>
+    <script src="29309835c7132084b38802c39a717158"></script>
+  </body>
+</html>

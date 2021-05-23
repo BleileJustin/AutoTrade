@@ -12,38 +12,39 @@
     />
   </head>
   <body>
-    <div class="top_bar">
-      <h1 class="title">AutoTrade</h1>
-    </div>
-    <div class="dashboard">
-      <div class="dashboard-container-top">
+    <div class="tint">
+      <div class="top_bar">
+        <h1 class="title">AutoTrade</h1>
+      </div>
+      <div class="dashboard">
         <div class="analytics">
-          <h2>Analytics</h2>
-          <div class="profit_container">
-            <h3>Profit:</h3>
+          <div class="position">
+            <div class="portfolio_value">
+              <h2>Portfolio Value</h2>
+            </div>
+            <div class="profit">
+              <h2>24hr:</h2>
+            </div>
           </div>
           <div class="strategy_contatiner">
-            <div class="strategy">
-              <h3>Exchange:</h3>
+            <div class="parameter">
               <select id="exchange-dropdown" name="exchanges">
-                <option value="0">Select an Exchange</option>
+                <option value="0">Exchange</option>
                 <option value="Binance">Binance</option>
                 <option value="CoinbasePro">CoinbasePro</option>
               </select>
             </div>
-            <div class="strategy">
-              <h3>Strategy:</h3>
+            <div class="parameter">
               <select id="strategy-dropdown" name="strategies">
-                <option value="0">Select a Strategy</option>
+                <option value="0">Strategy</option>
                 <option value="BollingerBands">BollingerBands</option>
                 <option value="MACD">MACD</option>
                 <option value="HODL">HODL</option>
               </select>
             </div>
-            <div class="strategy">
-              <h3>Currency:</h3>
+            <div class="parameter">
               <select id="currency-dropdown" name="currencies">
-                <option value="0">Select a Currency</option>
+                <option value="0">Currency</option>
                 <option value="VET">VET</option>
                 <option value="UNI">UNI</option>
                 <option value="OXT">OXT</option>
@@ -56,22 +57,14 @@
             </div>
           </div>
         </div>
-
-        <div class="graph">
-          <h2>Total Position</h2>
+        <div class="dashboard-container-bottom">
+          <div class="open">
+            <h2>Order History</h2>
+            <div class="container"></div>
+          </div>
         </div>
       </div>
-      <div class="dashboard-container-bottom">
-        <div class="open">
-          <h2>Open Orders</h2>
-          <div class="container"></div>
-        </div>
-
-        <div class="filled">
-          <h2>Fills</h2>
-        </div>
-      </div>
+      <script src="../js/controller/index.js"></script>
     </div>
-    <script src="../js/controller/index.js"></script>
   </body>
 </html>

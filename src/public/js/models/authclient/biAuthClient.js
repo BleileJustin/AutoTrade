@@ -41,6 +41,21 @@ class BiAuthClient {
     }
     return available;
   };
+  getBalance = async () => {
+    function balance_update(data) {
+      console.log("Balance Update");
+      for (let obj of data.B) {
+        let { a: asset, f: available, l: onOrder } = obj;
+        if (available == "0.00000000") continue;
+        console.log(
+          asset + "\tavailable: " + available + " (" + onOrder + " on order)"
+        );
+      }
+    }
+
+    const userData = await binance.websockets.userData(balance_update);
+    return userData;
+  };
 }
 
 module.exports = exports = BiAuthClient;
