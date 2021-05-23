@@ -97,21 +97,28 @@ h4 {
   align-content: flex-start;
 }
 
+.parameter {
+  width: 15%;
+  display: flex;
+  flex-direction: row;
+}
+
 #currency-dropdown,
 #exchange-dropdown,
 #strategy-dropdown {
   height: 1.8em;
   width: 100%;
   border: 0;
-  background-color: #326771;
+  background-color: rgba(255, 255, 255, 20%);
   color: white;
   text-align: center;
   font-family: Simplifica;
   letter-spacing: 0.2em;
-  padding: 0.3em;
+  padding-left: 0.5em;
+  font-size: 1em;
 }
 
-.strategy_contatiner {
+.parameter-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -125,15 +132,17 @@ h4 {
 .button-container {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   font-size: 0.75em;
+  width: 15%;
+  height: 5vh;
 }
 
 #start,
 #stop {
-  padding: 0.2em;
   color: black;
   border-width: 0;
-  height: 3vh;
+  height: 2.8em;
 }
 
 #start {
@@ -142,7 +151,7 @@ h4 {
   letter-spacing: 0.1em;
   padding: 0.3em;
   width: 48%;
-  font-size: 0.9em;
+  font-size: 1em;
   text-align: center;
 }
 
@@ -153,14 +162,8 @@ h4 {
   letter-spacing: 0.1em;
   padding: 0.3em;
   width: 48%;
-  font-size: 0.9em;
+  font-size: 1em;
   text-align: center;
-}
-
-.parameter {
-  width: 15%;
-  display: flex;
-  flex-direction: row;
 }
 
 .open {
