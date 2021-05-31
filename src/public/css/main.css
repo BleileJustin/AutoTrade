@@ -116,9 +116,10 @@ h4 {
   letter-spacing: 0.2em;
   padding-left: 0.5em;
   font-size: 1em;
+  cursor: pointer;
 }
 
-.parameter-container {
+.broker-view {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -129,7 +130,7 @@ h4 {
   border-bottom: 0.5px solid white;
 }
 
-.button-container {
+#button-container {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -142,28 +143,44 @@ h4 {
 #stop {
   color: black;
   border-width: 0;
-  height: 2.8em;
+  height: 1.8em;
+  cursor: pointer;
+  font-family: Simplifica;
+  letter-spacing: 0.1em;
+  width: 98%;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #start {
   background-color: #06d6a0;
-  font-family: Simplifica;
-  letter-spacing: 0.1em;
-  padding: 0.3em;
-  width: 48%;
-  font-size: 1em;
-  text-align: center;
 }
 
 #stop {
   background-color: #f94144;
   color: white;
-  font-family: Simplifica;
-  letter-spacing: 0.1em;
-  padding: 0.3em;
-  width: 48%;
-  font-size: 1em;
-  text-align: center;
+}
+
+#broker-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#plus-button {
+  margin-top: 0.5em;
+  height: 35px;
+  width: 35px;
+  background-image: url("./images/plus_icon.png");
+  background-size: cover;
+  color: transparent;
+  background-color: transparent;
+  border: 0px;
+  border-radius: 100%;
+  cursor: pointer;
 }
 
 .open {
@@ -172,4 +189,8 @@ h4 {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+}
+
+option {
+  padding-left: 0.5em;
 }
