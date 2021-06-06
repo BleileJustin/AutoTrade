@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>AutoTrade</title>
+    <link type="text/css" rel="stylesheet" href="d6aae3ef75684ae67e0915772885d8e3">
+    <link rel="icon" type="image/png" sizes="32x32" href="4b34b7b2d64f0e84768a5790d5981e8f">
+  </head>
+  <body>
+    <div class="tint">
+      <div class="top_bar">
+        <h1 class="title">AutoTrade</h1>
+      </div>
+      <div class="dashboard">
+        <div class="analytics">
+          <div class="position">
+            <div class="portfolio_value">
+              <h2>Portfolio Value</h2>
+            </div>
+            <div class="profit">
+              <h2>24hr:</h2>
+            </div>
+          </div>
+          <div id="broker-list"></div>
+          <button id="plus-button"></button>
+        </div>
+        <div class="dashboard-container-bottom">
+          <div class="open">
+            <h2>Order History</h2>
+            <div class="container"></div>
+          </div>
+        </div>
+      </div>
+      <script src="29309835c7132084b38802c39a717158"></script>
+    </div>
+  </body>
+</html>
