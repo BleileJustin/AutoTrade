@@ -1,13 +1,15 @@
 module.exports = exports = {
-  getExchangeChoice: () => {
-    const exchangeDropdownChoice = document.getElementById("exchange-dropdown")
-      .value;
+  getExchangeChoice: (id) => {
+    const exchangeDropdownChoice = document.getElementById(
+      "exchange-dropdown" + id
+    ).value;
     return exchangeDropdownChoice;
   },
 
-  checkExchangeDropdown: () => {
-    const exchangeDropdownValue = document.getElementById("exchange-dropdown")
-      .value;
+  checkExchangeDropdown: (id) => {
+    const exchangeDropdownValue = document.getElementById(
+      "exchange-dropdown" + id
+    ).value;
     if (exchangeDropdownValue == 0) {
       return false;
     } else {
@@ -15,15 +17,17 @@ module.exports = exports = {
     }
   },
 
-  getStrategyChoice: () => {
-    const strategyDropdownChoice = document.getElementById("strategy-dropdown")
-      .value;
+  getStrategyChoice: (id) => {
+    const strategyDropdownChoice = document.getElementById(
+      "strategy-dropdown" + id
+    ).value;
     return strategyDropdownChoice;
   },
 
-  checkStrategyDropdown: () => {
-    const strategyDropdownValue = document.getElementById("strategy-dropdown")
-      .value;
+  checkStrategyDropdown: (id) => {
+    const strategyDropdownValue = document.getElementById(
+      "strategy-dropdown" + id
+    ).value;
     if (strategyDropdownValue == 0) {
       return false;
     } else {
@@ -31,15 +35,17 @@ module.exports = exports = {
     }
   },
 
-  getCurrencyChoice: () => {
-    const currencyDropdownChoice = document.getElementById("currency-dropdown")
-      .value;
+  getCurrencyChoice: (id) => {
+    const currencyDropdownChoice = document.getElementById(
+      "currency-dropdown" + id
+    ).value;
     return currencyDropdownChoice;
   },
 
-  checkCurrencyDropdown: () => {
-    const currencyDropdownValue = document.getElementById("currency-dropdown")
-      .value;
+  checkCurrencyDropdown: (id) => {
+    const currencyDropdownValue = document.getElementById(
+      "currency-dropdown" + id
+    ).value;
 
     if (currencyDropdownValue == 0) {
       return false;

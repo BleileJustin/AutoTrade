@@ -103,9 +103,9 @@ h4 {
   flex-direction: row;
 }
 
-#currency-dropdown,
-#exchange-dropdown,
-#strategy-dropdown {
+.currency-dropdown,
+.exchange-dropdown,
+.strategy-dropdown {
   height: 1.8em;
   width: 100%;
   border: 0;
@@ -130,7 +130,7 @@ h4 {
   border-bottom: 0.5px solid white;
 }
 
-#button-container {
+.button-container {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -139,8 +139,8 @@ h4 {
   height: 5vh;
 }
 
-#start,
-#stop {
+.start,
+.stop {
   color: black;
   border-width: 0;
   height: 1.8em;
@@ -154,11 +154,11 @@ h4 {
   justify-content: center;
 }
 
-#start {
+.start {
   background-color: #06d6a0;
 }
 
-#stop {
+.stop {
   background-color: #f94144;
   color: white;
 }
@@ -181,6 +181,19 @@ h4 {
   border: 0px;
   border-radius: 100%;
   cursor: pointer;
+}
+
+.delete {
+  height: 25px;
+  width: 25px;
+  background-image: url("./images/delete-broker.png");
+  background-size: cover;
+  color: transparent;
+  background-color: transparent;
+  border: 0px;
+  border-radius: 100%;
+  cursor: pointer;
+  margin-left: 5px;
 }
 
 .open {

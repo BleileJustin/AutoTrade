@@ -6,14 +6,18 @@ module.exports = exports = {
       id +
       `">
       <div class="parameter">
-        <select id="exchange-dropdown" name="exchanges">
+        <select class="exchange-dropdown" id="exchange-dropdown` +
+      id +
+      `" name="exchanges">
           <option value="0">Exchange</option>
           <option value="Binance">Binance</option>
           <option value="CoinbasePro">CoinbasePro</option>
         </select>
       </div>
       <div class="parameter">
-        <select id="strategy-dropdown" name="strategies">
+        <select class="strategy-dropdown" id="strategy-dropdown` +
+      id +
+      `" name="strategies">
           <option value="0">Strategy</option>
           <option value="BollingerBands">BollingerBands</option>
           <option value="MACD">MACD</option>
@@ -21,7 +25,9 @@ module.exports = exports = {
         </select>
       </div>
       <div class="parameter">
-        <select id="currency-dropdown" name="currencies">
+        <select class="currency-dropdown" id="currency-dropdown` +
+      id +
+      `" name="currencies">
           <option value="0">Currency</option>
           <option value="VET">VET</option>
           <option value="UNI">UNI</option>
@@ -29,8 +35,15 @@ module.exports = exports = {
         </select>
       </div>
 
-      <div id="button-container">
-        <button id="start">START</button>
+      <div class="button-container" id="button-container-` +
+      id +
+      `">
+        <button class="start" id="start` +
+      id +
+      `">START</button>
+        <button class="delete" id="delete` +
+      id +
+      `"></button>
       </div>
     </div>`;
     document
@@ -38,17 +51,37 @@ module.exports = exports = {
       .insertAdjacentHTML("beforeend", brokerView);
   },
 
-  switchButtonToStop: () => {
-    document.getElementById("start").remove();
+  switchButtonToStop: (id) => {
+    console.log(id);
+    document.getElementById("delete" + id).remove();
+    document.getElementById("start" + id).remove();
     document
-      .getElementById("button-container")
-      .insertAdjacentHTML("beforeend", `<button id="stop">STOP</button>`);
+      .getElementById("button-container-" + id)
+      .insertAdjacentHTML(
+        "beforeend",
+        `<button class="stop" id="stop` + id + `">STOP</button>`
+      );
   },
 
-  switchButtonToStart: () => {
-    document.getElementById("stop").remove();
+  switchButtonToStart: (id) => {
+    document.getElementById("stop" + id).remove();
     document
-      .getElementById("button-container")
-      .insertAdjacentHTML("beforeend", `<button id="start">START</button>`);
+      .getElementById("button-container-" + id)
+      .insertAdjacentHTML(
+        "beforeend",
+        `<button class="start" id="start` + id + `">START</button>`
+      );
+
+    document
+      .getElementById("button-container-" + id)
+      .insertAdjacentHTML(
+        "beforeend",
+        `<button class = delete id="delete` + id + `"></button>`
+      );
+  },
+
+  deleteBrokerView: (id) => {
+    document.getElementById("broker-view-" + id).innerHTML = "";
+    document.getElementById("broker-view-" + id).remove();
   },
 };
